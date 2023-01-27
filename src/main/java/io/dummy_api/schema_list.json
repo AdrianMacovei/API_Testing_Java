@@ -1,0 +1,113 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/object1674810057.json",
+  "title": "Root",
+  "type": "object",
+  "required": [
+    "data",
+    "total",
+    "page",
+    "limit"
+  ],
+  "properties": {
+    "data": {
+      "$id": "#root/data",
+      "title": "Data",
+      "type": "array",
+      "default": [],
+      "items":{
+        "$id": "#root/data/items",
+        "title": "Items",
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "firstName",
+          "lastName",
+          "picture"
+        ],
+        "properties": {
+          "id": {
+            "$id": "#root/data/items/id",
+            "title": "Id",
+            "type": "string",
+            "default": "",
+            "examples": [
+              "60d0fe4f5311236168a109ca"
+            ],
+            "pattern": "^.*$"
+          },
+          "title": {
+            "$id": "#root/data/items/title",
+            "title": "Title",
+            "type": "string",
+            "default": "",
+            "examples": [
+              "ms"
+            ],
+            "pattern": "^.*$"
+          },
+          "firstName": {
+            "$id": "#root/data/items/firstName",
+            "title": "Firstname",
+            "type": "string",
+            "default": "",
+            "examples": [
+              "Sara"
+            ],
+            "pattern": "^.*$"
+          },
+          "lastName": {
+            "$id": "#root/data/items/lastName",
+            "title": "Lastname",
+            "type": "string",
+            "default": "",
+            "examples": [
+              "Andersen"
+            ],
+            "pattern": "^.*$"
+          },
+          "picture": {
+            "$id": "#root/data/items/picture",
+            "title": "Picture",
+            "type": "string",
+            "default": "",
+            "examples": [
+              "https://randomuser.me/api/portraits/women/58.jpg"
+            ],
+            "pattern": "^.*$"
+          }
+        }
+      }
+
+    },
+    "total": {
+      "$id": "#root/total",
+      "title": "Total",
+      "type": "integer",
+      "examples": [
+        101
+      ],
+      "default": 0
+    },
+    "page": {
+      "$id": "#root/page",
+      "title": "Page",
+      "type": "integer",
+      "examples": [
+        0
+      ],
+      "default": 0
+    },
+    "limit": {
+      "$id": "#root/limit",
+      "title": "Limit",
+      "type": "integer",
+      "examples": [
+        20
+      ],
+      "default": 0
+    }
+  }
+}
