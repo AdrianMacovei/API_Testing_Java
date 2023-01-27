@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="22180913-ff5e-45e0-afdd-9c2928f755eb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/dummy_api/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/dummy_api/schema_list.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/GetUsersTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/api_test.xml" afterDir="false" />
+    <list default="true" id="22180913-ff5e-45e0-afdd-9c2928f755eb" name="Changes" comment="new added">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/GetUsersTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/GetUsersTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,8 +43,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/V3790525/AM Projects/DummyApiTesting/src/test"
+    "last_opened_file_path": "C:/Users/V3790525/AM Projects/work/testng.internship"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -60,13 +51,12 @@
       <recent name="C:\Users\V3790525\AM Projects\DummyApiTesting\src\test" />
     </key>
   </component>
-  <component name="RunManager" selected="TestNG.GetUsersTest.getUsersWithLimitParam">
-    <configuration name="GetUsersTest.getUsersListWithValidAppId" type="TestNG" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="TestNG.GetUsersTest">
+    <configuration name="GetUsersTest" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="DummyApiTesting" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="GetUsersTest" />
-      <option name="METHOD_NAME" value="getUsersListWithValidAppId" />
-      <option name="TEST_OBJECT" value="METHOD" />
+      <option name="TEST_OBJECT" value="CLASS" />
       <properties />
       <listeners />
       <method v="2">
@@ -85,23 +75,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GetUsersTest.getUsersWithInvalidAppId (1)" type="TestNG" temporary="true" nameIsGenerated="true">
+    <configuration name="GetUsersTest.getUsersListWithValidAppId" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="DummyApiTesting" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="GetUsersTest" />
-      <option name="METHOD_NAME" value="getUsersWithInvalidAppId" />
-      <option name="TEST_OBJECT" value="METHOD" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GetUsersTest.getUsersWithInvalidAppId" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="DummyApiTesting" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="GetUsersTest" />
-      <option name="METHOD_NAME" value="getUsersWithInvalidAppId" />
+      <option name="METHOD_NAME" value="getUsersListWithValidAppId" />
       <option name="TEST_OBJECT" value="METHOD" />
       <properties />
       <listeners />
@@ -121,12 +99,36 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="GetUsersTest.getUsersWithPageParam" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="DummyApiTesting" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="GetUsersTest" />
+      <option name="METHOD_NAME" value="getUsersWithPageParam" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GetUsersTest.getUsersWithValidPageAndLimitParameters" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="DummyApiTesting" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="GetUsersTest" />
+      <option name="METHOD_NAME" value="getUsersWithValidPageAndLimitParameters" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="TestNG.GetUsersTest" />
+        <item itemvalue="TestNG.GetUsersTest.getUsersWithValidPageAndLimitParameters" />
+        <item itemvalue="TestNG.GetUsersTest.getUsersWithPageParam" />
         <item itemvalue="TestNG.GetUsersTest.getUsersWithLimitParam" />
-        <item itemvalue="TestNG.GetUsersTest.getUsersListWithValidAppId" />
-        <item itemvalue="TestNG.GetUsersTest.getUsersWithInvalidAppId" />
-        <item itemvalue="TestNG.GetUsersTest.getUsersWithInvalidAppId (1)" />
         <item itemvalue="TestNG.GetUsersTest.getUsersListWithValidAppId" />
       </list>
     </recent_temporary>
@@ -140,6 +142,33 @@
       <option name="presentableId" value="Default" />
       <updated>1674805669140</updated>
     </task>
+    <task id="LOCAL-00001" summary="new added">
+      <created>1674813329576</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1674813329576</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="new added" />
+    <option name="LAST_COMMIT_MESSAGE" value="new added" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/test/java/GetUsersTest.java</url>
+          <line>119</line>
+          <properties class="GetUsersTest" method="getUsersWithValidPageAndLimitParameters">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
