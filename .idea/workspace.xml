@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="22180913-ff5e-45e0-afdd-9c2928f755eb" name="Changes" comment="new added">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/GetUsersTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/GetUsersTest.java" afterDir="false" />
     </list>
@@ -26,13 +27,6 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="workspaceImportEnabled" value="true" />
-      </MavenImportingSettings>
-    </option>
-  </component>
   <component name="ProjectId" id="2KttNUCe05fyRJvyP2WNNtqsHkc" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -43,7 +37,11 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/V3790525/AM Projects/work/testng.internship"
+    "last_opened_file_path": "C:/Users/Adrian/IdeaProjects/API_Testing_Java",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15332031",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -51,7 +49,17 @@
       <recent name="C:\Users\V3790525\AM Projects\DummyApiTesting\src\test" />
     </key>
   </component>
-  <component name="RunManager" selected="TestNG.GetUsersTest.getUserById">
+  <component name="RunManager" selected="TestNG.C:/Users/Adrian/IdeaProjects/API_Testing_Java/src/test/resources/api_test.xml">
+    <configuration name="C:/Users/Adrian/IdeaProjects/API_Testing_Java/src/test/resources/api_test.xml" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="API_Testing_Java" />
+      <option name="SUITE_NAME" value="$PROJECT_DIR$/src/test/resources/api_test.xml" />
+      <option name="TEST_OBJECT" value="SUITE" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GetUsersTest" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="DummyApiTesting" />
       <option name="PACKAGE_NAME" value="" />
@@ -68,30 +76,6 @@
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="GetUsersTest" />
       <option name="METHOD_NAME" value="getUserById" />
-      <option name="TEST_OBJECT" value="METHOD" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GetUsersTest.getUsersListWithValidAppId" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="DummyApiTesting" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="GetUsersTest" />
-      <option name="METHOD_NAME" value="getUsersListWithValidAppId" />
-      <option name="TEST_OBJECT" value="METHOD" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GetUsersTest.getUsersWithLimitParam" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="DummyApiTesting" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="GetUsersTest" />
-      <option name="METHOD_NAME" value="getUsersWithLimitParam" />
       <option name="TEST_OBJECT" value="METHOD" />
       <properties />
       <listeners />
@@ -125,11 +109,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="TestNG.C:/Users/Adrian/IdeaProjects/API_Testing_Java/src/test/resources/api_test.xml" />
         <item itemvalue="TestNG.GetUsersTest.getUserById" />
         <item itemvalue="TestNG.GetUsersTest" />
         <item itemvalue="TestNG.GetUsersTest.getUsersWithValidPageAndLimitParameters" />
         <item itemvalue="TestNG.GetUsersTest.getUsersWithPageParam" />
-        <item itemvalue="TestNG.GetUsersTest.getUsersWithLimitParam" />
       </list>
     </recent_temporary>
   </component>
