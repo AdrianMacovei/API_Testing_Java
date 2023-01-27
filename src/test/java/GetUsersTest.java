@@ -1,14 +1,15 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
+import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class GetUsersTest {
 
@@ -46,7 +47,7 @@ public class GetUsersTest {
         System.out.println(response.getStatusCode());
 
         String jsonString = response.getBody().asString();
-        Map jsonMap = getJsonToMap(jsonString);
+        var jsonMap = getJsonToMap(jsonString);
 
 
         Assertions.assertThat(jsonMap.get("error")).isEqualTo("APP_ID_MISSING");
@@ -71,14 +72,11 @@ public class GetUsersTest {
         if (limit_value >= 5 && limit_value <= 50)
         {
             ArrayList<String> usersList = new ArrayList<>(response.body().jsonPath().getList("data"));
-            System.out.println(usersList.size());
+            String jsonString = response.getBody().asString();
+            var jsonMap = getJsonToMap(jsonString);
 
             Assertions.assertThat(response.statusCode()).isEqualTo(200);
             Assertions.assertThat(usersList.size()).isEqualTo(limit_value);
-
-            String jsonString = response.getBody().asString();
-            Map jsonMap = getJsonToMap(jsonString);
-
             Assertions.assertThat((double) usersList.size()).isEqualTo(jsonMap.get("limit"));
         } else
         {
@@ -104,11 +102,10 @@ public class GetUsersTest {
 
         if (page_value >= 0 && page_value <= 999)
         {
-            Assertions.assertThat(response.statusCode()).isEqualTo(200);
-
             String jsonString = response.getBody().asString();
-            Map jsonMap = getJsonToMap(jsonString);
+            var jsonMap = getJsonToMap(jsonString);
 
+            Assertions.assertThat(response.statusCode()).isEqualTo(200);
             Assertions.assertThat((double)page_value).isEqualTo(jsonMap.get("page"));
         } else
         {
@@ -131,13 +128,35 @@ public class GetUsersTest {
 
     }
 
+    @Test
+    void getUserById()
+    {
+        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
+                .get(RestAssured.baseURI + "/user");
 
-    private Map<Object, Object> getJsonToMap(String jsonString) {;
+        JsonPath path = response.body().jsonPath();
+        String userId = path.getString("data.id[0]");
+        String userFirstName = path.getString("data.firstName[0]");
+        System.out.println(userId);
+        System.out.println(userFirstName);
+
+        response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
+                .get(RestAssured.baseURI + "/user" + "/" + userId);
+
+        response.body().prettyPrint();
+
+        Assertions.assertThat(response.body().jsonPath().getString("id")).isEqualTo(userId);
+        Assertions.assertThat(response.body().jsonPath().getString("firstName")).isEqualTo(userFirstName);
+
+    }
+
+
+    private HashMap getJsonToMap(String jsonString)
+    {
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting();
         Gson gson = builder.create();
-        Map jsonHashMap = gson.fromJson(jsonString, HashMap.class);
-        return jsonHashMap;
+        return gson.fromJson(jsonString, HashMap.class);
     }
 
 }
