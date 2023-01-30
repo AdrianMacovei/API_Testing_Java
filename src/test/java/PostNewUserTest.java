@@ -18,26 +18,21 @@ public class PostNewUserTest {
         RestAssured.baseURI = "https://dummyapi.io/data/v1";
     }
 
-    @Test
-    void testCreateUserWithValidFistNameLastNameAndEmail()
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_valid_data")
+    void testCreateUserWithValidFistNameLastNameAndEmail(HashMap<String, String> user_data)
     {
-        HashMap<String, String> user1 = new HashMap<>();
-        user1.put("firstName", "Apostu");
-        user1.put("lastName", "Costel");
-        user1.put("email", "apostucostel@gmail.com");
-
-
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .contentType(ContentType.JSON).body(user1).post(RestAssured.baseURI + "/user/create");
+                .contentType(ContentType.JSON).body(user_data).post(RestAssured.baseURI + "/user/create");
         response.prettyPrint();
+        System.out.println(user_data);
         System.out.println(response.statusCode());
         SoftAssert softAssert = new SoftAssert();
         UserApiMethods.deleteUser(response.jsonPath().getString("id"));
 
         softAssert.assertEquals(response.statusCode(),SC_CREATED);
-        softAssert.assertEquals(response.jsonPath().getString("firstName"),user1.get("firstName"));
-        softAssert.assertEquals(response.jsonPath().getString("lastName"),user1.get("lastName"));
-        softAssert.assertEquals(response.jsonPath().getString("email"),user1.get("email"));
+        softAssert.assertEquals(response.jsonPath().getString("firstName"),user_data.get("firstName"));
+        softAssert.assertEquals(response.jsonPath().getString("lastName"),user_data.get("lastName"));
+        softAssert.assertEquals(response.jsonPath().getString("email"),user_data.get("email"));
         response.then().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema_create_user_successfully.json"));
         softAssert.assertAll();
     }

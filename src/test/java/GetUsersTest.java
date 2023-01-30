@@ -6,8 +6,6 @@ import org.assertj.core.api.Assertions;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import java.util.ArrayList;
-
-
 import static org.apache.http.HttpStatus.*;
 
 public class GetUsersTest {

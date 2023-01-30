@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="22180913-ff5e-45e0-afdd-9c2928f755eb" name="Changes" comment="new added">
+      <change afterPath="$PROJECT_DIR$/src/test/java/UpdateUserTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/DataProviderClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DataProviderClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/GetUsersTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/GetUsersTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/PostNewUserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/PostNewUserTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/UserApiMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/UserApiMethods.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,42 +54,7 @@
       <recent name="C:\Users\Adrian\IdeaProjects\API_Testing_Java\src\test\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="TestNG.PostNewUserTest.testCreateUserWithValidFistNameLastNameAndEmail">
-    <configuration name="DeleteUserTest.testDeleteAnAlreadyDeletedUser" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="API_Testing_Java" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="DeleteUserTest" />
-      <option name="METHOD_NAME" value="testDeleteAnAlreadyDeletedUser" />
-      <option name="TEST_OBJECT" value="METHOD" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GetUsersTest" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="API_Testing_Java" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="GetUsersTest" />
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GetUsersTest.getUserWithValidId" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="API_Testing_Java" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="GetUsersTest" />
-      <option name="METHOD_NAME" value="getUserWithValidId" />
-      <option name="TEST_OBJECT" value="METHOD" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="TestNG.UpdateUserTest.testUpdateEmail">
     <configuration name="PostNewUserTest" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="API_Testing_Java" />
       <option name="PACKAGE_NAME" value="" />
@@ -112,13 +78,49 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="UpdateUserTest.testUpdateEmail" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="API_Testing_Java" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="UpdateUserTest" />
+      <option name="METHOD_NAME" value="testUpdateEmail" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UpdateUserTest.testUpdateFirstNameAndLastName" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="API_Testing_Java" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="UpdateUserTest" />
+      <option name="METHOD_NAME" value="testUpdateFirstNameAndLastName" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UpdateUserTest.testUpdateInvalidFirstNameAndLastName" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="API_Testing_Java" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="UpdateUserTest" />
+      <option name="METHOD_NAME" value="testUpdateInvalidFirstNameAndLastName" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="TestNG.UpdateUserTest.testUpdateEmail" />
+        <item itemvalue="TestNG.UpdateUserTest.testUpdateInvalidFirstNameAndLastName" />
+        <item itemvalue="TestNG.UpdateUserTest.testUpdateFirstNameAndLastName" />
         <item itemvalue="TestNG.PostNewUserTest.testCreateUserWithValidFistNameLastNameAndEmail" />
         <item itemvalue="TestNG.PostNewUserTest" />
-        <item itemvalue="TestNG.GetUsersTest" />
-        <item itemvalue="TestNG.GetUsersTest.getUserWithValidId" />
-        <item itemvalue="TestNG.DeleteUserTest.testDeleteAnAlreadyDeletedUser" />
       </list>
     </recent_temporary>
   </component>
@@ -201,7 +203,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675087395687</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="new added">
+      <created>1675088778006</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1675088778006</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -218,16 +227,5 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="new added" />
     <option name="LAST_COMMIT_MESSAGE" value="new added" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/GetUsersTest.java</url>
-          <line>12</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -103,4 +103,80 @@ public class DataProviderClass {
                 {userWithFiftyOneCharsLastName}
         };
     }
+
+    @DataProvider(name = "user_valid_data")
+    public static Object[][] createValidDataForUser() {
+        HashMap <String, String>  userWithTwoCharactersFirstAndLastName = new HashMap<>();
+        userWithTwoCharactersFirstAndLastName.put("firstName",
+                RandomStringUtils.random(2, true, false));
+        userWithTwoCharactersFirstAndLastName.put("lastName",
+                RandomStringUtils.random(2, true, false));
+        userWithTwoCharactersFirstAndLastName.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+
+
+        HashMap <String, String>  userWithThirtyCharactersInFirstAndLastName = new HashMap<>();
+        userWithThirtyCharactersInFirstAndLastName.put("firstName",
+                RandomStringUtils.random(30, true, false));
+        userWithThirtyCharactersInFirstAndLastName.put("lastName",
+                RandomStringUtils.random(30, true, false));
+        userWithThirtyCharactersInFirstAndLastName.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+
+        HashMap <String, String>  userWithValidDataInField = new HashMap<>();
+        userWithValidDataInField.put("firstName",
+                RandomStringUtils.random(6, true, false));
+        userWithValidDataInField.put("lastName",
+                RandomStringUtils.random(6, true, false));
+        userWithValidDataInField.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+
+        return new HashMap[][]{
+                {userWithThirtyCharactersInFirstAndLastName},
+                {userWithValidDataInField},
+                {userWithTwoCharactersFirstAndLastName}
+        };
+    }
+
+    @DataProvider(name = "update_valid_data")
+    public static Object[][] createValidDataForUpdate() {
+
+        HashMap<String, String> twoCharactersFirstAndLastName = new HashMap<>();
+        twoCharactersFirstAndLastName.put("firstName",
+                RandomStringUtils.random(2, true, false));
+        twoCharactersFirstAndLastName.put("lastName",
+                RandomStringUtils.random(2, true, false));
+
+        HashMap<String, String> thirtyCharactersFirstAndLastName = new HashMap<>();
+        thirtyCharactersFirstAndLastName.put("firstName",
+                RandomStringUtils.random(30, true, false));
+        thirtyCharactersFirstAndLastName.put("lastName",
+                RandomStringUtils.random(30, true, false));
+
+        return new HashMap[][]{
+                {twoCharactersFirstAndLastName},
+                {thirtyCharactersFirstAndLastName},
+        };
+    }
+
+    @DataProvider(name = "update_invalid_data")
+    public static Object[][] createInvalidDataForUpdate() {
+
+        HashMap<String, String> oneCharactersFirstAndLastName = new HashMap<>();
+        oneCharactersFirstAndLastName.put("firstName",
+                RandomStringUtils.random(1, true, false));
+        oneCharactersFirstAndLastName.put("lastName",
+                RandomStringUtils.random(1, true, false));
+
+        HashMap<String, String> thirtyOneCharactersFirstAndLastName = new HashMap<>();
+        thirtyOneCharactersFirstAndLastName.put("firstName",
+                RandomStringUtils.random(51, true, false));
+        thirtyOneCharactersFirstAndLastName.put("lastName",
+                RandomStringUtils.random(51, true, false));
+
+        return new HashMap[][]{
+                {thirtyOneCharactersFirstAndLastName},
+                {oneCharactersFirstAndLastName},
+        };
+    }
 }
