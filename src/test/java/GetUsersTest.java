@@ -1,16 +1,12 @@
-import io.dummy_api.PojoNewUser;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 import static org.apache.http.HttpStatus.*;
 
@@ -20,7 +16,7 @@ public class GetUsersTest {
     @BeforeClass
     public static void setUp()
     {
-        RestAssured.baseURI = "https://dummyapi.io/data/v1";
+        RestAssured.baseURI = "https://dummyapi.io/data/v1/user";
     }
 
 
@@ -28,7 +24,7 @@ public class GetUsersTest {
     void getUsersListWithValidAppId()
     {
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .get(RestAssured.baseURI + "/user");
+                .get(RestAssured.baseURI);
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
 
@@ -42,7 +38,7 @@ public class GetUsersTest {
     @Test
     void getUsersWithInvalidAppId()
     {
-        Response response = RestAssured.get(RestAssured.baseURI + "/user");
+        Response response = RestAssured.get(RestAssured.baseURI);
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
 
@@ -54,19 +50,12 @@ public class GetUsersTest {
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_FORBIDDEN);
     }
 
-
-    @DataProvider(name = "limit_values")
-    public Object[][] createDataLimitParam() {
-        return new Integer[][]{
-                {4}, {5}, {50}, {51}
-        };
-    }
-    @Test(dataProvider = "limit_values")
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "limit_values")
     void getUsersWithLimitParam(int limit_value)
     {
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
                 .param("limit", limit_value)
-                .get(RestAssured.baseURI + "/user");
+                .get(RestAssured.baseURI);
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
         if (limit_value >= 5 && limit_value <= 50)
@@ -85,13 +74,7 @@ public class GetUsersTest {
 
     }
 
-    @DataProvider(name = "page_values")
-    public Object[][] createDataPageParam() {
-        return new Integer[][]{
-                {-1}, {0}, {999}, {1000}
-        };
-    }
-    @Test(dataProvider = "page_values")
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "page_values")
     void getUsersWithPageParam(int page_value)
     {
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
@@ -120,7 +103,7 @@ public class GetUsersTest {
     {
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
                 .params("limit", 6).params("page","1")
-                .get(RestAssured.baseURI + "/user");
+                .get(RestAssured.baseURI);
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
         ArrayList<String> usersList = new ArrayList<>(response.body().jsonPath().getList("data"));
@@ -141,7 +124,7 @@ public class GetUsersTest {
         String userFirstName = path.getString("data.firstName[0]");
 
         response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .get(RestAssured.baseURI + "/user/" + userId);
+                .get(RestAssured.baseURI + "/" + userId);
 
         response.body().prettyPrint();
 
@@ -152,22 +135,7 @@ public class GetUsersTest {
 
     }
 
-
-    @DataProvider(name = "invalid_ids")
-    public Object[][] createDataIds() {
-        return new Object[][]{
-                {RandomStringUtils.random(23, true, true).toLowerCase()},
-                {RandomStringUtils.random(24, true, true).toLowerCase()},
-                {RandomStringUtils.random(24, false, true)},
-                {RandomStringUtils.random(24, true, false).toLowerCase()},
-                {RandomStringUtils.random(25, true, true).toLowerCase()},
-                {"63d233c888cdfd33faa635a4"},
-                {"63d23" + RandomStringUtils.random(14, true, true).toLowerCase() + "635a4"},
-                {RandomStringUtils.random(24, false, true)}
-        };
-    }
-
-    @Test(dataProvider = "invalid_ids")
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_ids")
     void getUserWithInvalidId(String id)
     {
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")

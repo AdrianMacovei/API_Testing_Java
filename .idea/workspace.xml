@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="22180913-ff5e-45e0-afdd-9c2928f755eb" name="Changes" comment="new added">
-      <change afterPath="$PROJECT_DIR$/src/test/java/DeleteUserTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/PostNewUserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/PostNewUserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/DeleteUserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DeleteUserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/GetUsersTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/GetUsersTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/UserApiMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/UserApiMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/api_test.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/api_test.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +54,14 @@
       <recent name="C:\Users\Adrian\IdeaProjects\API_Testing_Java\src\test\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="TestNG.PostNewUserTest.testCreateAUserWithInvalidData">
+  <component name="RunManager" selected="TestNG.DeleteUserTest.testDeleteUser">
+    <configuration name="UserApiMethods" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="UserApiMethods" />
+      <module name="API_Testing_Java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="C:/Users/Adrian/IdeaProjects/API_Testing_Java/src/test/resources/api_test.xml" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="API_Testing_Java" />
       <option name="SUITE_NAME" value="$PROJECT_DIR$/src/test/resources/api_test.xml" />
@@ -62,11 +72,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GetUsersTest.getUsersWithLimitParam" type="TestNG" temporary="true" nameIsGenerated="true">
+    <configuration name="DeleteUserTest.testDeleteUser" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="API_Testing_Java" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="GetUsersTest" />
-      <option name="METHOD_NAME" value="getUsersWithLimitParam" />
+      <option name="MAIN_CLASS_NAME" value="DeleteUserTest" />
+      <option name="METHOD_NAME" value="testDeleteUser" />
       <option name="TEST_OBJECT" value="METHOD" />
       <properties />
       <listeners />
@@ -79,18 +89,6 @@
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="PostNewUserTest" />
       <option name="METHOD_NAME" value="testCreateAUserWithInvalidData" />
-      <option name="TEST_OBJECT" value="METHOD" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PostNewUserTest.testCreateAUserWithIvalidData" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="API_Testing_Java" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="PostNewUserTest" />
-      <option name="METHOD_NAME" value="testCreateAUserWithIvalidData" />
       <option name="TEST_OBJECT" value="METHOD" />
       <properties />
       <listeners />
@@ -112,11 +110,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="TestNG.DeleteUserTest.testDeleteUser" />
+        <item itemvalue="Application.UserApiMethods" />
+        <item itemvalue="TestNG.C:/Users/Adrian/IdeaProjects/API_Testing_Java/src/test/resources/api_test.xml" />
         <item itemvalue="TestNG.PostNewUserTest.testCreateAUserWithInvalidData" />
         <item itemvalue="TestNG.PostNewUserTest.testDeleteAnAlreadyDeletedUser" />
-        <item itemvalue="TestNG.C:/Users/Adrian/IdeaProjects/API_Testing_Java/src/test/resources/api_test.xml" />
-        <item itemvalue="TestNG.PostNewUserTest.testCreateAUserWithIvalidData" />
-        <item itemvalue="TestNG.GetUsersTest.getUsersWithLimitParam" />
       </list>
     </recent_temporary>
   </component>
@@ -185,7 +183,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675086161708</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="new added">
+      <created>1675086494366</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1675086494366</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

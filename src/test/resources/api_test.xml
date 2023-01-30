@@ -11,6 +11,10 @@
             <class name="PostNewUserTest">
 
             </class>
+
+            <class name="DeleteUserTest">
+
+            </class>
         </classes>
 
     </test>
