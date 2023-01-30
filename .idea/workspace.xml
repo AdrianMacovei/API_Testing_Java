@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="22180913-ff5e-45e0-afdd-9c2928f755eb" name="Changes" comment="new added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/GetUsersTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/GetUsersTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/UpdateUserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/UpdateUserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/DataProviderClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DataProviderClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/PostNewUserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/PostNewUserTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +53,7 @@
       <recent name="C:\Users\Adrian\IdeaProjects\API_Testing_Java\src\test\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="TestNG.GetUsersTest.getACreatedUser">
+  <component name="RunManager" selected="TestNG.PostNewUserTest.testCreateUserWithValidDataInAllAvailableFields">
     <configuration name="GetUsersTest.getACreatedUser" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="API_Testing_Java" />
       <option name="PACKAGE_NAME" value="" />
@@ -78,11 +78,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UpdateUserTest.testUpdateEmail" type="TestNG" temporary="true" nameIsGenerated="true">
+    <configuration name="PostNewUserTest.testCreateUserWithValidDataInAllAvailableFields" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="API_Testing_Java" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="UpdateUserTest" />
-      <option name="METHOD_NAME" value="testUpdateEmail" />
+      <option name="MAIN_CLASS_NAME" value="PostNewUserTest" />
+      <option name="METHOD_NAME" value="testCreateUserWithValidDataInAllAvailableFields" />
       <option name="TEST_OBJECT" value="METHOD" />
       <properties />
       <listeners />
@@ -90,11 +90,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UpdateUserTest.testUpdateFirstNameAndLastName" type="TestNG" temporary="true" nameIsGenerated="true">
+    <configuration name="UpdateUserTest.testUpdateEmail" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="API_Testing_Java" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="UpdateUserTest" />
-      <option name="METHOD_NAME" value="testUpdateFirstNameAndLastName" />
+      <option name="METHOD_NAME" value="testUpdateEmail" />
       <option name="TEST_OBJECT" value="METHOD" />
       <properties />
       <listeners />
@@ -116,11 +116,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="TestNG.PostNewUserTest.testCreateUserWithValidDataInAllAvailableFields" />
         <item itemvalue="TestNG.GetUsersTest.getACreatedUser" />
         <item itemvalue="TestNG.GetUsersTest.getCreatedUsers" />
         <item itemvalue="TestNG.UpdateUserTest.testUpdateEmail" />
         <item itemvalue="TestNG.UpdateUserTest.testUpdateInvalidFirstNameAndLastName" />
-        <item itemvalue="TestNG.UpdateUserTest.testUpdateFirstNameAndLastName" />
       </list>
     </recent_temporary>
   </component>
@@ -217,7 +217,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675109681171</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="new added">
+      <created>1675111073151</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1675111073151</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

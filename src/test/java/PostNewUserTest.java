@@ -50,9 +50,14 @@ public class PostNewUserTest {
         Assertions.assertThat(response.jsonPath().getString("error")).isEqualTo("BODY_NOT_VALID");
     }
 
-    @Test
-    void testCreateUserWithValidDataInAllAvailableFields()
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_all_fields_valid_data")
+    void testCreateUserWithValidDataInAllAvailableFields(HashMap<String, Object> user)
     {
+        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
+                .contentType(ContentType.JSON).body(user).post(RestAssured.baseURI + "/user/create");
 
+        response.prettyPrint();
+        System.out.println(response.statusCode());
+        UserApiMethods.deleteUser(response.jsonPath().getString("id"));
     }
 }

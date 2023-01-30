@@ -179,4 +179,48 @@ public class DataProviderClass {
                 {oneCharactersFirstAndLastName},
         };
     }
+
+    @DataProvider(name = "user_all_fields_valid_data")
+    public static Object[][] createValidDataForAllFields() {
+        HashMap <String, Object>  validDataAllFieldsMinRange = new HashMap<>();
+        validDataAllFieldsMinRange.put("title", "mr");
+        validDataAllFieldsMinRange.put("firstName", "Ma");
+        validDataAllFieldsMinRange.put("lastName", "Ad");
+        validDataAllFieldsMinRange.put("gender", "male");
+        validDataAllFieldsMinRange.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+        validDataAllFieldsMinRange.put("dateOfBirth", "1/1/1900");
+        validDataAllFieldsMinRange.put("phone", RandomStringUtils.random(10, false, true));
+        validDataAllFieldsMinRange.put("picture", "https://unsplash.com/photos/rDEOVtE7vOs");
+        HashMap <String, String>  location1 = new HashMap<>();
+        location1.put("street", RandomStringUtils.random(5, true, true));
+        location1.put("city", RandomStringUtils.random(2, true, false));
+        location1.put("state", RandomStringUtils.random(2, true, false));
+        location1.put("country", RandomStringUtils.random(2, true, false));
+        location1.put("timezone", "-9:00");
+        validDataAllFieldsMinRange.put("location", location1);
+
+        HashMap <String, Object>  validDataAllFieldsMaxRange = new HashMap<>();
+        validDataAllFieldsMaxRange.put("title", "ms");
+        validDataAllFieldsMaxRange.put("firstName", RandomStringUtils.random(30, true, false));
+        validDataAllFieldsMaxRange.put("lastName", RandomStringUtils.random(30, true, false));
+        validDataAllFieldsMaxRange.put("gender", "female");
+        validDataAllFieldsMaxRange.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+        validDataAllFieldsMaxRange.put("dateOfBirth", "01/30/2023");
+        validDataAllFieldsMaxRange.put("phone", RandomStringUtils.random(20, false, true));
+        validDataAllFieldsMaxRange.put("picture", "https://unsplash.com/photos/rDEOVtE7vOs");
+        HashMap <String, String>  location2 = new HashMap<>();
+        location2.put("street", RandomStringUtils.random(100, true, true));
+        location2.put("city", RandomStringUtils.random(30, true, false));
+        location2.put("state", RandomStringUtils.random(30, true, false));
+        location1.put("country", RandomStringUtils.random(30, true, false));
+        location2.put("timezone", "+9:00");
+        validDataAllFieldsMaxRange.put("location", location2);
+
+        return new HashMap[][]{
+                {validDataAllFieldsMinRange},
+                {validDataAllFieldsMaxRange},
+        };
+    }
 }
