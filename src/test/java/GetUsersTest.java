@@ -157,4 +157,23 @@ public class GetUsersTest {
 
     }
 
+    @Test
+    void getCreatedUsers()
+    {
+        String id1 =  UserApiMethods.createUser();
+        String id2 =  UserApiMethods.createUser();
+
+        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
+                .params("created", 3).get(RestAssured.baseURI);
+
+        response.prettyPrint();
+        UserApiMethods.deleteUser(id1);
+        UserApiMethods.deleteUser(id2);
+
+        Assertions.assertThat(response.statusCode()).isEqualTo(SC_OK);
+        Assertions.assertThat(response.jsonPath().getInt("total")).isEqualTo(2);
+        Assertions.assertThat(response.jsonPath().getList("data").size()).isEqualTo(2);
+        Assertions.assertThat(response.jsonPath().getString("data[0].id")).isEqualTo(id1);
+        Assertions.assertThat(response.jsonPath().getString("data[1].id")).isEqualTo(id2);
+    }
 }

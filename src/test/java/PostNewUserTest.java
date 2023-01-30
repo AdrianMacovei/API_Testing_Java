@@ -49,4 +49,10 @@ public class PostNewUserTest {
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
         Assertions.assertThat(response.jsonPath().getString("error")).isEqualTo("BODY_NOT_VALID");
     }
+
+    @Test
+    void testCreateUserWithValidDataInAllAvailableFields()
+    {
+
+    }
 }

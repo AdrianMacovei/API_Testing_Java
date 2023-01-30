@@ -63,4 +63,10 @@ public class UpdateUserTest {
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
         Assertions.assertThat(response.jsonPath().getString("email")).isNotSameAs(user_data.get("email"));
     }
+
+    @Test
+    void testUpdateOtherFields()
+    {
+
+    }
 }
