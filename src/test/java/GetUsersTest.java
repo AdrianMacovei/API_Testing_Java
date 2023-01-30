@@ -188,7 +188,7 @@ public class GetUsersTest {
 
         /*
             I tried to test get user with invalid id but the answer that I received in different that what I expected.
-            Base on my tests seems that only id with length 24 and who contains only numbers give a SC_NOT_FOUND with error
+            Base on my tests seems that only id with length 24 and who contains only numbers give an SC_NOT_FOUND with error
             RESOURCES_NOT_FOUND, tried to find a pattern for creating id, but I didn't find one.
          */
 

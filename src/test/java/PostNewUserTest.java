@@ -10,8 +10,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import java.util.HashMap;
-import static org.apache.http.HttpStatus.SC_CREATED;
-import static org.apache.http.HttpStatus.SC_OK;
+
+import static org.apache.http.HttpStatus.*;
 
 
 public class PostNewUserTest {
@@ -94,6 +94,19 @@ public class PostNewUserTest {
         userWithFiftyOneCharsFirstName.put("email", RandomStringUtils.random(6, true, true).
                 toLowerCase() + "@gmail.com");
 
+        HashMap <String, String>  userWithOneCharLastName = new HashMap<>();
+        userWithOneCharLastName.put("firstName", "Adrian");
+        userWithOneCharLastName.put("lastName", "M");
+        userWithOneCharLastName.put("email", RandomStringUtils.random(6, true, true).
+                toLowerCase() + "@gmail.com");
+
+        HashMap <String, String>  userWithFiftyOneCharsLastName = new HashMap<>();
+        userWithFiftyOneCharsLastName.put("firstName", "Adrian");
+        userWithFiftyOneCharsLastName.put("lastName", RandomStringUtils.random(51, true, false));
+        userWithFiftyOneCharsLastName.put("email", RandomStringUtils.random(6, true, true).
+                toLowerCase() + "@gmail.com");
+
+
         return new HashMap[][]{
                 {userWithoutFistName},
                 {userWithoutLastName},
@@ -104,7 +117,9 @@ public class PostNewUserTest {
                 {userWithEmptyFields},
                 {userWithInvalidEmail},
                 {userWithOneCharFirstName},
-                {userWithFiftyOneCharsFirstName}
+                {userWithFiftyOneCharsFirstName},
+                {userWithOneCharLastName},
+                {userWithFiftyOneCharsLastName}
         };
     }
 
@@ -116,11 +131,14 @@ public class PostNewUserTest {
         response.prettyPrint();
         System.out.println(response.statusCode());
         System.out.println(user);
+
+        Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
+        Assertions.assertThat(response.jsonPath().getString("error")).isEqualTo("BODY_NOT_VALID");
     }
 
 
     @Test()
-    void testDeleteAnAlreadyCreatedUser()
+    void testDeleteUser()
     {
         String id = createUser();
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
@@ -130,7 +148,19 @@ public class PostNewUserTest {
         Assertions.assertThat(response.jsonPath().getString("id")).isEqualTo(id);
     }
 
+    @Test()
+    void testDeleteAnAlreadyDeletedUser()
+    {
+        String id = createUser();
+        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
+                .contentType(ContentType.JSON).delete(RestAssured.baseURI + "/user/" + id);
 
+        response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
+                .contentType(ContentType.JSON).delete(RestAssured.baseURI + "/user/" + id);
+
+        Assertions.assertThat(response.statusCode()).isEqualTo(SC_NOT_FOUND);
+        Assertions.assertThat(response.jsonPath().getString("error")).isEqualTo("RESOURCE_NOT_FOUND");
+    }
 
 
     private String createUser()
