@@ -1,12 +1,9 @@
-import io.dummy_api.PojoNewUser;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import java.util.HashMap;
@@ -25,11 +22,6 @@ public class PostNewUserTest {
     @Test
     void testCreateUserWithValidFistNameLastNameAndEmail()
     {
-//        PojoNewUser user1 = new PojoNewUser();
-//        user1.setFirstName("Apostu");
-//        user1.setLastName("Costel");
-//        user1.setEmail("apostucostel@gmail.com");
-
         HashMap<String, String> user1 = new HashMap<>();
         user1.put("firstName", "Apostu");
         user1.put("lastName", "Costel");
@@ -51,79 +43,7 @@ public class PostNewUserTest {
         response.then().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema_create_user_successfully.json"));
     }
 
-
-    @DataProvider(name = "invalid_user_data")
-    public Object[][] createInvalidUser() {
-        HashMap <String, String>  userWithoutFistName = new HashMap<>();
-        userWithoutFistName.put("lastName", "Macovei");
-        userWithoutFistName.put("email", "adrianmacovei1998@gmail.com");
-
-        HashMap <String, String>  userWithoutLastName = new HashMap<>();
-        userWithoutLastName.put("firstName", "Adrian");
-        userWithoutLastName.put("email", "adrianmacovei1998@gmail.com");
-
-        HashMap <String, String>  userWithoutEmail = new HashMap<>();
-        userWithoutEmail.put("firstName", "Adrian");
-        userWithoutEmail.put("lastName", "Macovei");
-
-        HashMap <String, String>  userWithoutEmailAndFirstName = new HashMap<>();
-        userWithoutEmailAndFirstName.put("lastName", "Macovei");
-
-        HashMap <String, String>  userWithoutEmailAndLastName = new HashMap<>();
-        userWithoutEmailAndLastName.put("firstName", "Adrian");
-
-        HashMap <String, String>  userWithoutFirstAndLastName = new HashMap<>();
-        userWithoutFirstAndLastName.put("email", "adrianmacovei1999@gmail.com");
-
-        HashMap <String, String>  userWithEmptyFields = new HashMap<>();
-
-        HashMap <String, String>  userWithInvalidEmail = new HashMap<>();
-        userWithInvalidEmail.put("firstName", "Adrian");
-        userWithInvalidEmail.put("lastName", "Macovei");
-        userWithInvalidEmail.put("email", RandomStringUtils.random(10, true, true).toLowerCase());
-
-        HashMap <String, String>  userWithOneCharFirstName = new HashMap<>();
-        userWithOneCharFirstName.put("firstName", "A");
-        userWithOneCharFirstName.put("lastName", "Macovei");
-        userWithOneCharFirstName.put("email", RandomStringUtils.random(6, true, true).
-                        toLowerCase() + "@gmail.com");
-
-        HashMap <String, String>  userWithFiftyOneCharsFirstName = new HashMap<>();
-        userWithFiftyOneCharsFirstName.put("firstName", RandomStringUtils.random(51, true, false));
-        userWithFiftyOneCharsFirstName.put("lastName", "Macovei");
-        userWithFiftyOneCharsFirstName.put("email", RandomStringUtils.random(6, true, true).
-                toLowerCase() + "@gmail.com");
-
-        HashMap <String, String>  userWithOneCharLastName = new HashMap<>();
-        userWithOneCharLastName.put("firstName", "Adrian");
-        userWithOneCharLastName.put("lastName", "M");
-        userWithOneCharLastName.put("email", RandomStringUtils.random(6, true, true).
-                toLowerCase() + "@gmail.com");
-
-        HashMap <String, String>  userWithFiftyOneCharsLastName = new HashMap<>();
-        userWithFiftyOneCharsLastName.put("firstName", "Adrian");
-        userWithFiftyOneCharsLastName.put("lastName", RandomStringUtils.random(51, true, false));
-        userWithFiftyOneCharsLastName.put("email", RandomStringUtils.random(6, true, true).
-                toLowerCase() + "@gmail.com");
-
-
-        return new HashMap[][]{
-                {userWithoutFistName},
-                {userWithoutLastName},
-                {userWithoutEmail},
-                {userWithoutEmailAndFirstName},
-                {userWithoutEmailAndLastName},
-                {userWithoutFirstAndLastName},
-                {userWithEmptyFields},
-                {userWithInvalidEmail},
-                {userWithOneCharFirstName},
-                {userWithFiftyOneCharsFirstName},
-                {userWithOneCharLastName},
-                {userWithFiftyOneCharsLastName}
-        };
-    }
-
-    @Test(dataProvider = "invalid_user_data")
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_user_data")
     void testCreateAUserWithInvalidData(HashMap<String, String> user)
     {
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
@@ -140,7 +60,8 @@ public class PostNewUserTest {
     @Test()
     void testDeleteUser()
     {
-        String id = createUser();
+        UserApiMethods method = new UserApiMethods();
+        String id = method.createUser();
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
                 .contentType(ContentType.JSON).delete(RestAssured.baseURI + "/user/" + id);
 
@@ -151,31 +72,13 @@ public class PostNewUserTest {
     @Test()
     void testDeleteAnAlreadyDeletedUser()
     {
-        String id = createUser();
+        UserApiMethods method = new UserApiMethods();
+        String id = method.createUser();
+        method.deleteUser(id);
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .contentType(ContentType.JSON).delete(RestAssured.baseURI + "/user/" + id);
-
-        response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
                 .contentType(ContentType.JSON).delete(RestAssured.baseURI + "/user/" + id);
 
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_NOT_FOUND);
         Assertions.assertThat(response.jsonPath().getString("error")).isEqualTo("RESOURCE_NOT_FOUND");
     }
-
-
-    private String createUser()
-    {
-        HashMap<String, String> user1 = new HashMap<>();
-        user1.put("firstName", "Popescu");
-        user1.put("lastName", "Marian");
-        user1.put("email", "popescumarian@gmail.com");
-
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .contentType(ContentType.JSON).body(user1).post(RestAssured.baseURI + "/user/create");
-
-        return response.jsonPath().getString("id");
-    }
-
-
-
 }
