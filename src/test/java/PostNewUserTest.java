@@ -40,13 +40,13 @@ public class PostNewUserTest {
                 .contentType(ContentType.JSON).body(user1).post(RestAssured.baseURI + "/user/create");
         response.prettyPrint();
         System.out.println(response.statusCode());
-        SoftAssert softassert = new SoftAssert();
+        SoftAssert softAssert = new SoftAssert();
 
-        softassert.assertEquals(response.statusCode(),SC_CREATED);
-        softassert.assertEquals(response.jsonPath().getString("firstName"),user1.get("firstName"));
-        softassert.assertEquals(response.jsonPath().getString("lastName"),user1.get("lastName"));
-        softassert.assertEquals(response.jsonPath().getString("email"),user1.get("email"));
-        softassert.assertAll();
+        softAssert.assertEquals(response.statusCode(),SC_CREATED);
+        softAssert.assertEquals(response.jsonPath().getString("firstName"),user1.get("firstName"));
+        softAssert.assertEquals(response.jsonPath().getString("lastName"),user1.get("lastName"));
+        softAssert.assertEquals(response.jsonPath().getString("email"),user1.get("email"));
+        softAssert.assertAll();
 
         response.then().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema_create_user_successfully.json"));
     }
