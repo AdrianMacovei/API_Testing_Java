@@ -32,14 +32,14 @@ public class PostNewUserTest {
         response.prettyPrint();
         System.out.println(response.statusCode());
         SoftAssert softAssert = new SoftAssert();
+        UserApiMethods.deleteUser(response.jsonPath().getString("id"));
 
         softAssert.assertEquals(response.statusCode(),SC_CREATED);
         softAssert.assertEquals(response.jsonPath().getString("firstName"),user1.get("firstName"));
         softAssert.assertEquals(response.jsonPath().getString("lastName"),user1.get("lastName"));
         softAssert.assertEquals(response.jsonPath().getString("email"),user1.get("email"));
-        softAssert.assertAll();
-
         response.then().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema_create_user_successfully.json"));
+        softAssert.assertAll();
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_user_data")

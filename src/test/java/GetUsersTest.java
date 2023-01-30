@@ -79,7 +79,7 @@ public class GetUsersTest {
     {
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
                 .param("page", page_value)
-                .get(RestAssured.baseURI + "/user");
+                .get(RestAssured.baseURI);
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
 
@@ -117,16 +117,13 @@ public class GetUsersTest {
     void getUserWithValidId()
     {
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .get(RestAssured.baseURI + "/user");
+                .get(RestAssured.baseURI);
 
         JsonPath path = response.body().jsonPath();
-        String userId = path.getString("data.id[0]");
+        String userId = path.getString("data[0].id");
         String userFirstName = path.getString("data.firstName[0]");
 
-        response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .get(RestAssured.baseURI + "/" + userId);
-
-        response.body().prettyPrint();
+        response = UserApiMethods.getUser(userId);
 
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_OK);
         Assertions.assertThat(response.body().jsonPath().getString("id")).isEqualTo(userId);
@@ -139,7 +136,7 @@ public class GetUsersTest {
     void getUserWithInvalidId(String id)
     {
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .get(RestAssured.baseURI + "/user/" + id);
+                .get(RestAssured.baseURI + "/" + id);
 
         response.prettyPrint();
         System.out.println(response.statusCode());
