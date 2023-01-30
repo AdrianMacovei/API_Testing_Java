@@ -6,9 +6,9 @@ import java.util.HashMap;
 
 public class UserApiMethods {
 
-    private final String APP_ID = "63d233c888cdfd33faa635a4";
+    private static final String APP_ID = "63d233c888cdfd33faa635a4";
 
-    public String createUser()
+    public static String createUser()
     {
         HashMap<String, String> user1 = new HashMap<>();
         user1.put("firstName", "Popescu");
@@ -21,13 +21,13 @@ public class UserApiMethods {
         return response.jsonPath().getString("id");
     }
 
-    public Response getUser(String userId)
+    public static Response getUser(String userId)
     {
         return RestAssured.given().header("app-id", APP_ID)
                 .contentType(ContentType.JSON).get(RestAssured.baseURI + "/user/" + userId);
     }
 
-    public void deleteUser(String userId)
+    public static void deleteUser(String userId)
     {
         RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
                 .contentType(ContentType.JSON).delete(RestAssured.baseURI + "/user/" + userId);

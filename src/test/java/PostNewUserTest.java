@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import java.util.HashMap;
-
 import static org.apache.http.HttpStatus.*;
 
 
@@ -60,8 +59,7 @@ public class PostNewUserTest {
     @Test()
     void testDeleteUser()
     {
-        UserApiMethods method = new UserApiMethods();
-        String id = method.createUser();
+        String id = UserApiMethods.createUser();
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
                 .contentType(ContentType.JSON).delete(RestAssured.baseURI + "/user/" + id);
 
@@ -72,9 +70,8 @@ public class PostNewUserTest {
     @Test()
     void testDeleteAnAlreadyDeletedUser()
     {
-        UserApiMethods method = new UserApiMethods();
-        String id = method.createUser();
-        method.deleteUser(id);
+        String id = UserApiMethods.createUser();
+        UserApiMethods.deleteUser(id);
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
                 .contentType(ContentType.JSON).delete(RestAssured.baseURI + "/user/" + id);
 
