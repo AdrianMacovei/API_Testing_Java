@@ -15,6 +15,10 @@
             <class name="DeleteUserTest">
 
             </class>
+
+            <class name="UpdateUserTest">
+
+            </class>
         </classes>
 
     </test>

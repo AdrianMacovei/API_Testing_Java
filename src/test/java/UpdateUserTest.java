@@ -58,8 +58,7 @@ public class UpdateUserTest {
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
                 .contentType(ContentType.JSON).body(user_data).put(RestAssured.baseURI + id);
         UserApiMethods.deleteUser(id);
-//        response.prettyPrint();
-//        System.out.println(response.statusCode());
+
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
         Assertions.assertThat(response.jsonPath().getString("email")).isNotSameAs(user_data.get("email"));
     }
