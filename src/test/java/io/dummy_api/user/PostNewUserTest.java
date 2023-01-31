@@ -1,22 +1,18 @@
+package io.dummy_api.user;
+
+import io.dummy_api.ApiBaseClass;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import java.util.HashMap;
 import static org.apache.http.HttpStatus.*;
 
 
-public class PostNewUserTest {
-
-    @BeforeClass
-    public static void setUp()
-    {
-        RestAssured.baseURI = "https://dummyapi.io/data/v1";
-    }
+public class PostNewUserTest extends ApiBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_valid_data")
     void testCreateUserWithValidFistNameLastNameAndEmail(HashMap<String, String> user_data)
@@ -27,7 +23,7 @@ public class PostNewUserTest {
         System.out.println(user_data);
         System.out.println(response.statusCode());
         SoftAssert softAssert = new SoftAssert();
-        UserApiMethods.deleteUser(response.jsonPath().getString("id"));
+        apiUserMethods.deleteUser(response.jsonPath().getString("id"));
 
         softAssert.assertEquals(response.statusCode(),SC_CREATED);
         softAssert.assertEquals(response.jsonPath().getString("firstName"),user_data.get("firstName"));
@@ -58,6 +54,6 @@ public class PostNewUserTest {
 
         response.prettyPrint();
         System.out.println(response.statusCode());
-        UserApiMethods.deleteUser(response.jsonPath().getString("id"));
+        apiUserMethods.deleteUser(response.jsonPath().getString("id"));
     }
 }

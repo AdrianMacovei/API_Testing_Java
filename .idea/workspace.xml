@@ -5,13 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="22180913-ff5e-45e0-afdd-9c2928f755eb" name="Changes" comment="new added">
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/dummy_api/Properties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/dummy_api/util/SampleTestContext.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/default.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/dummy_api/util/TestContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/io/dummy_api/ApiBaseClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/UserApiMethods.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/DataProviderClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DataProviderClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/DeleteUserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DeleteUserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/dummy_api/Properties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/dummy_api/util/Properties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/dummy_api/util/SampleTestContext.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/default.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/DataProviderClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/DataProviderClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/DeleteUserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/DeleteUserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/GetUsersTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/GetUsersTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/PostNewUserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/PostNewUserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/UpdateUserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/UpdateUserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/UserApiMethods.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/api_test.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/api_test.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,63 +40,49 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="workspaceImportEnabled" value="true" />
-      </MavenImportingSettings>
-    </option>
-  </component>
   <component name="ProjectId" id="2KttNUCe05fyRJvyP2WNNtqsHkc" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/V3790525/AM Projects/work/testng.internship&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Users/Adrian/Desktop/ApiTesting",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\V3790525\AM Projects\DummyApiTesting\src\test" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="io.dummy_api" />
+    </key>
   </component>
-  <component name="RunManager" selected="TestNG.DeleteUserTest.testDeleteUser">
-    <configuration name="Properties" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="io.dummy_api.Properties" />
-      <module name="DummyApiTesting" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="io.dummy_api.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="C:/Users/V3790525/AM Projects/DummyApiTesting/src/test/resources/api_test.xml" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="DummyApiTesting" />
-      <option name="SUITE_NAME" value="$PROJECT_DIR$/src/test/resources/api_test.xml" />
-      <option name="TEST_OBJECT" value="SUITE" />
+  <component name="RunManager" selected="TestNG.DeleteUserTest (1)">
+    <configuration name="DeleteUserTest" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="API_Testing_Java" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="io.dummy_api.user.DeleteUserTest" />
+      <option name="TEST_OBJECT" value="CLASS" />
       <properties />
       <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DeleteUserTest" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="DummyApiTesting" />
+    <configuration name="DeleteUserTest.testDeleteAnAlreadyDeletedUser" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="API_Testing_Java" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="DeleteUserTest" />
-      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="MAIN_CLASS_NAME" value="io.dummy_api.user.DeleteUserTest" />
+      <option name="METHOD_NAME" value="testDeleteAnAlreadyDeletedUser" />
+      <option name="TEST_OBJECT" value="METHOD" />
       <properties />
       <listeners />
       <method v="2">
@@ -97,7 +92,7 @@
     <configuration name="DeleteUserTest.testDeleteUser" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="DummyApiTesting" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="DeleteUserTest" />
+      <option name="MAIN_CLASS_NAME" value="io.dummy_api.user.DeleteUserTest" />
       <option name="METHOD_NAME" value="testDeleteUser" />
       <option name="TEST_OBJECT" value="METHOD" />
       <properties />
@@ -106,12 +101,29 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GetUsersTest.getUserById" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="DummyApiTesting" />
+    <configuration name="DeleteUserTest.testDeleteUser" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="API_Testing_Java" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="GetUsersTest" />
-      <option name="METHOD_NAME" value="getUserById" />
+      <option name="MAIN_CLASS_NAME" value="io.dummy_api.user.DeleteUserTest" />
+      <option name="METHOD_NAME" value="testDeleteUser" />
       <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GetUsersTest" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="API_Testing_Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.dummy_api.user.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="io.dummy_api" />
+      <option name="MAIN_CLASS_NAME" value="io.dummy_api.user.GetUsersTest" />
+      <option name="TEST_OBJECT" value="CLASS" />
       <properties />
       <listeners />
       <method v="2">
@@ -120,11 +132,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="TestNG.DeleteUserTest (1)" />
+        <item itemvalue="TestNG.DeleteUserTest.testDeleteUser (1)" />
+        <item itemvalue="TestNG.GetUsersTest" />
+        <item itemvalue="TestNG.DeleteUserTest.testDeleteAnAlreadyDeletedUser" />
         <item itemvalue="TestNG.DeleteUserTest.testDeleteUser" />
-        <item itemvalue="TestNG.DeleteUserTest" />
-        <item itemvalue="Application.Properties" />
-        <item itemvalue="TestNG.C:/Users/V3790525/AM Projects/DummyApiTesting/src/test/resources/api_test.xml" />
-        <item itemvalue="TestNG.GetUsersTest.getUserById" />
       </list>
     </recent_temporary>
   </component>
@@ -154,6 +166,29 @@
     <option name="localTasksCounter" value="3" />
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/TestWithSpring1" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="new added" />
     <option name="LAST_COMMIT_MESSAGE" value="new added" />
@@ -165,6 +200,11 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/io/dummy_api/user/DeleteUserTest.java</url>
+          <line>12</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

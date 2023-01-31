@@ -1,21 +1,23 @@
+package io.dummy_api.user;
+
+import io.dummy_api.ApiBaseClass;
 import io.restassured.RestAssured;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import java.util.ArrayList;
 import static org.apache.http.HttpStatus.*;
 
-public class GetUsersTest {
+public class GetUsersTest extends ApiBaseClass {
 
 
-    @BeforeClass
-    public static void setUp()
-    {
-        RestAssured.baseURI = "https://dummyapi.io/data/v1/user";
-    }
+//    @Override
+//    public static void setUp()
+//    {
+//        RestAssured.baseURI = "https://dummyapi.io/data/v1/user";
+//    }
 
 
     @Test
@@ -121,7 +123,7 @@ public class GetUsersTest {
         String userId = path.getString("data[0].id");
         String userFirstName = path.getString("data.firstName[0]");
 
-        response = UserApiMethods.getUser(userId);
+        response = apiUserMethods.getUser(userId);
 
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_OK);
         Assertions.assertThat(response.body().jsonPath().getString("id")).isEqualTo(userId);
@@ -160,15 +162,15 @@ public class GetUsersTest {
     @Test
     void getCreatedUsers()
     {
-        String id1 =  UserApiMethods.createUser();
-        String id2 =  UserApiMethods.createUser();
+        String id1 =  apiUserMethods.createUser();
+        String id2 =  apiUserMethods.createUser();
 
         Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
                 .params("created", 3).get(RestAssured.baseURI);
 
         response.prettyPrint();
-        UserApiMethods.deleteUser(id1);
-        UserApiMethods.deleteUser(id2);
+        apiUserMethods.deleteUser(id1);
+        apiUserMethods.deleteUser(id2);
 
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_OK);
         Assertions.assertThat(response.jsonPath().getInt("total")).isEqualTo(2);
