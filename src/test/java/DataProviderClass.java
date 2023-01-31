@@ -223,4 +223,21 @@ public class DataProviderClass {
                 {validDataAllFieldsMaxRange},
         };
     }
+
+    @DataProvider(name = "user_create_all_fields_invalid_data")
+    public static Object[][] createInvalidDataForAllFields() {
+        HashMap<String, Object> invalidDataInTitle = new HashMap<>();
+        invalidDataInTitle.put("title", "human");
+        invalidDataInTitle.put("firstName", RandomStringUtils.random(15, true, false));
+        invalidDataInTitle.put("lastName", RandomStringUtils.random(15, true, false));
+        invalidDataInTitle.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+
+
+
+        return new HashMap[][]{
+                {invalidDataInTitle},
+
+        };
+    }
 }
