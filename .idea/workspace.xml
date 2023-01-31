@@ -6,14 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="22180913-ff5e-45e0-afdd-9c2928f755eb" name="Changes" comment="Test Api using Spring">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/dummy_api/util/Properties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/dummy_api/util/Properties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/io/dummy_api/ApiBaseClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/io/dummy_api/ApiBaseClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/DeleteUserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/DeleteUserTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/GetUsersTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/GetUsersTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/DataProviderClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/DataProviderClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/PostNewUserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/PostNewUserTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/UpdateUserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/UpdateUserTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/UserApiMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/io/dummy_api/user/UserApiMethods.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,47 +58,13 @@
       <recent name="io.dummy_api" />
     </key>
   </component>
-  <component name="RunManager" selected="TestNG.UpdateUserTest">
-    <configuration name="DeleteUserTest" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="API_Testing_Java" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="io.dummy_api.user.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="io.dummy_api.user" />
-      <option name="MAIN_CLASS_NAME" value="io.dummy_api.user.DeleteUserTest" />
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="TestNG.PostNewUserTest.testCreateUserWithInvalidDataInAllAvailableFields">
     <configuration name="DeleteUserTest.testDeleteUser" type="TestNG" temporary="true" nameIsGenerated="true">
       <module name="API_Testing_Java" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="io.dummy_api.user.DeleteUserTest" />
       <option name="METHOD_NAME" value="testDeleteUser" />
       <option name="TEST_OBJECT" value="METHOD" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GetUsersTest" type="TestNG" temporary="true" nameIsGenerated="true">
-      <module name="API_Testing_Java" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="io.dummy_api.user.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="io.dummy_api" />
-      <option name="MAIN_CLASS_NAME" value="io.dummy_api.user.GetUsersTest" />
-      <option name="TEST_OBJECT" value="CLASS" />
       <properties />
       <listeners />
       <method v="2">
@@ -121,6 +82,42 @@
       <option name="PACKAGE_NAME" value="io.dummy_api.user" />
       <option name="MAIN_CLASS_NAME" value="io.dummy_api.user.PostNewUserTest" />
       <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PostNewUserTest.testCreateUserWithInvalidDataInAllAvailableFields" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="API_Testing_Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.dummy_api.user.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="io.dummy_api.user" />
+      <option name="MAIN_CLASS_NAME" value="io.dummy_api.user.PostNewUserTest" />
+      <option name="METHOD_NAME" value="testCreateUserWithInvalidDataInAllAvailableFields" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PostNewUserTest.testCreateUserWithValidDataInAllAvailableFields" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="API_Testing_Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.dummy_api.user.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="io.dummy_api.user" />
+      <option name="MAIN_CLASS_NAME" value="io.dummy_api.user.PostNewUserTest" />
+      <option name="METHOD_NAME" value="testCreateUserWithValidDataInAllAvailableFields" />
+      <option name="TEST_OBJECT" value="METHOD" />
       <properties />
       <listeners />
       <method v="2">
@@ -164,11 +161,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="TestNG.PostNewUserTest.testCreateUserWithInvalidDataInAllAvailableFields" />
+        <item itemvalue="TestNG.PostNewUserTest.testCreateUserWithValidDataInAllAvailableFields" />
         <item itemvalue="TestNG.UpdateUserTest" />
         <item itemvalue="TestNG.UpdateUserTest.testUpdateValidFirstNameAndLastName" />
         <item itemvalue="TestNG.PostNewUserTest" />
-        <item itemvalue="TestNG.GetUsersTest" />
-        <item itemvalue="TestNG.DeleteUserTest" />
       </list>
     </recent_temporary>
   </component>
@@ -202,7 +199,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675177138072</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Test Api using Spring">
+      <created>1675180698464</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1675180698464</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -240,6 +244,11 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/io/dummy_api/user/PostNewUserTest.java</url>
+          <line>14</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

@@ -19,9 +19,7 @@ public class PostNewUserTest extends ApiBaseClass {
     {
         Response response = RestAssured.given().header("app-id", getAppId())
                 .contentType(ContentType.JSON).body(user_data).post(RestAssured.baseURI + "user/create");
-        response.prettyPrint();
-        System.out.println(user_data);
-        System.out.println(response.statusCode());
+        getInfo(response);
         SoftAssert softAssert = new SoftAssert();
         UserApiMethods.deleteUser(response.jsonPath().getString("id"));
 
@@ -38,9 +36,7 @@ public class PostNewUserTest extends ApiBaseClass {
     {
         Response response = RestAssured.given().header("app-id", getAppId())
                 .contentType(ContentType.JSON).body(user).post(RestAssured.baseURI + "user/create");
-        response.prettyPrint();
-        System.out.println(response.statusCode());
-        System.out.println(user);
+        getInfo(response);
 
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
         Assertions.assertThat(response.jsonPath().getString("error")).isEqualTo("BODY_NOT_VALID");
@@ -52,8 +48,21 @@ public class PostNewUserTest extends ApiBaseClass {
         Response response = RestAssured.given().header("app-id", getAppId())
                 .contentType(ContentType.JSON).body(user).post(RestAssured.baseURI + "user/create");
 
-        response.prettyPrint();
-        System.out.println(response.statusCode());
+        getInfo(response);
         UserApiMethods.deleteUser(response.jsonPath().getString("id"));
+
+        Assertions.assertThat(response.statusCode()).isEqualTo(SC_OK);
     }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_create_all_fields_invalid_data")
+    void testCreateUserWithInvalidDataInAllAvailableFields(HashMap<String, Object> user_data)
+    {
+        Response response = RestAssured.given().header("app-id", getAppId())
+                .contentType(ContentType.JSON).body(user_data).post(RestAssured.baseURI + "user/create");
+
+        getInfo(response);
+
+        Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
+    }
+
 }

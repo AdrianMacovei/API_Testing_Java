@@ -3,6 +3,10 @@ package io.dummy_api.user;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.DataProvider;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 
 public class DataProviderClass {
@@ -235,10 +239,41 @@ public class DataProviderClass {
         invalidDataInTitle.put("email",
                 RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
 
+        HashMap<String, Object> invalidDataInGender = new HashMap<>();
+        invalidDataInGender.put("firstName", RandomStringUtils.random(15, true, false));
+        invalidDataInGender.put("lastName", RandomStringUtils.random(15, true, false));
+        invalidDataInGender.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+        invalidDataInGender.put("gender", "human");
 
+        HashMap<String, Object> invalidDataInDateOfBirthLessThanMin = new HashMap<>();
+        invalidDataInDateOfBirthLessThanMin.put("firstName", RandomStringUtils.random(15, true, false));
+        invalidDataInDateOfBirthLessThanMin.put("lastName", RandomStringUtils.random(15, true, false));
+        invalidDataInDateOfBirthLessThanMin.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+        invalidDataInDateOfBirthLessThanMin.put("dateOfBirth", "31/12/1899");
+
+        HashMap<String, Object> invalidDataInDateOfBirthBiggerThanMax = new HashMap<>();
+        invalidDataInDateOfBirthBiggerThanMax.put("firstName", RandomStringUtils.random(15, true, false));
+        invalidDataInDateOfBirthBiggerThanMax.put("lastName", RandomStringUtils.random(15, true, false));
+        invalidDataInDateOfBirthBiggerThanMax.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+        LocalDateTime todayDate = LocalDateTime.now();
+        LocalDateTime date = todayDate.plusDays(1);
+        String date_for = date.toString();
+
+//        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//        Date currentDate = new Date();
+//        currentDate1 = dateFormat.format(currentDate);
+
+
+        invalidDataInDateOfBirthBiggerThanMax.put("dateOfBirth", date_for);
 
         return new HashMap[][]{
                 {invalidDataInTitle},
+                {invalidDataInGender},
+                {invalidDataInDateOfBirthLessThanMin},
+
 
         };
     }
