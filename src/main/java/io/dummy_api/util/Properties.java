@@ -14,10 +14,10 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:config.properties")
 public class Properties {
 
-    @Value("${project.id}")
+    @Value("${project.uri}")
     private String URI;
 
-    @Value("${project.uri}")
+    @Value("${project.id}")
     private String APP_ID;
 
     public String getApiUri()

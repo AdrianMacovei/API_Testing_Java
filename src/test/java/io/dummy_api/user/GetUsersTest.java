@@ -12,19 +12,11 @@ import static org.apache.http.HttpStatus.*;
 
 public class GetUsersTest extends ApiBaseClass {
 
-
-//    @Override
-//    public static void setUp()
-//    {
-//        RestAssured.baseURI = "https://dummyapi.io/data/v1/user";
-//    }
-
-
     @Test
     void getUsersListWithValidAppId()
     {
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .get(RestAssured.baseURI);
+        Response response = RestAssured.given().header("app-id", getAppId())
+                .get("user");
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
 
@@ -38,7 +30,7 @@ public class GetUsersTest extends ApiBaseClass {
     @Test
     void getUsersWithInvalidAppId()
     {
-        Response response = RestAssured.get(RestAssured.baseURI);
+        Response response = RestAssured.get("user");
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
 
@@ -53,9 +45,9 @@ public class GetUsersTest extends ApiBaseClass {
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "limit_values")
     void getUsersWithLimitParam(int limit_value)
     {
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
+        Response response = RestAssured.given().header("app-id", getAppId())
                 .param("limit", limit_value)
-                .get(RestAssured.baseURI);
+                .get("user");
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
         if (limit_value >= 5 && limit_value <= 50)
@@ -77,9 +69,9 @@ public class GetUsersTest extends ApiBaseClass {
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "page_values")
     void getUsersWithPageParam(int page_value)
     {
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
+        Response response = RestAssured.given().header("app-id", getAppId())
                 .param("page", page_value)
-                .get(RestAssured.baseURI);
+                .get("user");
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
 
@@ -101,9 +93,9 @@ public class GetUsersTest extends ApiBaseClass {
     @Test
     void getUsersWithValidPageAndLimitParameters()
     {
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
+        Response response = RestAssured.given().header("app-id", getAppId())
                 .params("limit", 6).params("page","1")
-                .get(RestAssured.baseURI);
+                .get("user");
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
         ArrayList<String> usersList = new ArrayList<>(response.body().jsonPath().getList("data"));
@@ -116,14 +108,14 @@ public class GetUsersTest extends ApiBaseClass {
     @Test
     void getUserWithValidId()
     {
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .get(RestAssured.baseURI);
+        Response response = RestAssured.given().header("app-id", getAppId())
+                .get("user");
 
         JsonPath path = response.body().jsonPath();
         String userId = path.getString("data[0].id");
         String userFirstName = path.getString("data.firstName[0]");
 
-        response = apiUserMethods.getUser(userId);
+        response = UserApiMethods.getUser(userId);
 
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_OK);
         Assertions.assertThat(response.body().jsonPath().getString("id")).isEqualTo(userId);
@@ -135,8 +127,8 @@ public class GetUsersTest extends ApiBaseClass {
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_ids")
     void getUserWithInvalidId(String id)
     {
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .get(RestAssured.baseURI + "/" + id);
+        Response response = RestAssured.given().header("app-id", getAppId())
+                .get("user/" + id);
 
         response.prettyPrint();
         System.out.println(response.statusCode());
@@ -162,15 +154,15 @@ public class GetUsersTest extends ApiBaseClass {
     @Test
     void getCreatedUsers()
     {
-        String id1 =  apiUserMethods.createUser();
-        String id2 =  apiUserMethods.createUser();
+        String id1 =  UserApiMethods.createUser();
+        String id2 =  UserApiMethods.createUser();
 
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .params("created", 3).get(RestAssured.baseURI);
+        Response response = RestAssured.given().header("app-id", getAppId())
+                .params("created", 3).get("user");
 
         response.prettyPrint();
-        apiUserMethods.deleteUser(id1);
-        apiUserMethods.deleteUser(id2);
+        UserApiMethods.deleteUser(id1);
+        UserApiMethods.deleteUser(id2);
 
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_OK);
         Assertions.assertThat(response.jsonPath().getInt("total")).isEqualTo(2);

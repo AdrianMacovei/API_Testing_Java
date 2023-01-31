@@ -1,23 +1,18 @@
 package io.dummy_api.user;
 
-import io.dummy_api.ApiBaseClass;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import lombok.Getter;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.context.annotation.Configuration;
-
 import java.util.HashMap;
 
 
-@Getter
-@Configuration
-public class UserApiMethods extends ApiBaseClass {
-    private final String APP_ID = properties.getAppId();
-    private final String BASE_URI = properties.getApiUri();
+public class UserApiMethods {
 
-    public String createUser()
+    private static final String API_ID = "63d233c888cdfd33faa635a4";
+    private static final String BASE_URI = "https://dummyapi.io/data/v1/user/";
+
+    public  static String createUser()
     {
         HashMap<String, String> user1 = new HashMap<>();
         user1.put("firstName", "Popescu");
@@ -25,21 +20,21 @@ public class UserApiMethods extends ApiBaseClass {
         user1.put("email", "popescumarian" + RandomStringUtils.random(3, false, true) +
                 "@gmail.com");
 
-        Response response = RestAssured.given().header("app-id", getAPP_ID())
-                .contentType(ContentType.JSON).body(user1).post(getBASE_URI() + "create");
+        Response response = RestAssured.given().header("app-id", API_ID)
+                .contentType(ContentType.JSON).body(user1).post(BASE_URI + "create");
 
         return response.jsonPath().getString("id");
     }
 
-    public Response getUser(String userId)
+    public static Response getUser(String userId)
     {
-        return RestAssured.given().header("app-id", getAPP_ID())
-                .contentType(ContentType.JSON).get(getBASE_URI() + userId);
+        return RestAssured.given().header("app-id", API_ID)
+                .contentType(ContentType.JSON).get(BASE_URI + userId);
     }
 
-    public void deleteUser(String userId)
+    public static void deleteUser(String userId)
     {
-        RestAssured.given().header("app-id", getAPP_ID())
-                .contentType(ContentType.JSON).delete(getBASE_URI() + userId);
+        RestAssured.given().header("app-id", API_ID)
+                .contentType(ContentType.JSON).delete(BASE_URI + userId);
     }
 }

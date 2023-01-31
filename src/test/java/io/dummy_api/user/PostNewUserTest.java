@@ -17,13 +17,13 @@ public class PostNewUserTest extends ApiBaseClass {
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_valid_data")
     void testCreateUserWithValidFistNameLastNameAndEmail(HashMap<String, String> user_data)
     {
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .contentType(ContentType.JSON).body(user_data).post(RestAssured.baseURI + "/user/create");
+        Response response = RestAssured.given().header("app-id", getAppId())
+                .contentType(ContentType.JSON).body(user_data).post(RestAssured.baseURI + "user/create");
         response.prettyPrint();
         System.out.println(user_data);
         System.out.println(response.statusCode());
         SoftAssert softAssert = new SoftAssert();
-        apiUserMethods.deleteUser(response.jsonPath().getString("id"));
+        UserApiMethods.deleteUser(response.jsonPath().getString("id"));
 
         softAssert.assertEquals(response.statusCode(),SC_CREATED);
         softAssert.assertEquals(response.jsonPath().getString("firstName"),user_data.get("firstName"));
@@ -36,8 +36,8 @@ public class PostNewUserTest extends ApiBaseClass {
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_user_data")
     void testCreateAUserWithInvalidData(HashMap<String, String> user)
     {
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .contentType(ContentType.JSON).body(user).post(RestAssured.baseURI + "/user/create");
+        Response response = RestAssured.given().header("app-id", getAppId())
+                .contentType(ContentType.JSON).body(user).post(RestAssured.baseURI + "user/create");
         response.prettyPrint();
         System.out.println(response.statusCode());
         System.out.println(user);
@@ -49,11 +49,11 @@ public class PostNewUserTest extends ApiBaseClass {
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_all_fields_valid_data")
     void testCreateUserWithValidDataInAllAvailableFields(HashMap<String, Object> user)
     {
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .contentType(ContentType.JSON).body(user).post(RestAssured.baseURI + "/user/create");
+        Response response = RestAssured.given().header("app-id", getAppId())
+                .contentType(ContentType.JSON).body(user).post(RestAssured.baseURI + "user/create");
 
         response.prettyPrint();
         System.out.println(response.statusCode());
-        apiUserMethods.deleteUser(response.jsonPath().getString("id"));
+        UserApiMethods.deleteUser(response.jsonPath().getString("id"));
     }
 }
