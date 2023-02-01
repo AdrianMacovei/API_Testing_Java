@@ -1,28 +1,22 @@
+package io.dummy_api.user;
+
+import io.dummy_api.ApiBaseClass;
 import io.restassured.RestAssured;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import java.util.ArrayList;
 import static org.apache.http.HttpStatus.*;
 
-public class GetUsersTest {
-
-
-    @BeforeClass
-    public static void setUp()
-    {
-        RestAssured.baseURI = "https://dummyapi.io/data/v1/user";
-    }
-
+public class GetUsersTest extends ApiBaseClass {
 
     @Test
     void getUsersListWithValidAppId()
     {
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .get(RestAssured.baseURI);
+        Response response = RestAssured.given().header("app-id", getAppId())
+                .get("user");
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
 
@@ -36,7 +30,7 @@ public class GetUsersTest {
     @Test
     void getUsersWithInvalidAppId()
     {
-        Response response = RestAssured.get(RestAssured.baseURI);
+        Response response = RestAssured.get("user");
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
 
@@ -51,9 +45,9 @@ public class GetUsersTest {
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "limit_values")
     void getUsersWithLimitParam(int limit_value)
     {
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
+        Response response = RestAssured.given().header("app-id", getAppId())
                 .param("limit", limit_value)
-                .get(RestAssured.baseURI);
+                .get("user");
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
         if (limit_value >= 5 && limit_value <= 50)
@@ -75,9 +69,9 @@ public class GetUsersTest {
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "page_values")
     void getUsersWithPageParam(int page_value)
     {
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
+        Response response = RestAssured.given().header("app-id", getAppId())
                 .param("page", page_value)
-                .get(RestAssured.baseURI);
+                .get("user");
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
 
@@ -99,9 +93,9 @@ public class GetUsersTest {
     @Test
     void getUsersWithValidPageAndLimitParameters()
     {
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
+        Response response = RestAssured.given().header("app-id", getAppId())
                 .params("limit", 6).params("page","1")
-                .get(RestAssured.baseURI);
+                .get("user");
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
         ArrayList<String> usersList = new ArrayList<>(response.body().jsonPath().getList("data"));
@@ -114,8 +108,8 @@ public class GetUsersTest {
     @Test
     void getUserWithValidId()
     {
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .get(RestAssured.baseURI);
+        Response response = RestAssured.given().header("app-id", getAppId())
+                .get("user");
 
         JsonPath path = response.body().jsonPath();
         String userId = path.getString("data[0].id");
@@ -133,8 +127,8 @@ public class GetUsersTest {
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_ids")
     void getUserWithInvalidId(String id)
     {
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .get(RestAssured.baseURI + "/" + id);
+        Response response = RestAssured.given().header("app-id", getAppId())
+                .get("user/" + id);
 
         response.prettyPrint();
         System.out.println(response.statusCode());
@@ -163,8 +157,8 @@ public class GetUsersTest {
         String id1 =  UserApiMethods.createUser();
         String id2 =  UserApiMethods.createUser();
 
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .params("created", 3).get(RestAssured.baseURI);
+        Response response = RestAssured.given().header("app-id", getAppId())
+                .params("created", 3).get("user");
 
         response.prettyPrint();
         UserApiMethods.deleteUser(id1);
