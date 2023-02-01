@@ -6,6 +6,7 @@ import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
+import org.springframework.http.HttpMethod;
 import org.testng.annotations.Test;
 import java.util.ArrayList;
 import static org.apache.http.HttpStatus.*;
@@ -15,8 +16,7 @@ public class GetUsersTest extends ApiBaseClass {
     @Test
     void getUsersListWithValidAppId()
     {
-        Response response = RestAssured.given().header("app-id", getAppId())
-                .get("user");
+        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "user{parameters}", "", "");
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
 
@@ -30,7 +30,7 @@ public class GetUsersTest extends ApiBaseClass {
     @Test
     void getUsersWithInvalidAppId()
     {
-        Response response = RestAssured.get("user");
+        Response response = getRestWrapperNoId().sendRequest(HttpMethod.GET, "user{parameters}", "", "");
         response.body().prettyPrint();
         System.out.println(response.getStatusCode());
 
@@ -42,62 +42,68 @@ public class GetUsersTest extends ApiBaseClass {
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_FORBIDDEN);
     }
 
-    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "limit_values")
-    void getUsersWithLimitParam(int limit_value)
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "valid_limit_values")
+    void getUsersWithValidLimitParam(int limitValue)
     {
-        Response response = RestAssured.given().header("app-id", getAppId())
-                .param("limit", limit_value)
-                .get("user");
-        response.body().prettyPrint();
-        System.out.println(response.getStatusCode());
-        if (limit_value >= 5 && limit_value <= 50)
-        {
-            JsonPath jsonPath = response.body().jsonPath();
-            ArrayList<String> usersList = new ArrayList<>(jsonPath.getList("data"));
-            int limitValue = jsonPath.getInt("limit");
+        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "user?limit={parameters}", "",
+                limitValue);
 
-            Assertions.assertThat(response.statusCode()).isEqualTo(SC_OK);
-            Assertions.assertThat(usersList.size()).isEqualTo(limitValue);
-            Assertions.assertThat((double) usersList.size()).isEqualTo(limitValue);
-        } else
-        {
-            Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
-        }
+        getInfo(response);
+
+        JsonPath jsonPath = response.body().jsonPath();
+        ArrayList<String> usersList = new ArrayList<>(jsonPath.getList("data"));
+        int valueOfLimit = jsonPath.getInt("limit");
+
+        Assertions.assertThat(response.statusCode()).isEqualTo(SC_OK);
+        Assertions.assertThat(usersList.size()).isEqualTo(valueOfLimit);
+        Assertions.assertThat((double) usersList.size()).isEqualTo(valueOfLimit);
 
     }
 
-    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "page_values")
-    void getUsersWithPageParam(int page_value)
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_limit_values")
+    void getUsersWithInvalidLimitParam(Object limitValue)
     {
-        Response response = RestAssured.given().header("app-id", getAppId())
-                .param("page", page_value)
-                .get("user");
-        response.body().prettyPrint();
-        System.out.println(response.getStatusCode());
+        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "user?limit={parameters}", "",
+                limitValue);
 
-        if (page_value >= 0 && page_value <= 999)
-        {
-            JsonPath jsonPath = response.body().jsonPath();
-            int pageValue = jsonPath.getInt("page");
-            ArrayList<String> usersList = new ArrayList<>(jsonPath.getList("data"));
+        getInfo(response);
 
-            Assertions.assertThat(response.statusCode()).isEqualTo(SC_OK);
-            Assertions.assertThat(page_value).isEqualTo(pageValue);
-            Assertions.assertThat(usersList.size()).isEqualTo(20);
-        } else
-        {
-            Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
-        }
+        Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
+
+    }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "valid_page_values")
+    void getUsersWithValidPageParam(int pageValue)
+    {
+        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "user?page={parameters}", "",
+                pageValue);
+        getInfo(response);
+
+        JsonPath jsonPath = response.body().jsonPath();
+        int valueOfPage = jsonPath.getInt("page");
+        ArrayList<String> usersList = new ArrayList<>(jsonPath.getList("data"));
+
+        Assertions.assertThat(response.statusCode()).isEqualTo(SC_OK);
+        Assertions.assertThat(pageValue).isEqualTo(valueOfPage);
+        Assertions.assertThat(usersList.size()).isEqualTo(20);
+    }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_page_values")
+    void getUsersWithInvalidPageParam(Object pageValue)
+    {
+        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "user?page={parameters}", "",
+                pageValue);
+        getInfo(response);
+
+        Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
     }
 
     @Test
     void getUsersWithValidPageAndLimitParameters()
     {
-        Response response = RestAssured.given().header("app-id", getAppId())
-                .params("limit", 6).params("page","1")
-                .get("user");
-        response.body().prettyPrint();
-        System.out.println(response.getStatusCode());
+        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "user?limit={parameters}&page=1", "",
+                6);
+        getInfo(response);
         ArrayList<String> usersList = new ArrayList<>(response.body().jsonPath().getList("data"));
 
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_OK);
@@ -108,8 +114,8 @@ public class GetUsersTest extends ApiBaseClass {
     @Test
     void getUserWithValidId()
     {
-        Response response = RestAssured.given().header("app-id", getAppId())
-                .get("user");
+        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "user{parameters}", "",
+                "");
 
         JsonPath path = response.body().jsonPath();
         String userId = path.getString("data[0].id");
@@ -127,8 +133,8 @@ public class GetUsersTest extends ApiBaseClass {
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_ids")
     void getUserWithInvalidId(String id)
     {
-        Response response = RestAssured.given().header("app-id", getAppId())
-                .get("user/" + id);
+        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "user/{parameters}", "",
+                id);
 
         response.prettyPrint();
         System.out.println(response.statusCode());
@@ -157,10 +163,14 @@ public class GetUsersTest extends ApiBaseClass {
         String id1 =  UserApiMethods.createUser();
         String id2 =  UserApiMethods.createUser();
 
-        Response response = RestAssured.given().header("app-id", getAppId())
-                .params("created", 3).get("user");
+        System.out.println(id1 + " " + id2);
 
-        response.prettyPrint();
+        Response response = RestAssured.given().header("app-id", getAppId())
+                .params("created", 2).get("user");
+//        Response response = getRestWrapper().sendRequest(HttpMethod.GET,
+//                "user?created={parameters}", "", "4");
+
+        getInfo(response);
         UserApiMethods.deleteUser(id1);
         UserApiMethods.deleteUser(id2);
 
