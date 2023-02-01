@@ -21,21 +21,38 @@ public class DataProviderClass {
                 {RandomStringUtils.random(25, true, true).toLowerCase()},
                 {"63d233c888cdfd33faa635a4"},
                 {"63d23" + RandomStringUtils.random(14, true, true).toLowerCase() + "635a4"},
-                {RandomStringUtils.random(24, false, true)}
+                {RandomStringUtils.random(24, false, true)},
+                {"!@#$%%*%*$#&#&#"},
+                {"%20"}
+
         };
     }
 
-    @DataProvider(name = "page_values")
-    public static Object[][] createDataPageParam() {
+    @DataProvider(name = "valid_page_values")
+    public static Object[][] createValidDataPageParam() {
         return new Integer[][]{
-                {-1}, {0}, {999}, {1000}
+                {0}, {999}
         };
     }
 
-    @DataProvider(name = "limit_values")
-    public static Object[][] createDataLimitParam() {
+    @DataProvider(name = "invalid_page_values")
+    public static Object[][] createinvalidDataPageParam() {
+        return new Object[][]{
+                {-1}, {1000}, {"something"}, {45.564}, {false}
+        };
+    }
+
+    @DataProvider(name = "valid_limit_values")
+    public static Object[][] createValidDataLimitParam() {
         return new Integer[][]{
-                {4}, {5}, {50}, {51}
+                {5}, {50}
+        };
+    }
+
+    @DataProvider(name = "invalid_limit_values")
+    public static Object[][] createInvalidDataLimitParam() {
+        return new Object[][]{
+                {4}, {51}, {"something"}, {45.564}, {false}
         };
     }
 
