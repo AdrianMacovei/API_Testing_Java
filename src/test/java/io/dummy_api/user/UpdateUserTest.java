@@ -1,28 +1,24 @@
+package io.dummy_api.user;
+
+import io.dummy_api.ApiBaseClass;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.api.Assertions;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import java.util.HashMap;
 
 import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.apache.http.HttpStatus.SC_OK;
-public class UpdateUserTest {
-
-    @BeforeClass
-    public static void setUp()
-    {
-        RestAssured.baseURI = "https://dummyapi.io/data/v1/user/";
-    }
+public class UpdateUserTest extends ApiBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "update_valid_data")
     void testUpdateValidFirstNameAndLastName(HashMap<String, String> data)
     {
         String id = UserApiMethods.createUser();
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .contentType(ContentType.JSON).body(data).put(RestAssured.baseURI + id);
+        Response response = RestAssured.given().header("app-id", getAppId())
+                .contentType(ContentType.JSON).body(data).put("user/"+ id);
         UserApiMethods.deleteUser(id);
 
         response.prettyPrint();
@@ -38,8 +34,8 @@ public class UpdateUserTest {
     void testUpdateInvalidFirstNameAndLastName(HashMap<String, String> data)
     {
         String id = UserApiMethods.createUser();
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .contentType(ContentType.JSON).body(data).put(RestAssured.baseURI + id);
+        Response response = RestAssured.given().header("app-id", getAppId())
+                .contentType(ContentType.JSON).body(data).put("user/" + id);
         UserApiMethods.deleteUser(id);
 
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
@@ -55,17 +51,11 @@ public class UpdateUserTest {
         user_data.put("email", RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
 
         String id = UserApiMethods.createUser();
-        Response response = RestAssured.given().header("app-id", "63d233c888cdfd33faa635a4")
-                .contentType(ContentType.JSON).body(user_data).put(RestAssured.baseURI + id);
+        Response response = RestAssured.given().header("app-id", getAppId())
+                .contentType(ContentType.JSON).body(user_data).put("user/" + id);
         UserApiMethods.deleteUser(id);
 
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
         Assertions.assertThat(response.jsonPath().getString("email")).isNotSameAs(user_data.get("email"));
-    }
-
-    @Test
-    void testUpdateOtherFields()
-    {
-
     }
 }

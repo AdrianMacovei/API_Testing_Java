@@ -4,19 +4,19 @@
     <test name="TestGetAndPost">
 
         <classes>
-            <class name="GetUsersTest">
+            <class name="io.dummy_api.user.GetUsersTest">
 
             </class>
 
-            <class name="PostNewUserTest">
+            <class name="io.dummy_api.user.PostNewUserTest">
 
             </class>
 
-            <class name="DeleteUserTest">
+            <class name="io.dummy_api.user.DeleteUserTest">
 
             </class>
 
-            <class name="UpdateUserTest">
+            <class name="io.dummy_api.user.UpdateUserTest">
 
             </class>
         </classes>
