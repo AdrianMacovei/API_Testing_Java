@@ -51,16 +51,40 @@ public class RestWrapper
         switch(httpMethod)
         {
             case GET:
-                returnedResponse = onRequest().get(path, params).andReturn();
+                if (params.toString().equals(""))
+                {
+                    returnedResponse = onRequest().body(body).get(path).andReturn();
+                } else
+                {
+                    returnedResponse = onRequest().body(body).get(path, params).andReturn();
+                }
                 break;
             case DELETE:
-                returnedResponse = onRequest().delete(path, params).andReturn();
+                if (params.toString().equals(""))
+                {
+                    returnedResponse = onRequest().body(body).delete(path).andReturn();
+                } else
+                {
+                    returnedResponse = onRequest().body(body).delete(path, params).andReturn();
+                }
                 break;
             case POST:
-                returnedResponse = onRequest().body(body).post(path, params).andReturn();
+                if (params.toString().equals(""))
+                {
+                    returnedResponse = onRequest().body(body).post(path).andReturn();
+                } else
+                {
+                    returnedResponse = onRequest().body(body).post(path, params).andReturn();
+                }
                 break;
             case PUT:
-                returnedResponse = onRequest().body(body).put(path, params).andReturn();
+                if (params.toString().equals(""))
+                {
+                    returnedResponse = onRequest().body(body).put(path).andReturn();
+                } else
+                {
+                    returnedResponse = onRequest().body(body).put(path, params).andReturn();
+                }
                 break;
             default:
                 throw new RuntimeException("Please provide a valid request method");
