@@ -5,6 +5,9 @@
 
         <classes>
             <class name="io.dummy_api.user.GetUsersTest">
+                <methods>
+
+                </methods>
 
             </class>
 
