@@ -46,9 +46,9 @@ public class UserModel {
         this.email = email;
     }
 
-    public static UserModel generateRandomUser()
-    {
-        String randomData = RandomStringUtils.randomAlphabetic(7);
-    }
+//    public static UserModel generateRandomUser()
+//    {
+//        String randomData = RandomStringUtils.randomAlphabetic(7);
+//    }
 
 }
