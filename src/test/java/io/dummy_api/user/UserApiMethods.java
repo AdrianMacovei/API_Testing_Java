@@ -41,6 +41,6 @@ public class UserApiMethods {
     public static Response getCreatedUsers()
     {
         return RestAssured.given().header("app-id", API_ID)
-                .contentType(ContentType.JSON).param("created", 100).get(BASE_URI);
+                .contentType(ContentType.JSON).param("created", 50).get(BASE_URI);
     }
 }

@@ -11,21 +11,24 @@ import static org.apache.http.HttpStatus.SC_OK;
 
 public class DeleteUserTest extends ApiBaseClass
 {
-    @Test()
+    @Test(groups = {"user_test"})
     void testDeleteUser()
     {
         String id = UserApiMethods.createUser();
         Response response = getRestWrapper().sendRequest(HttpMethod.DELETE, "user/{id}", "",id);
+        getInfo(response);
+
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_OK);
         Assertions.assertThat(response.jsonPath().getString("id")).isEqualTo(id);
     }
 
-    @Test()
+    @Test(groups = {"user_test"})
     void testDeleteAnAlreadyDeletedUser()
     {
         String id = UserApiMethods.createUser();
         UserApiMethods.deleteUser(id);
         Response response = getRestWrapper().sendRequest(HttpMethod.DELETE, "user/{id}", "",id);
+        getInfo(response);
 
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_NOT_FOUND);
         Assertions.assertThat(response.jsonPath().getString("error")).isEqualTo("RESOURCE_NOT_FOUND");
