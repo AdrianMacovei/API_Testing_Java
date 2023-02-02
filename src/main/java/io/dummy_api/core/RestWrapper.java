@@ -1,5 +1,6 @@
 package io.dummy_api.core;
 
+import io.dummy_api.exception.JsonToModelConversionException;
 import io.dummy_api.util.Properties;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -97,5 +98,20 @@ public class RestWrapper
         return given().spec(configureRequestSpec().setContentType(ContentType.JSON).build());
     }
 
+
+    public <T> T convertResponseToModel(Response response, Class<T> modelClass)
+    {
+        T model;
+
+        try
+        {
+            model = response.getBody().as(modelClass);
+        } catch (Exception processError)
+        {
+            processError.printStackTrace();
+            throw new JsonToModelConversionException(modelClass, processError);
+        }
+        return model;
+    }
 
 }

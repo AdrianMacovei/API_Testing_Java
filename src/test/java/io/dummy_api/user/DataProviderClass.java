@@ -2,11 +2,7 @@ package io.dummy_api.user;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.DataProvider;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashMap;
 
 public class DataProviderClass {
