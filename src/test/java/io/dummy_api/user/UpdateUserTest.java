@@ -1,6 +1,7 @@
 package io.dummy_api.user;
 
 import io.dummy_api.ApiBaseClass;
+import io.dummy_api.models.UserModel;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -17,7 +18,7 @@ public class UpdateUserTest extends ApiBaseClass {
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "update_valid_data", groups = {"user_test"})
     void testUpdateValidFirstNameAndLastName(HashMap<String, String> data)
     {
-        String id = UserApiMethods.createUser();
+        String id = UserApiMethods.createUser(UserModel.generateRandomUser());
         Response response = getRestWrapper().sendRequest(HttpMethod.PUT,
                 "user/{parameters}", data, id);
         getInfo(response);
@@ -31,7 +32,7 @@ public class UpdateUserTest extends ApiBaseClass {
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "update_invalid_data", groups = {"user_test"})
     void testUpdateInvalidFirstNameAndLastName(HashMap<String, String> data)
     {
-        String id = UserApiMethods.createUser();
+        String id = UserApiMethods.createUser(UserModel.generateRandomUser());
         Response response = RestAssured.given().header("app-id", getAppId())
                 .contentType(ContentType.JSON).body(data).put("user/" + id);
         UserApiMethods.deleteUser(id);
@@ -48,7 +49,7 @@ public class UpdateUserTest extends ApiBaseClass {
         user_data.put("lastName", "Macovei");
         user_data.put("email", RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
 
-        String id = UserApiMethods.createUser();
+        String id = UserApiMethods.createUser(UserModel.generateRandomUser());
         Response response = RestAssured.given().header("app-id", getAppId())
                 .contentType(ContentType.JSON).body(user_data).put("user/" + id);
         UserApiMethods.deleteUser(id);

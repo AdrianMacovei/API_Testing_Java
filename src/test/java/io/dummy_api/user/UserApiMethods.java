@@ -1,5 +1,6 @@
 package io.dummy_api.user;
 
+import io.dummy_api.models.UserModel;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -12,16 +13,16 @@ public class UserApiMethods {
     private static final String API_ID = "63d233c888cdfd33faa635a4";
     private static final String BASE_URI = "https://dummyapi.io/data/v1/user";
 
-    public  static String createUser()
+    public  static String createUser(UserModel user)
     {
-        HashMap<String, String> user1 = new HashMap<>();
-        user1.put("firstName", "Popescu");
-        user1.put("lastName", "Marian");
-        user1.put("email", "popescumarian" + RandomStringUtils.random(3, false, true) +
-                "@gmail.com");
+//        HashMap<String, String> user1 = new HashMap<>();
+//        user1.put("firstName", "Popescu");
+//        user1.put("lastName", "Marian");
+//        user1.put("email", "popescumarian" + RandomStringUtils.random(3, false, true) +
+//                "@gmail.com");
 
         Response response = RestAssured.given().header("app-id", API_ID)
-                .contentType(ContentType.JSON).body(user1).post(BASE_URI + "/create");
+                .contentType(ContentType.JSON).body(user).post(BASE_URI + "/create");
 
         return response.jsonPath().getString("id");
     }

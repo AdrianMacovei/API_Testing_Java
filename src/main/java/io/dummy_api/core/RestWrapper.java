@@ -1,5 +1,6 @@
 package io.dummy_api.core;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.dummy_api.exception.JsonToModelConversionException;
 import io.dummy_api.util.Properties;
 import io.restassured.RestAssured;
@@ -12,6 +13,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
+
+import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
 
@@ -114,4 +117,19 @@ public class RestWrapper
         return model;
     }
 
+    public static <T> T convertHashMapToModel (HashMap<T, T> hashMap, Class<T> modelClass)
+    {
+        T model;
+
+        try
+        {
+            ObjectMapper mapper = new ObjectMapper();
+            model = mapper.convertValue(hashMap, modelClass);
+        } catch (Exception processError)
+        {
+            processError.printStackTrace();
+            throw new JsonToModelConversionException(modelClass, processError);
+        }
+        return model;
+    }
 }

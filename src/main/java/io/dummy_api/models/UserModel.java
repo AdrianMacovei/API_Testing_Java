@@ -1,5 +1,7 @@
 package io.dummy_api.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.restassured.response.Response;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -13,11 +15,11 @@ public class UserModel {
     private String id;
 
     private String title;
-
+    @JsonProperty(required = true)
     private String firstName;
-
+    @JsonProperty(required = true)
     private String lastName;
-
+    @JsonProperty(required = true)
     private String email;
 
     private String gender;
@@ -30,7 +32,7 @@ public class UserModel {
 
     private Date registerDate;
 
-    private Date updateDate;
+    private Date updatedDate;
 
     private Location location;
 
@@ -46,9 +48,15 @@ public class UserModel {
         this.email = email;
     }
 
-//    public static UserModel generateRandomUser()
-//    {
-//        String randomData = RandomStringUtils.randomAlphabetic(7);
-//    }
+    public static UserModel generateRandomUser()
+    {
+        String randomData = RandomStringUtils.randomAlphabetic(7);
+        UserModel newUser = new UserModel("fn" + randomData, "ln" + randomData,
+                randomData + "@gmail.com");
+        newUser.setGender("male");
+        newUser.setTitle("mr");
+
+        return newUser;
+    }
 
 }
