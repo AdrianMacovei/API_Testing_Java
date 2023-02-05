@@ -30,29 +30,20 @@ public class ApiBaseClass extends AbstractTestNGSpringContextTests {
     public SoftAssert softAssert = new SoftAssert();
 
     @BeforeClass(alwaysRun = true)
-    protected void setUp()
-    {
-        restWrapper.addRequestHeader("app-id", properties.getAppId());
+    protected void setUp() {
+        restWrapper.addRequestHeader("app-id", properties.getAPP_ID());
     }
 
-    public String getAppId()
-    {
-        return properties.getAppId();
-    }
-
-    public void getInfo(Response response)
-    {
+    public void getInfo(Response response) {
         response.prettyPrint();
         System.out.println(response.statusCode());
     }
 
     @AfterMethod(alwaysRun = true, onlyForGroups = {"user_test"})
-    protected void tearDown()
-    {
+    protected void tearDown() {
         Response response = UserApiMethods.getCreatedUsers();
 
-        for(int i=0; i < response.jsonPath().getList("data").size(); i++)
-        {
+        for (int i = 0; i < response.jsonPath().getList("data").size(); i++) {
             UserApiMethods.deleteUser(response.jsonPath().getString("data[" + i + "].id"));
         }
     }

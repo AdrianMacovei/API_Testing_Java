@@ -19,15 +19,5 @@ public class Properties {
 
     @Value("${project.id}")
     private String APP_ID;
-
-    public String getApiUri()
-    {
-        return getURI();
-    }
-
-    public String getAppId()
-    {
-        return getAPP_ID();
-    }
 }
 

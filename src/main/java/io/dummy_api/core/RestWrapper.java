@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
-
 import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
@@ -31,7 +30,8 @@ public class RestWrapper
     @PostConstruct
     public void initializeRequestSpecBuilder()
     {
-        String url = properties.getApiUri();
+//        String url = properties.getApiUri();
+        String url = properties.getURI();
         RestAssured.baseURI = url;
 
         configureRequestSpec().setBaseUri(url);
