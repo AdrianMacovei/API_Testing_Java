@@ -25,7 +25,7 @@ public class RestWrapper
     @Autowired
     private Properties properties;
 
-    private RequestSpecBuilder requestSpecBuilder=new RequestSpecBuilder();
+    private final RequestSpecBuilder requestSpecBuilder=new RequestSpecBuilder();
 
     @PostConstruct
     public void initializeRequestSpecBuilder()

@@ -17,7 +17,6 @@ public class DeleteUserTest extends ApiBaseClass {
         Response response = getRestWrapper().sendRequest(HttpMethod.DELETE, "user/{id}", "", id);
         getInfo(response);
 
-
         softAssert.assertEquals(response.statusCode(), SC_OK);
         softAssert.assertEquals(response.jsonPath().getString("id"), id);
         softAssert.assertAll();

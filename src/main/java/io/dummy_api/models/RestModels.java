@@ -14,5 +14,4 @@ public class RestModels<T>
     private int total;
     private int page;
     private int limit;
-    private String error;
 }
