@@ -7,7 +7,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.api.Assertions;
 import org.springframework.http.HttpMethod;
 import org.testng.annotations.Test;
-
 import java.util.HashMap;
 
 import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
@@ -20,12 +19,14 @@ public class UpdateUserTest extends ApiBaseClass {
         String id = UserApiMethods.createUser(UserModel.generateRandomUser());
         Response response = getRestWrapper().sendRequest(HttpMethod.PUT,
                 "user/{parameters}", data, id);
+        UserModel userRsp = getRestWrapper().convertResponseToModel(response, UserModel.class);
         getInfo(response);
 
-        Assertions.assertThat(response.statusCode()).isEqualTo(SC_OK);
-        Assertions.assertThat(response.jsonPath().getString("firstName")).isEqualTo(data.get("firstName"));
-        Assertions.assertThat(response.jsonPath().getString("lastName")).isEqualTo(data.get("lastName"));
-        Assertions.assertThat(response.jsonPath().getString("id")).isEqualTo(id);
+        softAssert.assertTrue(response.statusCode() == SC_OK);
+        softAssert.assertTrue(data.get("firstName").equals(userRsp.getFirstName()));
+        softAssert.assertTrue(data.get("lastName").equals(userRsp.getLastName()));
+        softAssert.assertEquals(userRsp.getId(), id);
+        softAssert.assertAll();
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "update_invalid_data", groups = {"user_test"})
@@ -33,10 +34,8 @@ public class UpdateUserTest extends ApiBaseClass {
         String id = UserApiMethods.createUser(UserModel.generateRandomUser());
         Response response = getRestWrapper().sendRequest(HttpMethod.PUT,
                 "user/{parameters}", data, id);
-        UserApiMethods.deleteUser(id);
 
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
-
     }
 
     @Test(groups = {"user_test"})
@@ -49,9 +48,11 @@ public class UpdateUserTest extends ApiBaseClass {
         String id = UserApiMethods.createUser(UserModel.generateRandomUser());
         Response response = getRestWrapper().sendRequest(HttpMethod.PUT,
                 "user/{parameters}", user_data, id);
-        UserApiMethods.deleteUser(id);
+        UserModel userRsp = getRestWrapper().convertResponseToModel(response, UserModel.class);
+        getInfo(response);
 
-        Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
-        Assertions.assertThat(response.jsonPath().getString("email")).isNotSameAs(user_data.get("email"));
+        softAssert.assertEquals(response.statusCode(), SC_BAD_REQUEST);
+        softAssert.assertNotEquals(userRsp.getEmail(), user_data.get("email"));
+        softAssert.assertAll();
     }
 }
