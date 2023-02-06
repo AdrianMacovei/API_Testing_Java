@@ -7,6 +7,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 @Getter
 @Setter
@@ -28,7 +29,12 @@ public class PostModel {
 
     private String link;
 
-    private Date publishDate;
+//    private Date publishDate;
+    private String publishDate;
+
+//    private Date updatedDate;
+    private String updatedDate;
+
 
     @JsonProperty(required = true)
     private UserModel owner;
@@ -38,20 +44,29 @@ public class PostModel {
 
     }
 
-    public PostModel(String text, String image, int likes, ArrayList<String> tags, UserModel owner)
+    public PostModel(String text, String image, int likes, ArrayList<String> tags, String link, UserModel user)
     {
         this.image = image;
         this.likes = likes;
         this.tags = tags;
         this.text = text;
-        this.owner = owner;
+        this.owner = user;
+        this.link = link;
     }
 
-    public static PostModel generateRandomPost(UserModel userModel)
+    public static HashMap<String, Object> generateRandomPost(UserModel userModel)
     {
-        ArrayList<String> randomTags = new ArrayList<>();
-        randomTags.add("image"); randomTags.add("life");
-        return new PostModel("Some image in my post", "https://loremflickr.com/320/240",
-                0, randomTags, userModel);
+//        ArrayList<String> randomTags = new ArrayList<>();
+//        randomTags.add("image"); randomTags.add("life");
+//        return new PostModel("Some image in my post", "https://loremflickr.com/320/240",
+//                0, randomTags, "some link", userModel);
+        HashMap<String, Object> newPost = new HashMap<>();
+        newPost.put("image", "https://loremflickr.com/320/240");
+        newPost.put("like", 0);
+        newPost.put("tags", RandomStringUtils.random(4, true, false));
+        newPost.put("text", RandomStringUtils.random(10, true, false));
+        newPost.put("owner", userModel.getId());
+        newPost.put("link", RandomStringUtils.random(4, true, false));
+        return newPost;
     }
 }

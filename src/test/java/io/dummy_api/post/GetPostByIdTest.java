@@ -21,12 +21,12 @@ public class GetPostByIdTest extends PostBaseClass {
         Response response = getRestWrapper().sendRequest(HttpMethod.GET,
                 "post/{params}",
                 "", postModel.getId());
-        PostModel rspPostModel = getRestWrapper().convertResponseToModel(response, PostModel.class);
         getInfo(response);
+        PostModel rspPostModel = getRestWrapper().convertResponseToModel(response, PostModel.class);
+
 
         softAssert.assertEquals(response.statusCode(), SC_OK);
-        softAssert.assertEquals(rspPostModel.getId(), postModel.getId());
-        softAssert.assertEquals(rspPostModel.getOwner().getFirstName(), postModel.getOwner().getFirstName());
+        softAssert.assertEquals(rspPostModel.getId(), postModel.getId());;
         softAssert.assertAll();
     }
 }

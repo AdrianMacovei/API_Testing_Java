@@ -43,7 +43,7 @@ public class PostNewUserTest extends ApiBaseClass {
         softAssert.assertAll();
     }
 
-    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_all_fields_valid_data")
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_all_fields_valid_data", groups = {"user_test"})
     void testCreateUserWithValidDataInAllAvailableFields(HashMap<String, Object> user) {
         Response response = getRestWrapper().sendRequest(HttpMethod.POST,
                 "user/create", user, "");
@@ -54,6 +54,20 @@ public class PostNewUserTest extends ApiBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_create_all_fields_invalid_data", groups = {"user_test"})
     void testCreateUserWithInvalidDataInAllAvailableFields(HashMap<String, Object> user_data) {
+        Response response = getRestWrapper().sendRequest(HttpMethod.POST,
+                "user/create", user_data, "");
+        getInfo(response);
+
+        Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
+    }
+
+    @Test(groups = {"user_test"})
+    void testCreateUserXssInjection() {
+        HashMap<String, String> user_data = new HashMap<>();
+        user_data.put("firstName", "<script>alert(\"XSS\")</script>");
+        user_data.put("lastName", "<script>alert(\"XSS\")</script>");
+        user_data.put("email", "adrianmacovei342@gmail.com");
+
         Response response = getRestWrapper().sendRequest(HttpMethod.POST,
                 "user/create", user_data, "");
         getInfo(response);

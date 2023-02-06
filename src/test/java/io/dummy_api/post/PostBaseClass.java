@@ -1,13 +1,10 @@
 package io.dummy_api.post;
 
 import io.dummy_api.ApiBaseClass;
-import io.dummy_api.models.PostModel;
-import io.dummy_api.models.PostsCollection;
-import io.dummy_api.models.UserModel;
-import io.dummy_api.models.UsersCollection;
+import io.dummy_api.models.*;
 import io.restassured.response.Response;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.HttpMethod;
+import org.testng.annotations.AfterMethod;
 
 import java.util.Random;
 
@@ -22,7 +19,7 @@ public class PostBaseClass extends ApiBaseClass {
         return users.getData().get(random.nextInt(19));
     }
 
-    protected Response createNewPost(PostModel postData)
+    protected Response createNewPost(CreateBodyPostModel postData)
     {
         return getRestWrapper().sendRequest(HttpMethod.POST, "post/create", postData, "");
     }
@@ -33,5 +30,35 @@ public class PostBaseClass extends ApiBaseClass {
         PostsCollection postModel = getRestWrapper().convertResponseToModel(response, PostsCollection.class);
         Random random = new Random();
         return postModel.getData().get(random.nextInt(19));
+    }
+
+    protected UserModel createRandomUserInDb(){
+        UserModel newUser = UserModel.generateRandomUser();
+        Response response = getRestWrapper().sendRequest(HttpMethod.POST,
+                "user/create", newUser, "");
+        return getRestWrapper().convertResponseToModel(response, UserModel.class);
+    }
+
+    protected Response deletePost(String postId)
+    {
+       return getRestWrapper().sendRequest(HttpMethod.DELETE, "post/{params}", "", postId);
+    }
+
+    protected PostsCollection getCreatedPosts()
+    {
+        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "post?{params}", "", "created=50");
+        return getRestWrapper().convertResponseToModel(response, PostsCollection.class);
+    }
+    @AfterMethod
+    public void tearDown()
+    {
+        // delete created posts from DB
+        PostsCollection newPostCollection = getCreatedPosts();
+        int total = newPostCollection.getTotal();
+        for (int i=0; i<total; i++)
+        {
+            PostModel post = newPostCollection.getData().get(i);
+            deletePost(post.getId());
+        }
     }
 }

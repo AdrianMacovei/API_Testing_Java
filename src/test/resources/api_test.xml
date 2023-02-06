@@ -22,4 +22,28 @@
         </classes>
 
     </test>
+
+    <test name="Test Post Endpoint">
+
+        <classes>
+            <class name="io.dummy_api.post.DeletePostTest">
+
+            </class>
+
+            <class name="io.dummy_api.post.CreatePostTest">
+
+            </class>
+
+            <class name="io.dummy_api.post.GetAllPostsTest">
+
+            </class>
+
+            <class name="io.dummy_api.post.GetPostsByUserTest">
+
+            </class>
+        </classes>
+
+    </test>
+
+
 </suite>

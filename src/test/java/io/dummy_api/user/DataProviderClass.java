@@ -3,6 +3,7 @@ package io.dummy_api.user;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.DataProvider;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
@@ -227,7 +228,10 @@ public class DataProviderClass {
         validDataAllFieldsMaxRange.put("gender", "female");
         validDataAllFieldsMaxRange.put("email",
                 RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
-        validDataAllFieldsMaxRange.put("dateOfBirth", "01/30/2023");
+        LocalDateTime todayDate = LocalDateTime.now();
+        LocalDateTime date = todayDate.minusHours(4);
+        String date_for = date.toString();
+        validDataAllFieldsMaxRange.put("dateOfBirth", date_for);
         validDataAllFieldsMaxRange.put("phone", RandomStringUtils.random(20, false, true));
         validDataAllFieldsMaxRange.put("picture", "https://unsplash.com/photos/rDEOVtE7vOs");
         HashMap<String, String> location2 = new HashMap<>();
@@ -265,7 +269,7 @@ public class DataProviderClass {
         invalidDataInDateOfBirthLessThanMin.put("lastName", RandomStringUtils.random(15, true, false));
         invalidDataInDateOfBirthLessThanMin.put("email",
                 RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
-        invalidDataInDateOfBirthLessThanMin.put("dateOfBirth", "31/12/1899");
+        invalidDataInDateOfBirthLessThanMin.put("dateOfBirth", "12/31/1899");
 
         HashMap<String, Object> invalidDataInDateOfBirthBiggerThanMax = new HashMap<>();
         invalidDataInDateOfBirthBiggerThanMax.put("firstName", RandomStringUtils.random(15, true, false));
@@ -275,18 +279,13 @@ public class DataProviderClass {
         LocalDateTime todayDate = LocalDateTime.now();
         LocalDateTime date = todayDate.plusDays(1);
         String date_for = date.toString();
-
-//        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//        Date currentDate = new Date();
-//        currentDate1 = dateFormat.format(currentDate);
-
-
         invalidDataInDateOfBirthBiggerThanMax.put("dateOfBirth", date_for);
 
         return new HashMap[][]{
                 {invalidDataInTitle},
                 {invalidDataInGender},
                 {invalidDataInDateOfBirthLessThanMin},
+                {invalidDataInDateOfBirthBiggerThanMax},
 
 
         };
