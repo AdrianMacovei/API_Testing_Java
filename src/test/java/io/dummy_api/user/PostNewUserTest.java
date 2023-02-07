@@ -1,6 +1,5 @@
 package io.dummy_api.user;
 
-import io.dummy_api.ApiBaseClass;
 import io.dummy_api.models.ErrorModel;
 import io.dummy_api.models.UserModel;
 import io.restassured.module.jsv.JsonSchemaValidator;
@@ -14,13 +13,13 @@ import java.util.HashMap;
 import static org.apache.http.HttpStatus.*;
 
 
-public class PostNewUserTest extends ApiBaseClass {
+public class PostNewUserTest extends UserBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_valid_data", groups = {"user_test"})
     void testCreateUserWithValidFistNameLastNameAndEmail(HashMap<String, String> user_data) {
-        Response response = getRestWrapper().sendRequest(HttpMethod.POST,
+        Response response = restWrapper.sendRequest(HttpMethod.POST,
                 "user/create", user_data, "");
-        UserModel userRsp = getRestWrapper().convertResponseToModel(response, UserModel.class);
+        UserModel userRsp = restWrapper.convertResponseToModel(response, UserModel.class);
         getInfo(response);
 
         softAssert.assertEquals(response.statusCode(), SC_CREATED);
@@ -33,46 +32,61 @@ public class PostNewUserTest extends ApiBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_user_data", groups = {"user_test"})
     void testCreateAUserWithInvalidData(HashMap<String, String> user) {
-        Response response = getRestWrapper().sendRequest(HttpMethod.POST,
+        Response response = restWrapper.sendRequest(HttpMethod.POST,
                 "user/create", user, "");
         getInfo(response);
-        ErrorModel errorRsp = getRestWrapper().convertResponseToModel(response, ErrorModel.class);
+        ErrorModel errorRsp = restWrapper.convertResponseToModel(response, ErrorModel.class);
 
         softAssert.assertEquals(response.statusCode(), SC_BAD_REQUEST);
         softAssert.assertEquals(errorRsp.getError(), "BODY_NOT_VALID");
-        softAssert.assertAll();
+        verifyErrorDataMessageForRequiredFields(user, errorRsp);
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_all_fields_valid_data", groups = {"user_test"})
-    void testCreateUserWithValidDataInAllAvailableFields(HashMap<String, Object> user) {
-        Response response = getRestWrapper().sendRequest(HttpMethod.POST,
-                "user/create", user, "");
+    void testCreateUserWithValidDataInAllAvailableFields(HashMap<String, Object> user_data) {
+        Response response = restWrapper.sendRequest(HttpMethod.POST,
+                "user/create", user_data, "");
         getInfo(response);
 
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_OK);
+        UserModel userModel = restWrapper.convertResponseToModel(response, UserModel.class);
+        softAssert.assertEquals(userModel.getTitle(), user_data.get("title"));
+        softAssert.assertEquals(userModel.getPhone(), user_data.get("phone"));
+        softAssert.assertEquals(userModel.getGender(), user_data.get("gender"));
+        softAssert.assertAll();
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_create_all_fields_invalid_data", groups = {"user_test"})
     void testCreateUserWithInvalidDataInAllAvailableFields(HashMap<String, Object> user_data) {
-        Response response = getRestWrapper().sendRequest(HttpMethod.POST,
+        Response response = restWrapper.sendRequest(HttpMethod.POST,
+                "user/create", user_data, "");
+        getInfo(response);
+
+        Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
+        ErrorModel errorRsp = restWrapper.convertResponseToModel(response, ErrorModel.class);
+        Assertions.assertThat(errorRsp.getError()).isEqualTo("BODY_NOT_VALID");
+        verifyErrorDataNonRequiredFieldsUserCreate(user_data, errorRsp);
+    }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "create_user_xss_inj",
+            groups = {"user_test"})
+    void testCreateUserXssInjection(HashMap<String, String> user_data) {
+        Response response = restWrapper.sendRequest(HttpMethod.POST,
                 "user/create", user_data, "");
         getInfo(response);
 
         Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
     }
 
-    @Test(groups = {"user_test"})
-    void testCreateUserXssInjection() {
-        HashMap<String, String> user_data = new HashMap<>();
-        user_data.put("firstName", "<script>alert(\"XSS\")</script>");
-        user_data.put("lastName", "<script>alert(\"XSS\")</script>");
-        user_data.put("email", "adrianmacovei342@gmail.com");
-
-        Response response = getRestWrapper().sendRequest(HttpMethod.POST,
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_valid_data", groups = {"user_test"})
+    void testCreateUserWithNoAppId(HashMap<String, String> user_data) {
+        Response response = restWrapperNoId.sendRequest(HttpMethod.POST,
                 "user/create", user_data, "");
+        ErrorModel userRsp = restWrapperNoId.convertResponseToModel(response, ErrorModel.class);
         getInfo(response);
 
-        Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
+        softAssert.assertEquals(response.statusCode(), SC_FORBIDDEN);
+        softAssert.assertEquals(userRsp.getError(), "APP_ID_MISSING");
+        softAssert.assertAll();
     }
-
 }

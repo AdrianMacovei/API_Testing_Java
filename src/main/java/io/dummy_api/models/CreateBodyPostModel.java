@@ -47,7 +47,6 @@ public class CreateBodyPostModel {
         this.link = link;
     }
 
-
     public static CreateBodyPostModel generateRandomPostBody(UserModel userModel) {
         ArrayList<String> randomTags = new ArrayList<>();
         randomTags.add(" " + RandomStringUtils.random(4, true, false));

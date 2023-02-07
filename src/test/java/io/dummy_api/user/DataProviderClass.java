@@ -1,9 +1,9 @@
 package io.dummy_api.user;
 
+import io.dummy_api.enums.Gender;
+import io.dummy_api.enums.Title;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.DataProvider;
-
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
@@ -29,12 +29,12 @@ public class DataProviderClass {
     @DataProvider(name = "valid_page_values")
     public static Object[][] createValidDataPageParam() {
         return new Integer[][]{
-                {0}, {999}
+                {0}, {999}, {43}, {44}, {4}, {5}
         };
     }
 
     @DataProvider(name = "invalid_page_values")
-    public static Object[][] createinvalidDataPageParam() {
+    public static Object[][] createInvalidDataPageParam() {
         return new Object[][]{
                 {-1}, {1000}, {"something"}, {45.564}, {false}
         };
@@ -43,7 +43,7 @@ public class DataProviderClass {
     @DataProvider(name = "valid_limit_values")
     public static Object[][] createValidDataLimitParam() {
         return new Integer[][]{
-                {5}, {50}
+                {5}, {50}, {25}
         };
     }
 
@@ -204,14 +204,14 @@ public class DataProviderClass {
     @DataProvider(name = "user_all_fields_valid_data")
     public static Object[][] createValidDataForAllFields() {
         HashMap<String, Object> validDataAllFieldsMinRange = new HashMap<>();
-        validDataAllFieldsMinRange.put("title", "mr");
+        validDataAllFieldsMinRange.put("title", Title.MS.getTitleType());
         validDataAllFieldsMinRange.put("firstName", "Ma");
         validDataAllFieldsMinRange.put("lastName", "Ad");
-        validDataAllFieldsMinRange.put("gender", "male");
+        validDataAllFieldsMinRange.put("gender", Gender.MALE.getGenderType());
         validDataAllFieldsMinRange.put("email",
                 RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
         validDataAllFieldsMinRange.put("dateOfBirth", "1/1/1900");
-        validDataAllFieldsMinRange.put("phone", RandomStringUtils.random(10, false, true));
+        validDataAllFieldsMinRange.put("phone", RandomStringUtils.random(5, false, true));
         validDataAllFieldsMinRange.put("picture", "https://unsplash.com/photos/rDEOVtE7vOs");
         HashMap<String, String> location1 = new HashMap<>();
         location1.put("street", RandomStringUtils.random(5, true, true));
@@ -222,15 +222,13 @@ public class DataProviderClass {
         validDataAllFieldsMinRange.put("location", location1);
 
         HashMap<String, Object> validDataAllFieldsMaxRange = new HashMap<>();
-        validDataAllFieldsMaxRange.put("title", "ms");
+        validDataAllFieldsMaxRange.put("title", Title.DR.getTitleType());
         validDataAllFieldsMaxRange.put("firstName", RandomStringUtils.random(30, true, false));
         validDataAllFieldsMaxRange.put("lastName", RandomStringUtils.random(30, true, false));
-        validDataAllFieldsMaxRange.put("gender", "female");
+        validDataAllFieldsMaxRange.put("gender", Gender.OTHER.getGenderType());
         validDataAllFieldsMaxRange.put("email",
                 RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
-        LocalDateTime todayDate = LocalDateTime.now();
-        LocalDateTime date = todayDate.minusHours(4);
-        String date_for = date.toString();
+        String date_for = LocalDateTime.now().minusHours(10).toString();
         validDataAllFieldsMaxRange.put("dateOfBirth", date_for);
         validDataAllFieldsMaxRange.put("phone", RandomStringUtils.random(20, false, true));
         validDataAllFieldsMaxRange.put("picture", "https://unsplash.com/photos/rDEOVtE7vOs");
@@ -242,9 +240,61 @@ public class DataProviderClass {
         location2.put("timezone", "+9:00");
         validDataAllFieldsMaxRange.put("location", location2);
 
+        HashMap<String, Object> validDataTitleMrGenderFemale = new HashMap<>();
+        validDataTitleMrGenderFemale.put("title", Title.MR.getTitleType());
+        validDataTitleMrGenderFemale.put("firstName", RandomStringUtils.random(30, true, false));
+        validDataTitleMrGenderFemale.put("lastName", RandomStringUtils.random(30, true, false));
+        validDataTitleMrGenderFemale.put("gender", Gender.FEMALE.getGenderType());
+        validDataTitleMrGenderFemale.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+        validDataTitleMrGenderFemale.put("dateOfBirth", date_for);
+        validDataTitleMrGenderFemale.put("phone", RandomStringUtils.random(20, false, true));
+        validDataTitleMrGenderFemale.put("picture", "https://unsplash.com/photos/rDEOVtE7vOs");
+        validDataTitleMrGenderFemale.put("location", location2);
+
+        HashMap<String, Object> validDataTitleMrsGenderEmpty = new HashMap<>();
+        validDataTitleMrsGenderEmpty.put("title", Title.MRS.getTitleType());
+        validDataTitleMrsGenderEmpty.put("firstName", RandomStringUtils.random(30, true, false));
+        validDataTitleMrsGenderEmpty.put("lastName", RandomStringUtils.random(30, true, false));
+        validDataTitleMrsGenderEmpty.put("gender", Gender.EMPTY.getGenderType());
+        validDataTitleMrsGenderEmpty.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+        validDataTitleMrsGenderEmpty.put("dateOfBirth", date_for);
+        validDataTitleMrsGenderEmpty.put("phone", RandomStringUtils.random(20, false, true));
+        validDataTitleMrsGenderEmpty.put("picture", "https://unsplash.com/photos/rDEOVtE7vOs");
+        validDataTitleMrsGenderEmpty.put("location", location1);
+
+        HashMap<String, Object> validDataTitleMissGenderEmpty = new HashMap<>();
+        validDataTitleMissGenderEmpty.put("title", Title.MISS.getTitleType());
+        validDataTitleMissGenderEmpty.put("firstName", RandomStringUtils.random(30, true, false));
+        validDataTitleMissGenderEmpty.put("lastName", RandomStringUtils.random(30, true, false));
+        validDataTitleMissGenderEmpty.put("gender", Gender.MALE.getGenderType());
+        validDataTitleMissGenderEmpty.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+        validDataTitleMissGenderEmpty.put("dateOfBirth", date_for);
+        validDataTitleMissGenderEmpty.put("phone", RandomStringUtils.random(20, false, true));
+        validDataTitleMissGenderEmpty.put("picture", "https://unsplash.com/photos/rDEOVtE7vOs");
+        validDataTitleMissGenderEmpty.put("location", location2);
+
+        HashMap<String, Object> validDataTitleEmptyGenderEmpty = new HashMap<>();
+        validDataTitleEmptyGenderEmpty.put("title", Title.EMPTY.getTitleType());
+        validDataTitleEmptyGenderEmpty.put("firstName", RandomStringUtils.random(30, true, false));
+        validDataTitleEmptyGenderEmpty.put("lastName", RandomStringUtils.random(30, true, false));
+        validDataTitleEmptyGenderEmpty.put("gender", Gender.MALE.getGenderType());
+        validDataTitleEmptyGenderEmpty.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+        validDataTitleEmptyGenderEmpty.put("dateOfBirth", date_for);
+        validDataTitleEmptyGenderEmpty.put("phone", RandomStringUtils.random(20, false, true));
+        validDataTitleEmptyGenderEmpty.put("picture", "https://unsplash.com/photos/rDEOVtE7vOs");
+        validDataTitleEmptyGenderEmpty.put("location", location1);
+
         return new HashMap[][]{
                 {validDataAllFieldsMinRange},
                 {validDataAllFieldsMaxRange},
+                {validDataTitleMrGenderFemale},
+                {validDataTitleMrsGenderEmpty},
+                {validDataTitleMissGenderEmpty},
+                {validDataTitleEmptyGenderEmpty},
         };
     }
 
@@ -281,13 +331,88 @@ public class DataProviderClass {
         String date_for = date.toString();
         invalidDataInDateOfBirthBiggerThanMax.put("dateOfBirth", date_for);
 
+        HashMap<String, Object> invalidDataInPhoneBiggerThanMax = new HashMap<>();
+        invalidDataInPhoneBiggerThanMax.put("firstName", RandomStringUtils.random(15, true, false));
+        invalidDataInPhoneBiggerThanMax.put("lastName", RandomStringUtils.random(15, true, false));
+        invalidDataInPhoneBiggerThanMax.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+        invalidDataInPhoneBiggerThanMax.put("phone", RandomStringUtils.random(21, false, true));
+
+        HashMap<String, Object> invalidDataInPhoneMinValue = new HashMap<>();
+        invalidDataInPhoneMinValue.put("firstName", RandomStringUtils.random(15, true, false));
+        invalidDataInPhoneMinValue.put("lastName", RandomStringUtils.random(15, true, false));
+        invalidDataInPhoneMinValue.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+        invalidDataInPhoneMinValue.put("phone", RandomStringUtils.random(4, false, true));
+
+        HashMap<String, Object> invalidDataInLocationFieldsMinRange= new HashMap<>();
+        invalidDataInLocationFieldsMinRange.put("firstName", RandomStringUtils.random(15, true, false));
+        invalidDataInLocationFieldsMinRange.put("lastName", RandomStringUtils.random(15, true, false));
+        invalidDataInLocationFieldsMinRange.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+        HashMap<String, Object> locationFieldsMin= new HashMap<>();
+        locationFieldsMin.put("street", RandomStringUtils.random(4, true, false));
+        locationFieldsMin.put("city", RandomStringUtils.random(1, true, false));
+        locationFieldsMin.put("state", RandomStringUtils.random(1, true, false));
+        locationFieldsMin.put("country", RandomStringUtils.random(1, true, false));
+        locationFieldsMin.put("timezone","-13:00");
+        invalidDataInLocationFieldsMinRange.put("location", locationFieldsMin);
+
+        HashMap<String, Object> invalidDataInLocationFieldsMaxRange= new HashMap<>();
+        invalidDataInLocationFieldsMaxRange.put("firstName", RandomStringUtils.random(15, true, false));
+        invalidDataInLocationFieldsMaxRange.put("lastName", RandomStringUtils.random(15, true, false));
+        invalidDataInLocationFieldsMaxRange.put("email",
+                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+        HashMap<String, Object> locationFieldsMax= new HashMap<>();
+        locationFieldsMax.put("street", RandomStringUtils.random(101, true, false));
+        locationFieldsMax.put("city", RandomStringUtils.random(31, true, false));
+        locationFieldsMax.put("state", RandomStringUtils.random(31, true, false));
+        locationFieldsMax.put("country", RandomStringUtils.random(31, true, false));
+        locationFieldsMax.put("timezone","+15:00");
+        invalidDataInLocationFieldsMaxRange.put("location", locationFieldsMax);
+
         return new HashMap[][]{
                 {invalidDataInTitle},
                 {invalidDataInGender},
                 {invalidDataInDateOfBirthLessThanMin},
                 {invalidDataInDateOfBirthBiggerThanMax},
-
-
+                {invalidDataInPhoneBiggerThanMax},
+                {invalidDataInPhoneMinValue},
+                {invalidDataInLocationFieldsMinRange},
+                {invalidDataInLocationFieldsMaxRange},
         };
     }
+
+    @DataProvider(name = "update_only_email")
+    public static Object[][] createDataUpdateEmail() {
+        HashMap<String, String> user_data = new HashMap<>();
+        user_data.put("firstName", "Adrian");
+        user_data.put("lastName", "Macovei");
+        user_data.put("email", RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+        return new HashMap[][]{
+                {user_data},
+        };
+    }
+
+    @DataProvider(name = "create_user_xss_inj")
+    public static Object[][] createDataXssInjOnCreateUser() {
+        HashMap<String, String> user_data = new HashMap<>();
+        user_data.put("firstName", "<script>alert(\"XSS\")</script>");
+        user_data.put("lastName", "<script>alert(\"XSS\")</script>");
+        user_data.put("email", "adrianmacovei342@gmail.com");
+        return new HashMap[][]{
+                {user_data},
+        };
+    }
+
+    @DataProvider(name = "update_user_xss_inj")
+    public static Object[][] createDataXssInjOnUpdateUser() {
+        HashMap<String, String> user_data = new HashMap<>();
+        user_data.put("firstName", "<script>alert(\"XSS\")</script>");
+        user_data.put("lastName", "<script>alert(\"XSS\")</script>");
+        return new HashMap[][]{
+                {user_data},
+        };
+    }
+
 }

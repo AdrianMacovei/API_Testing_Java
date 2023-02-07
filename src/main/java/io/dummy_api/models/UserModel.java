@@ -28,7 +28,7 @@ public class UserModel {
 
     private URL picture;
 
-    private Date dateOfBirth;
+    private String dateOfBirth;
 
     private Date registerDate;
 

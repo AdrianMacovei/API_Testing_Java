@@ -1,6 +1,5 @@
 package io.dummy_api.user;
 
-import io.dummy_api.ApiBaseClass;
 import io.dummy_api.models.ErrorModel;
 import io.dummy_api.models.UserModel;
 import io.dummy_api.models.UsersCollection;
@@ -12,12 +11,12 @@ import org.testng.annotations.Test;
 
 import static org.apache.http.HttpStatus.*;
 
-public class GetUsersTest extends ApiBaseClass {
+public class GetUsersTest extends UserBaseClass {
 
     @Test(groups = {"user_test"})
-    void getUsersListWithValidAppId() {
-        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "user", "", "");
-        UsersCollection user = getRestWrapper().convertResponseToModel(response, UsersCollection.class);
+    void testGetUsersListWithValidAppId() {
+        Response response = restWrapper.sendRequest(HttpMethod.GET, "user", "", "");
+        UsersCollection user = restWrapper.convertResponseToModel(response, UsersCollection.class);
         getInfo(response);
 
         softAssert.assertEquals(user.getData().size(), 20);
@@ -27,10 +26,10 @@ public class GetUsersTest extends ApiBaseClass {
     }
 
     @Test(groups = {"user_test"})
-    void getUsersWithInvalidAppId() {
-        Response response = getRestWrapperNoId().sendRequest(HttpMethod.GET, "user", "", "");
+    void testGetUsersWithInvalidAppId() {
+        Response response = restWrapperNoId.sendRequest(HttpMethod.GET, "user", "", "");
         getInfo(response);
-        ErrorModel error = getRestWrapper().convertResponseToModel(response, ErrorModel.class);
+        ErrorModel error = restWrapper.convertResponseToModel(response, ErrorModel.class);
 
         softAssert.assertEquals(error.getError(), "APP_ID_MISSING");
         softAssert.assertEquals(response.statusCode(), SC_FORBIDDEN);
@@ -38,11 +37,11 @@ public class GetUsersTest extends ApiBaseClass {
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "valid_limit_values", groups = {"user_test"})
-    void getUsersWithValidLimitParam(int limitValue) {
-        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "user?limit={parameters}", "",
+    void testGetUsersWithValidLimitParam(int limitValue) {
+        Response response = restWrapper.sendRequest(HttpMethod.GET, "user?limit={parameters}", "",
                 limitValue);
         getInfo(response);
-        UsersCollection user = getRestWrapper().convertResponseToModel(response, UsersCollection.class);
+        UsersCollection user = restWrapper.convertResponseToModel(response, UsersCollection.class);
 
         softAssert.assertEquals(response.statusCode(), SC_OK);
         softAssert.assertEquals(user.getData().size(), user.getLimit());
@@ -50,8 +49,8 @@ public class GetUsersTest extends ApiBaseClass {
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_limit_values", groups = {"user_test"})
-    void getUsersWithInvalidLimitParam(Object limitValue) {
-        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "user?limit={parameters}", "",
+    void testGetUsersWithInvalidLimitParam(Object limitValue) {
+        Response response = restWrapper.sendRequest(HttpMethod.GET, "user?limit={parameters}", "",
                 limitValue);
         getInfo(response);
 
@@ -59,11 +58,11 @@ public class GetUsersTest extends ApiBaseClass {
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "valid_page_values", groups = {"user_test"})
-    void getUsersWithValidPageParam(int pageValue) {
-        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "user?page={parameters}", "",
+    void testGetUsersWithValidPageParam(int pageValue) {
+        Response response = restWrapper.sendRequest(HttpMethod.GET, "user?page={parameters}", "",
                 pageValue);
         getInfo(response);
-        UsersCollection user = getRestWrapper().convertResponseToModel(response, UsersCollection.class);
+        UsersCollection user = restWrapper.convertResponseToModel(response, UsersCollection.class);
 
         softAssert.assertEquals(response.statusCode(), SC_OK);
         softAssert.assertEquals(user.getPage(), pageValue);
@@ -72,8 +71,8 @@ public class GetUsersTest extends ApiBaseClass {
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_page_values", groups = {"user_test"})
-    void getUsersWithInvalidPageParam(Object pageValue) {
-        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "user?page={parameters}", "",
+    void testGetUsersWithInvalidPageParam(Object pageValue) {
+        Response response = restWrapper.sendRequest(HttpMethod.GET, "user?page={parameters}", "",
                 pageValue);
         getInfo(response);
 
@@ -81,11 +80,11 @@ public class GetUsersTest extends ApiBaseClass {
     }
 
     @Test(groups = {"user_test"})
-    void getUsersWithValidPageAndLimitParameters() {
-        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "user?limit={parameters}&page=1", "",
+    void testGetUsersWithValidPageAndLimitParameters() {
+        Response response = restWrapper.sendRequest(HttpMethod.GET, "user?limit={parameters}&page=1", "",
                 6);
         getInfo(response);
-        UsersCollection user = getRestWrapper().convertResponseToModel(response, UsersCollection.class);
+        UsersCollection user = restWrapper.convertResponseToModel(response, UsersCollection.class);
 
         softAssert.assertEquals(response.statusCode(), SC_OK);
         softAssert.assertEquals(user.getLimit(), 6);
@@ -96,11 +95,11 @@ public class GetUsersTest extends ApiBaseClass {
     }
 
     @Test(groups = {"user_test"})
-    void getUserWithValidId() {
+    void testGetUserWithValidId() {
         UserModel newUser = UserModel.generateRandomUser();
-        String newUserId = UserApiMethods.createUser(newUser);
-        Response response = UserApiMethods.getUser(newUserId);
-        UserModel userRsp = getRestWrapper().convertResponseToModel(response, UserModel.class);
+        String newUserId = createUser(newUser);
+        Response response = getUser(newUserId);
+        UserModel userRsp = restWrapper.convertResponseToModel(response, UserModel.class);
         getInfo(response);
 
         softAssert.assertEquals(response.statusCode(), SC_OK);
@@ -114,13 +113,13 @@ public class GetUsersTest extends ApiBaseClass {
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_ids", groups = {"user_test"})
-    void getUserWithInvalidId(String id) {
-        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "user/{parameters}", "",
+    void testGetUserWithInvalidId(String id) {
+        Response response = restWrapper.sendRequest(HttpMethod.GET, "user/{parameters}", "",
                 id);
-        ErrorModel userError = getRestWrapper().convertResponseToModel(response, ErrorModel.class);
+        ErrorModel userError = restWrapper.convertResponseToModel(response, ErrorModel.class);
         getInfo(response);
 
-        if (id.length() == 24) {
+        if (id.length() == 24 && id.matches("\\d+")) {
             softAssert.assertEquals(response.statusCode(), SC_NOT_FOUND);
             softAssert.assertEquals(userError.getError(), "RESOURCE_NOT_FOUND");
         } else {
@@ -138,12 +137,12 @@ public class GetUsersTest extends ApiBaseClass {
     }
 
     @Test(groups = {"user_test"})
-    void getCreatedUsers() {
-        String id1 = UserApiMethods.createUser(UserModel.generateRandomUser());
-        String id2 = UserApiMethods.createUser(UserModel.generateRandomUser());
-        Response response = getRestWrapper().sendRequest(HttpMethod.GET,
-                "user?created=2", "", "");
-        UsersCollection users = getRestWrapper().convertResponseToModel(response, UsersCollection.class);
+    void testGetCreatedUsers() {
+        String id1 = createUser(UserModel.generateRandomUser());
+        String id2 = createUser(UserModel.generateRandomUser());
+        Response response = restWrapper.sendRequest(HttpMethod.GET,
+                "user?created=2","", "");
+        UsersCollection users = restWrapper.convertResponseToModel(response, UsersCollection.class);
         getInfo(response);
 
         softAssert.assertEquals(response.statusCode(), SC_OK);

@@ -16,10 +16,10 @@ public class CreatePostTest extends PostBaseClass {
     {
         UserModel user = createRandomUserInDb();
         CreateBodyPostModel newPostBody = CreateBodyPostModel.generateRandomPostBody(user);
-        Response response = getRestWrapper().sendRequest(HttpMethod.POST,
+        Response response = restWrapper.sendRequest(HttpMethod.POST,
                 "post/create",
                 newPostBody, "");
-        PostModel postModel = getRestWrapper().convertResponseToModel(response, PostModel.class);
+        PostModel postModel = restWrapper.convertResponseToModel(response, PostModel.class);
         getInfo(response);
 
         softAssert.assertEquals(response.statusCode(), SC_CREATED);

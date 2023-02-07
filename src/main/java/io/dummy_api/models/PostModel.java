@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 @Getter
@@ -27,6 +26,7 @@ public class PostModel {
     @JsonProperty(required = true)
     private String text;
 
+    @JsonProperty(required = true)
     private String link;
 
 //    private Date publishDate;
@@ -53,6 +53,7 @@ public class PostModel {
         this.owner = user;
         this.link = link;
     }
+
 
     public static HashMap<String, Object> generateRandomPost(UserModel userModel)
     {

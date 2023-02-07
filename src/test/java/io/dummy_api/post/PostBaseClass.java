@@ -12,45 +12,45 @@ public class PostBaseClass extends ApiBaseClass {
 
     protected UserModel getRandomUserId()
     {
-        Response response = getRestWrapper().sendRequest(HttpMethod.GET,
+        Response response = restWrapper.sendRequest(HttpMethod.GET,
                 "user", "", "");
-        UsersCollection users = getRestWrapper().convertResponseToModel(response, UsersCollection.class);
+        UsersCollection users = restWrapper.convertResponseToModel(response, UsersCollection.class);
         Random random = new Random();
         return users.getData().get(random.nextInt(19));
     }
 
     protected Response createNewPost(CreateBodyPostModel postData)
     {
-        return getRestWrapper().sendRequest(HttpMethod.POST, "post/create", postData, "");
+        return restWrapper.sendRequest(HttpMethod.POST, "post/create", postData, "");
     }
 
     protected PostModel getRandomPost()
     {
-        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "post", "", "");
-        PostsCollection postModel = getRestWrapper().convertResponseToModel(response, PostsCollection.class);
+        Response response = restWrapper.sendRequest(HttpMethod.GET, "post", "", "");
+        PostsCollection postModel = restWrapper.convertResponseToModel(response, PostsCollection.class);
         Random random = new Random();
         return postModel.getData().get(random.nextInt(19));
     }
 
     protected UserModel createRandomUserInDb(){
         UserModel newUser = UserModel.generateRandomUser();
-        Response response = getRestWrapper().sendRequest(HttpMethod.POST,
+        Response response = restWrapper.sendRequest(HttpMethod.POST,
                 "user/create", newUser, "");
-        return getRestWrapper().convertResponseToModel(response, UserModel.class);
+        return restWrapper.convertResponseToModel(response, UserModel.class);
     }
 
     protected Response deletePost(String postId)
     {
-       return getRestWrapper().sendRequest(HttpMethod.DELETE, "post/{params}", "", postId);
+       return restWrapper.sendRequest(HttpMethod.DELETE, "post/{params}", "", postId);
     }
 
     protected PostsCollection getCreatedPosts()
     {
-        Response response = getRestWrapper().sendRequest(HttpMethod.GET, "post?{params}", "", "created=50");
-        return getRestWrapper().convertResponseToModel(response, PostsCollection.class);
+        Response response = restWrapper.sendRequest(HttpMethod.GET, "post?{params}", "", "created=15");
+        return restWrapper.convertResponseToModel(response, PostsCollection.class);
     }
     @AfterMethod
-    public void tearDown()
+    public void tearDownPost()
     {
         // delete created posts from DB
         PostsCollection newPostCollection = getCreatedPosts();
