@@ -20,7 +20,6 @@ public class UserBaseClass extends ApiBaseClass {
     @AfterMethod(alwaysRun = true, onlyForGroups = {"user_test"})
     protected void tearDown() {
         Response response = getCreatedUsers();
-
         for (int i = 0; i < response.jsonPath().getList("data").size(); i++) {
             deleteUser(response.jsonPath().getString("data[" + i + "].id"));
         }
@@ -41,7 +40,7 @@ public class UserBaseClass extends ApiBaseClass {
     }
 
     public Response getCreatedUsers() {
-        return restWrapper.sendRequest(HttpMethod.GET, "users/{params}", "", "created = 1");
+        return restWrapper.sendRequest(HttpMethod.GET, "user?{params}", "", "created=1");
     }
 
     protected void verifyErrorDataMessageForRequiredFields(HashMap<String, String> user, ErrorModel errorRsp) {
