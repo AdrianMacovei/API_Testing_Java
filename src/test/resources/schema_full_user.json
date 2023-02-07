@@ -19,7 +19,7 @@
           "type": "string"
         },
         "picture": {
-          "type": "string",
+          "type": "string"
           "format": "uri",
           "qt-uri-protocols": [
             "https"
@@ -40,7 +40,7 @@
         },
         "phone": {
           "type": "string",
-          "format": "integer"
+          "format": "integer || null"
         },
         "location": {
           "$ref": "#/definitions/Location"
@@ -55,15 +55,11 @@
         }
       },
       "required": [
-        "dateOfBirth",
         "email",
         "firstName",
         "gender",
         "id",
         "lastName",
-        "location",
-        "phone",
-        "picture",
         "registerDate",
         "title",
         "updatedDate"
@@ -91,11 +87,6 @@
         }
       },
       "required": [
-        "city",
-        "country",
-        "state",
-        "street",
-        "timezone"
       ],
       "title": "Location"
     }
