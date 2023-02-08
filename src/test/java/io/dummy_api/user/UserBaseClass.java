@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 public class UserBaseClass extends ApiBaseClass {
+    protected static final String ERROR_MSG_BODY = "BODY_NOT_VALID";
 
     @AfterMethod(alwaysRun = true, onlyForGroups = {"user_test"})
     protected void tearDown() {

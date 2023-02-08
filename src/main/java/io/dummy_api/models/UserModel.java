@@ -26,7 +26,8 @@ public class UserModel {
 
     private String phone;
 
-    private URL picture;
+    //changed URL to String format
+    private String picture;
 
     private String dateOfBirth;
 
@@ -47,13 +48,22 @@ public class UserModel {
         this.lastName = lastName;
         this.email = email;
 
-    }public UserModel(String firstName, String lastName, String email, String gender, String title)
+    }
+    public UserModel(String firstName, String lastName, String email, String gender, String title)
     {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+        this(firstName, lastName, email);
         this.gender = gender;
         this.title = title;
+    }
+
+    public UserModel(String firstName, String lastName, String email, String gender, String title,
+                     String phone, String picture, String dateOfBirth, Location location)
+    {
+        this(firstName, lastName, email, gender, title);
+        this.phone = phone;
+        this.picture = picture;
+        this.dateOfBirth = dateOfBirth;
+        this.location = location;
     }
 
     public static UserModel generateRandomUser()
