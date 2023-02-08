@@ -2,12 +2,36 @@ package io.dummy_api.user;
 
 import io.dummy_api.enums.Gender;
 import io.dummy_api.enums.Title;
+import io.dummy_api.models.ErrorModel;
+import io.dummy_api.models.UserModel;
+import lombok.Getter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.DataProvider;
+
+import java.sql.Array;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.ErrorManager;
 
 public class DataProviderClass {
+
+    private static final String ERROR_DATA_MESSAGE_EMPTY_FIRST_NAME = "Path `firstName` is required.";
+    private static final String ERROR_DATA_MESSAGE_EMPTY_LAST_NAME = "Path `lastName` is required.";
+    private static final String ERROR_DATA_MESSAGE_EMPTY_EMAIL_NAME = "Path `email` is required.";
+    private static final String ERROR_DATA_MESSAGE_TOO_SHORT_FIRST_NAME =
+            "Path `firstName` (`%s`) is shorter than the minimum allowed length (2).";
+    private static final String ERROR_DATA_MESSAGE_TOO_SHORT_LAST_NAME =
+            "Path `lastName` (`%s`) is shorter than the minimum allowed length (2).";
+    private static final String ERROR_DATA_MESSAGE_TOO_LONG_LAST_NAME =
+            "Path `lastName` (`%s`) is longer than the maximum allowed length (30).";
+    private static final String ERROR_DATA_MESSAGE_TOO_LONG_FIRST_NAME =
+            "Path `firstName` (`%s`) is longer than the maximum allowed length (30).";
+    private static final String ERROR_DATA_MESSAGE_WRONG_FORMAT_EMAIL = "Path `email` is invalid (%s).";
+
+    private static final String DOMAIN1 = "@gmail.com";
+    private static final String DOMAIN2 = String.format("@%s.com",
+            RandomStringUtils.random(5, true, false));
 
     @DataProvider(name = "invalid_ids")
     public static Object[][] createDataIds() {
@@ -54,110 +78,228 @@ public class DataProviderClass {
         };
     }
 
-    @DataProvider(name = "invalid_user_data")
-    public static Object[][] createInvalidUser() {
-        HashMap<String, String> userWithoutFistName = new HashMap<>();
-        userWithoutFistName.put("lastName", "Macovei");
-        userWithoutFistName.put("email", "adrianmacovei1998@gmail.com");
+//    @DataProvider(name = "invalid_user_data")
+//    public static Object[][] createInvalidUser() {
+//        HashMap<String, String> userWithoutFistName = new HashMap<>();
+//        userWithoutFistName.put("lastName", "Macovei");
+//        userWithoutFistName.put("email", "adrianmacovei1998@gmail.com");
+//
+//        HashMap<String, String> userWithoutLastName = new HashMap<>();
+//        userWithoutLastName.put("firstName", "Adrian");
+//        userWithoutLastName.put("email", "adrianmacovei1998@gmail.com");
+//
+//        HashMap<String, String> userWithoutEmail = new HashMap<>();
+//        userWithoutEmail.put("firstName", "Adrian");
+//        userWithoutEmail.put("lastName", "Macovei");
+//
+//        HashMap<String, String> userWithoutEmailAndFirstName = new HashMap<>();
+//        userWithoutEmailAndFirstName.put("lastName", "Macovei");
+//
+//        HashMap<String, String> userWithoutEmailAndLastName = new HashMap<>();
+//        userWithoutEmailAndLastName.put("firstName", "Adrian");
+//
+//        HashMap<String, String> userWithoutFirstAndLastName = new HashMap<>();
+//        userWithoutFirstAndLastName.put("email", "adrianmacovei1999@gmail.com");
+//
+//        HashMap<String, String> userWithEmptyFields = new HashMap<>();
+//
+//        HashMap<String, String> userWithInvalidEmail = new HashMap<>();
+//        userWithInvalidEmail.put("firstName", "Adrian");
+//        userWithInvalidEmail.put("lastName", "Macovei");
+//        userWithInvalidEmail.put("email", RandomStringUtils.random(10, true, true).toLowerCase());
+//
+//        HashMap<String, String> userWithOneCharFirstName = new HashMap<>();
+//        userWithOneCharFirstName.put("firstName", "A");
+//        userWithOneCharFirstName.put("lastName", "Macovei");
+//        userWithOneCharFirstName.put("email", RandomStringUtils.random(6, true, true).
+//                toLowerCase() + "@gmail.com");
+//
+//        HashMap<String, String> userWithFiftyOneCharsFirstName = new HashMap<>();
+//        userWithFiftyOneCharsFirstName.put("firstName", RandomStringUtils.random(51, true, false));
+//        userWithFiftyOneCharsFirstName.put("lastName", "Macovei");
+//        userWithFiftyOneCharsFirstName.put("email", RandomStringUtils.random(6, true, true).
+//                toLowerCase() + "@gmail.com");
+//
+//        HashMap<String, String> userWithOneCharLastName = new HashMap<>();
+//        userWithOneCharLastName.put("firstName", "Adrian");
+//        userWithOneCharLastName.put("lastName", "M");
+//        userWithOneCharLastName.put("email", RandomStringUtils.random(6, true, true).
+//                toLowerCase() + "@gmail.com");
+//
+//        HashMap<String, String> userWithFiftyOneCharsLastName = new HashMap<>();
+//        userWithFiftyOneCharsLastName.put("firstName", "Adrian");
+//        userWithFiftyOneCharsLastName.put("lastName", RandomStringUtils.random(51, true, false));
+//        userWithFiftyOneCharsLastName.put("email", RandomStringUtils.random(6, true, true).
+//                toLowerCase() + "@gmail.com");
+//
+//
+//        return new HashMap[][]{
+//                {userWithoutFistName},
+//                {userWithoutLastName},
+//                {userWithoutEmail},
+//                {userWithoutEmailAndFirstName},
+//                {userWithoutEmailAndLastName},
+//                {userWithoutFirstAndLastName},
+//                {userWithEmptyFields},
+//                {userWithInvalidEmail},
+//                {userWithOneCharFirstName},
+//                {userWithFiftyOneCharsFirstName},
+//                {userWithOneCharLastName},
+//                {userWithFiftyOneCharsLastName}
+//        };
+//    }
+    @DataProvider(name = "invalid_firstName_data")
+    public static Object[][] createInvalidFirstName() {
+        UserModel userModelEmptyFirstName = new UserModel(null,
+                RandomStringUtils.random(7, true, false),
+                RandomStringUtils.random(7, true, true) + DOMAIN1,
+                Gender.MALE.getGenderType(),
+                Title.MR.getTitleType());
 
-        HashMap<String, String> userWithoutLastName = new HashMap<>();
-        userWithoutLastName.put("firstName", "Adrian");
-        userWithoutLastName.put("email", "adrianmacovei1998@gmail.com");
+        UserModel userModelOneStringFirstName = new UserModel("A",
+                RandomStringUtils.random(7, true, false),
+                RandomStringUtils.random(7, true, true) + DOMAIN2,
+                Gender.MALE.getGenderType(),
+                Title.MR.getTitleType());
+        String errorMessageOneCharFirstName =
+                String.format(ERROR_DATA_MESSAGE_TOO_SHORT_FIRST_NAME,
+                userModelOneStringFirstName.getFirstName());
 
-        HashMap<String, String> userWithoutEmail = new HashMap<>();
-        userWithoutEmail.put("firstName", "Adrian");
-        userWithoutEmail.put("lastName", "Macovei");
-
-        HashMap<String, String> userWithoutEmailAndFirstName = new HashMap<>();
-        userWithoutEmailAndFirstName.put("lastName", "Macovei");
-
-        HashMap<String, String> userWithoutEmailAndLastName = new HashMap<>();
-        userWithoutEmailAndLastName.put("firstName", "Adrian");
-
-        HashMap<String, String> userWithoutFirstAndLastName = new HashMap<>();
-        userWithoutFirstAndLastName.put("email", "adrianmacovei1999@gmail.com");
-
-        HashMap<String, String> userWithEmptyFields = new HashMap<>();
-
-        HashMap<String, String> userWithInvalidEmail = new HashMap<>();
-        userWithInvalidEmail.put("firstName", "Adrian");
-        userWithInvalidEmail.put("lastName", "Macovei");
-        userWithInvalidEmail.put("email", RandomStringUtils.random(10, true, true).toLowerCase());
-
-        HashMap<String, String> userWithOneCharFirstName = new HashMap<>();
-        userWithOneCharFirstName.put("firstName", "A");
-        userWithOneCharFirstName.put("lastName", "Macovei");
-        userWithOneCharFirstName.put("email", RandomStringUtils.random(6, true, true).
-                toLowerCase() + "@gmail.com");
-
-        HashMap<String, String> userWithFiftyOneCharsFirstName = new HashMap<>();
-        userWithFiftyOneCharsFirstName.put("firstName", RandomStringUtils.random(51, true, false));
-        userWithFiftyOneCharsFirstName.put("lastName", "Macovei");
-        userWithFiftyOneCharsFirstName.put("email", RandomStringUtils.random(6, true, true).
-                toLowerCase() + "@gmail.com");
-
-        HashMap<String, String> userWithOneCharLastName = new HashMap<>();
-        userWithOneCharLastName.put("firstName", "Adrian");
-        userWithOneCharLastName.put("lastName", "M");
-        userWithOneCharLastName.put("email", RandomStringUtils.random(6, true, true).
-                toLowerCase() + "@gmail.com");
-
-        HashMap<String, String> userWithFiftyOneCharsLastName = new HashMap<>();
-        userWithFiftyOneCharsLastName.put("firstName", "Adrian");
-        userWithFiftyOneCharsLastName.put("lastName", RandomStringUtils.random(51, true, false));
-        userWithFiftyOneCharsLastName.put("email", RandomStringUtils.random(6, true, true).
-                toLowerCase() + "@gmail.com");
+        UserModel userModelMaxStringFirstName = new UserModel(RandomStringUtils.random(31, true, false),
+                RandomStringUtils.random(7, true, false),
+                RandomStringUtils.random(7, true, true) + DOMAIN2,
+                Gender.MALE.getGenderType(),
+                Title.MR.getTitleType());
+        String errorMessageMaxStringFirstName =
+                String.format(DataProviderClass.ERROR_DATA_MESSAGE_TOO_LONG_FIRST_NAME,
+                        userModelMaxStringFirstName.getFirstName());
 
 
-        return new HashMap[][]{
-                {userWithoutFistName},
-                {userWithoutLastName},
-                {userWithoutEmail},
-                {userWithoutEmailAndFirstName},
-                {userWithoutEmailAndLastName},
-                {userWithoutFirstAndLastName},
-                {userWithEmptyFields},
-                {userWithInvalidEmail},
-                {userWithOneCharFirstName},
-                {userWithFiftyOneCharsFirstName},
-                {userWithOneCharLastName},
-                {userWithFiftyOneCharsLastName}
+        return new Object [][]{
+                {userModelEmptyFirstName, ERROR_DATA_MESSAGE_EMPTY_FIRST_NAME},
+                {userModelOneStringFirstName, errorMessageOneCharFirstName},
+                {userModelMaxStringFirstName, errorMessageMaxStringFirstName},
         };
     }
 
-    @DataProvider(name = "user_valid_data")
-    public static Object[][] createValidDataForUser() {
-        HashMap<String, String> userWithTwoCharactersFirstAndLastName = new HashMap<>();
-        userWithTwoCharactersFirstAndLastName.put("firstName",
-                RandomStringUtils.random(2, true, false));
-        userWithTwoCharactersFirstAndLastName.put("lastName",
-                RandomStringUtils.random(2, true, false));
-        userWithTwoCharactersFirstAndLastName.put("email",
-                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+    @DataProvider(name = "invalid_lastName_data")
+    public static Object[][] createInvalidLastName() {
+        UserModel userModelEmptyLastName = new UserModel(RandomStringUtils.random(2, true, false),
+                null,
+                RandomStringUtils.random(7, true, true) + DOMAIN2,
+                Gender.MALE.getGenderType(),
+                Title.MR.getTitleType());
+
+        UserModel userModelOneStringLastName = new UserModel(RandomStringUtils.random(30, true, false),
+                RandomStringUtils.random(1, true, false),
+                RandomStringUtils.random(7, true, true) + DOMAIN2,
+                Gender.MALE.getGenderType(),
+                Title.MR.getTitleType());
+        String errorMessageOneCharLastName =
+                String.format(ERROR_DATA_MESSAGE_TOO_SHORT_LAST_NAME,
+                        userModelOneStringLastName.getLastName());
+
+        UserModel userModelMaxStringLastName = new UserModel(RandomStringUtils.random(2, true, false),
+                RandomStringUtils.random(31, true, false),
+                RandomStringUtils.random(7, true, true) + DOMAIN1,
+                Gender.MALE.getGenderType(),
+                Title.MR.getTitleType());
+        String errorMessageMaxStringLastName =
+                String.format(ERROR_DATA_MESSAGE_TOO_LONG_LAST_NAME,
+                        userModelMaxStringLastName.getLastName());
 
 
-        HashMap<String, String> userWithThirtyCharactersInFirstAndLastName = new HashMap<>();
-        userWithThirtyCharactersInFirstAndLastName.put("firstName",
-                RandomStringUtils.random(30, true, false));
-        userWithThirtyCharactersInFirstAndLastName.put("lastName",
-                RandomStringUtils.random(30, true, false));
-        userWithThirtyCharactersInFirstAndLastName.put("email",
-                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
-
-        HashMap<String, String> userWithValidDataInField = new HashMap<>();
-        userWithValidDataInField.put("firstName",
-                RandomStringUtils.random(6, true, false));
-        userWithValidDataInField.put("lastName",
-                RandomStringUtils.random(6, true, false));
-        userWithValidDataInField.put("email",
-                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
-
-        return new HashMap[][]{
-                {userWithThirtyCharactersInFirstAndLastName},
-                {userWithValidDataInField},
-                {userWithTwoCharactersFirstAndLastName}
+        return new Object [][]{
+                {userModelEmptyLastName, ERROR_DATA_MESSAGE_EMPTY_LAST_NAME},
+                {userModelOneStringLastName, errorMessageOneCharLastName},
+                {userModelMaxStringLastName, errorMessageMaxStringLastName},
         };
     }
+
+    @DataProvider(name = "invalid_email_data")
+    public static Object[][] createInvalidEmail() {
+        UserModel userModelEmptyEmail = new UserModel(RandomStringUtils.random(2, true, false),
+                RandomStringUtils.random(29, true, false),
+                null,
+                Gender.MALE.getGenderType(),
+                Title.MR.getTitleType());
+
+        UserModel userModelWrongFormatEmail = new UserModel(RandomStringUtils.random(2, true, false),
+                RandomStringUtils.random(29, true, false),
+                RandomStringUtils.random(10, true, true).toLowerCase(),
+                Gender.MALE.getGenderType(),
+                Title.MR.getTitleType());
+        String errorMessageWrongFormatEmail= String.format(ERROR_DATA_MESSAGE_WRONG_FORMAT_EMAIL,
+                userModelWrongFormatEmail.getEmail());
+
+        return new Object [][]{
+                {userModelEmptyEmail, ERROR_DATA_MESSAGE_EMPTY_EMAIL_NAME},
+                {userModelWrongFormatEmail, errorMessageWrongFormatEmail}
+        };
+    }
+
+    @DataProvider(name = "invalid_first_and_last_name_data")
+    public static Object[][] createInvalidFirstAndLastName() {
+        UserModel userModelEmptyFirstNameLastName = new UserModel(null,
+                null,
+                RandomStringUtils.random(7, true, true) + DOMAIN1,
+                Gender.MALE.getGenderType(),
+                Title.MR.getTitleType());
+
+        UserModel userModelWrongFormatMinFirstNameAndLastName = new UserModel(
+                RandomStringUtils.random(1, true, false),
+                RandomStringUtils.random(1, true, false),
+                RandomStringUtils.random(7, true, true) + DOMAIN1,
+                Gender.MALE.getGenderType(),
+                Title.MR.getTitleType());
+
+        return new Object [][]
+                {
+                {userModelEmptyFirstNameLastName,
+                        ERROR_DATA_MESSAGE_EMPTY_FIRST_NAME,
+                        ERROR_DATA_MESSAGE_EMPTY_LAST_NAME},
+                {userModelWrongFormatMinFirstNameAndLastName,
+                        String.format(ERROR_DATA_MESSAGE_TOO_SHORT_FIRST_NAME,
+                        userModelWrongFormatMinFirstNameAndLastName.getFirstName()),
+                        String.format(ERROR_DATA_MESSAGE_TOO_SHORT_LAST_NAME,
+                                userModelWrongFormatMinFirstNameAndLastName.getLastName())}
+                };
+    }
+
+
+//    @DataProvider(name = "user_valid_data")
+//    public static Object[][] createValidDataForUser() {
+//        HashMap<String, String> userWithTwoCharactersFirstAndLastName = new HashMap<>();
+//        userWithTwoCharactersFirstAndLastName.put("firstName",
+//                RandomStringUtils.random(2, true, false));
+//        userWithTwoCharactersFirstAndLastName.put("lastName",
+//                RandomStringUtils.random(2, true, false));
+//        userWithTwoCharactersFirstAndLastName.put("email",
+//                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+//
+//
+//        HashMap<String, String> userWithThirtyCharactersInFirstAndLastName = new HashMap<>();
+//        userWithThirtyCharactersInFirstAndLastName.put("firstName",
+//                RandomStringUtils.random(30, true, false));
+//        userWithThirtyCharactersInFirstAndLastName.put("lastName",
+//                RandomStringUtils.random(30, true, false));
+//        userWithThirtyCharactersInFirstAndLastName.put("email",
+//                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+//
+//        HashMap<String, String> userWithValidDataInField = new HashMap<>();
+//        userWithValidDataInField.put("firstName",
+//                RandomStringUtils.random(6, true, false));
+//        userWithValidDataInField.put("lastName",
+//                RandomStringUtils.random(6, true, false));
+//        userWithValidDataInField.put("email",
+//                RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
+//
+//        return new HashMap[][]{
+//                {userWithThirtyCharactersInFirstAndLastName},
+//                {userWithValidDataInField},
+//                {userWithTwoCharactersFirstAndLastName}
+//        };
+//    }
 
     @DataProvider(name = "update_valid_data")
     public static Object[][] createValidDataForUpdate() {

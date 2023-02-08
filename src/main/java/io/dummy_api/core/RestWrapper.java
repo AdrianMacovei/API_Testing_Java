@@ -1,5 +1,6 @@
 package io.dummy_api.core;
 
+import com.fasterxml.jackson.databind.ext.SqlBlobSerializer;
 import io.dummy_api.exception.JsonToModelConversionException;
 import io.dummy_api.requests.UsersRequests;
 import io.dummy_api.util.Properties;
@@ -19,43 +20,39 @@ import static io.restassured.RestAssured.given;
 
 @Service
 @Scope("prototype")
-public class RestWrapper
-{
+public class RestWrapper {
 
     @Autowired
     private Properties properties;
 
-    private final RequestSpecBuilder requestSpecBuilder=new RequestSpecBuilder();
+    private final RequestSpecBuilder requestSpecBuilder = new RequestSpecBuilder();
 
-    public String parameters;
+    private String parameters;
+
+    private int statusCode;
+
 
     @PostConstruct
-    public void initializeRequestSpecBuilder()
-    {
-//        String url = properties.getApiUri();
+    public void initializeRequestSpecBuilder() {
         String url = properties.getURI();
         RestAssured.baseURI = url;
 
         configureRequestSpec().setBaseUri(url);
     }
 
-    public RequestSpecBuilder configureRequestSpec()
-    {
+    public RequestSpecBuilder configureRequestSpec() {
         return this.requestSpecBuilder;
     }
 
-    public RestWrapper addRequestHeader(String headerKey, String headerValue)
-    {
+    public RestWrapper addRequestHeader(String headerKey, String headerValue) {
         configureRequestSpec().addHeader(headerKey, headerValue);
         return this;
     }
 
-    protected Response sendRequest(RestRequest restRequest)
-    {
+    protected Response sendRequest(RestRequest restRequest) {
         Response returnedResponse;
 
-        switch(restRequest.getHttpMethod())
-        {
+        switch (restRequest.getHttpMethod()) {
             case GET:
                 returnedResponse = onRequest().get(restRequest.getPath(), restRequest.getPathParams()).andReturn();
                 break;
@@ -76,59 +73,63 @@ public class RestWrapper
         return returnedResponse;
     }
 
-    protected RequestSpecification onRequest()
-    {
+    protected RequestSpecification onRequest() {
         return given().spec(configureRequestSpec().setContentType(ContentType.JSON).build());
     }
 
 
-    public <T> T convertResponseToModel(Response response, Class<T> modelClass)
-    {
+    public <T> T convertResponseToModel(Response response, Class<T> modelClass) {
         T model;
 
-        try
-        {
+        try {
             model = response.getBody().as(modelClass);
-        } catch (Exception processError)
-        {
+        } catch (Exception processError) {
             processError.printStackTrace();
             throw new JsonToModelConversionException(modelClass, processError);
         }
         return model;
     }
 
-    public String getParameters()
-    {
+    public String getParameters() {
         String localParams = parameters;
         clearParameters();
         return localParams;
     }
-    protected void setParameters(String parameters)
-    {
+
+    protected void setParameters(String parameters) {
         this.parameters = parameters;
     }
 
-    protected void clearParameters()
-    {
+    protected void clearParameters() {
         setParameters("");
     }
 
-    public RestWrapper withParams(String... parameters)
-    {
+    public RestWrapper withParams(String... parameters) {
         String paramsStr = Arrays.stream(parameters).collect(Collectors.joining("&"));
         setParameters(paramsStr);
         return this;
     }
 
-    public <T> T executeRequestAndProcessModel(Class<T> modelClass, RestRequest restRequest)
-    {
+    public <T> T executeRequestAndProcessModel(Class<T> modelClass, RestRequest restRequest) {
         return callAPIAndCreateModel(modelClass, restRequest);
+    }
+
+    public void setStatusCode(int statusCode)
+    {
+        this.statusCode = statusCode;
+    }
+
+    public int getStatusCode() {
+        return this.statusCode;
     }
 
     private <T> T callAPIAndCreateModel(Class<T> modelClass, RestRequest restRequest)
     {
         Response returnedResponse = sendRequest(restRequest);
-        setStatusCode(String.valueOf(returnedResponse.getStatusCode()));
+        setStatusCode(returnedResponse.getStatusCode());
+
+        //This call will print info about returnedResponse
+        getInfo(returnedResponse);
 
         T model;
 
@@ -143,9 +144,15 @@ public class RestWrapper
         return model;
     }
 
+
     public UsersRequests usingUsers()
     {
         return new UsersRequests(this);
+    }
+
+    public void getInfo(Response response) {
+        response.prettyPrint();
+        System.out.println(response.statusCode());
     }
 
 }

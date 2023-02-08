@@ -15,11 +15,11 @@ public class UserModel {
     private String id;
 
     private String title;
-    @JsonProperty(required = true)
+//    @JsonProperty(required = true)
     private String firstName;
-    @JsonProperty(required = true)
+//    @JsonProperty(required = true)
     private String lastName;
-    @JsonProperty(required = true)
+//    @JsonProperty(required = true)
     private String email;
 
     private String gender;
@@ -46,6 +46,14 @@ public class UserModel {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+
+    }public UserModel(String firstName, String lastName, String email, String gender, String title)
+    {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.gender = gender;
+        this.title = title;
     }
 
     public static UserModel generateRandomUser()

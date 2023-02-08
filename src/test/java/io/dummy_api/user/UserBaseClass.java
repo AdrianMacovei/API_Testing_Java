@@ -5,6 +5,7 @@ import io.dummy_api.enums.Gender;
 import io.dummy_api.enums.Title;
 import io.dummy_api.models.ErrorModel;
 import io.dummy_api.models.UserModel;
+import io.dummy_api.models.UsersCollection;
 import io.restassured.response.Response;
 import org.springframework.http.HttpMethod;
 import org.testng.annotations.AfterMethod;
@@ -19,28 +20,30 @@ public class UserBaseClass extends ApiBaseClass {
 
     @AfterMethod(alwaysRun = true, onlyForGroups = {"user_test"})
     protected void tearDown() {
-        Response response = getCreatedUsers();
-        for (int i = 0; i < response.jsonPath().getList("data").size(); i++) {
-            deleteUser(response.jsonPath().getString("data[" + i + "].id"));
+        UsersCollection usersCollectionRsp = getCreatedUsers();
+        for (int i = 0; i < usersCollectionRsp.getData().size(); i++) {
+            deleteUser(usersCollectionRsp.getData().get(i).getId());
         }
     }
 
-    public String createUser(UserModel user_data) {
-        Response response = restWrapper.sendRequest(HttpMethod.POST,
-                "user/create", user_data, "");
-        return response.jsonPath().getString("id");
+    public String createUser(UserModel userData) {
+//        Response response = restWrapper.sendRequest(HttpMethod.POST,
+//                "user/create", user_data, "");
+        UserModel user = restWrapper.usingUsers().createUser(userData);
+        return user.getId();
     }
 
-    public Response getUser(String userId) {
-        return restWrapper.sendRequest(HttpMethod.GET, "user/{params}", "", userId);
+    public UserModel getUser(String userId) {
+        return restWrapper.usingUsers().getUser(userId);
     }
 
     public void deleteUser(String userId) {
-        restWrapper.sendRequest(HttpMethod.DELETE, "user/{params}", "", userId);
+        restWrapper.usingUsers().deleteUser(userId);
     }
 
-    public Response getCreatedUsers() {
-        return restWrapper.sendRequest(HttpMethod.GET, "user?{params}", "", "created=1");
+    public UsersCollection getCreatedUsers() {
+//        return restWrapper.sendRequest(HttpMethod.GET, "user?{params}", "", "created=1");
+        return restWrapper.usingUsers().getCreatedUsers();
     }
 
     protected void verifyErrorDataMessageForRequiredFields(HashMap<String, String> user, ErrorModel errorRsp) {
@@ -49,7 +52,7 @@ public class UserBaseClass extends ApiBaseClass {
                 softAssert.assertEquals(errorRsp.getData().getFirstName(),
                         String.format("Path `firstName` (`%s`) is shorter than the minimum allowed length (2).",
                                 user.get("firstName")));
-            } else if (user.get("firstName").length() == 51) {
+            } else if (user.get("firstName").length() == 31) {
                 softAssert.assertEquals(errorRsp.getData().getFirstName(),
                         String.format("Path `firstName` (`%s`) is longer than the maximum allowed length (30).",
                                 user.get("firstName")));
@@ -57,7 +60,7 @@ public class UserBaseClass extends ApiBaseClass {
                 softAssert.assertEquals(errorRsp.getData().getLastName(),
                         String.format("Path `lastName` (`%s`) is shorter than the minimum allowed length (2).",
                                 user.get("lastName")));
-            } else if (user.get("lastName").length() == 50) {
+            } else if (user.get("lastName").length() == 31) {
                 softAssert.assertEquals(errorRsp.getData().getLastName(),
                         String.format("Path `lastName` (`%s`) is longer than the maximum allowed length (30).",
                                 user.get("lastName")));

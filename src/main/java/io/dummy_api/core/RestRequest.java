@@ -8,11 +8,12 @@ import org.springframework.http.HttpMethod;
 @Setter
 public class RestRequest {
 
-    private String body = "";
+    private Object body = "";
     private HttpMethod httpMethod;
     private String path;
     private String[] pathParams;
 //    private String contentType;
+
 
     private RestRequest(HttpMethod httpMethod, String path, String... pathParams)
     {
@@ -21,7 +22,7 @@ public class RestRequest {
         setPathParams(pathParams);
     }
 
-    private RestRequest(HttpMethod httpMethod, String body, String path, String... pathParams) {
+    private RestRequest(HttpMethod httpMethod, Object body, String path, String... pathParams) {
         setHttpMethod(httpMethod);
         setPath(path);
         setPathParams(pathParams);
@@ -48,7 +49,7 @@ public class RestRequest {
      * @param pathParams
      * @return Object of type RestRequest with body and rest of the fields
      */
-    public static RestRequest requestWithBody(HttpMethod httpMethod, String body, String path, String... pathParams)
+    public static RestRequest requestWithBody(HttpMethod httpMethod, Object body, String path, String... pathParams)
     {
         return new RestRequest(httpMethod, body, path, pathParams);
     }

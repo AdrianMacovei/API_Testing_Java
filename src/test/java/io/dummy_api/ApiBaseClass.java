@@ -46,9 +46,9 @@ public abstract class ApiBaseClass extends AbstractTestNGSpringContextTests {
         softAssert = new SoftAssert();
     }
 
-    public void getInfo(Response response) {
-        response.prettyPrint();
-        System.out.println(response.statusCode());
-    }
+//    public void getInfo(Response response) {
+//        response.prettyPrint();
+//        System.out.println(response.statusCode());
+//    }
 
 }
