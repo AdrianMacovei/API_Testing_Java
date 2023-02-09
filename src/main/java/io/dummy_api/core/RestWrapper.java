@@ -1,6 +1,5 @@
 package io.dummy_api.core;
 
-import com.fasterxml.jackson.databind.ext.SqlBlobSerializer;
 import io.dummy_api.exception.JsonToModelConversionException;
 import io.dummy_api.requests.UsersRequests;
 import io.dummy_api.util.Properties;
@@ -27,7 +26,7 @@ public class RestWrapper {
 
     private final RequestSpecBuilder requestSpecBuilder = new RequestSpecBuilder();
 
-    private String parameters;
+    private String parameters = "";
 
     private int statusCode;
 
@@ -151,9 +150,10 @@ public class RestWrapper {
     }
 
     public void getInfo(Response response) {
-        System.out.println("*************************Tear down information************************");
+        System.out.println("*************************TEST START************************");
         response.prettyPrint();
         System.out.println(response.statusCode());
+        System.out.println("*************************TEST FINISH************************");
     }
 
 }

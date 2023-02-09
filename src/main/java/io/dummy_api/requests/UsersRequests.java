@@ -25,6 +25,12 @@ public class UsersRequests extends ModelRequest<UsersRequests>
         return restWrapper.executeRequestAndProcessModel(UsersCollection.class, request);
     }
 
+    public ErrorModel getUsersWithError()
+    {
+        RestRequest request = RestRequest.simpleRequest(HttpMethod.GET, "user?{parameters}", restWrapper.getParameters());
+        return restWrapper.executeRequestAndProcessModel(ErrorModel.class, request);
+    }
+
     public UserModel createUser(UserModel userModel)
     {
         RestRequest postRequest = RestRequest.requestWithBody(HttpMethod.POST,
@@ -51,6 +57,12 @@ public class UsersRequests extends ModelRequest<UsersRequests>
     {
         RestRequest request = RestRequest.simpleRequest(HttpMethod.DELETE, "user/{parameters}", userId);
         return restWrapper.executeRequestAndProcessModel(UserModel.class, request);
+    }
+
+    public ErrorModel deleteUserWithError(String userId)
+    {
+        RestRequest request = RestRequest.simpleRequest(HttpMethod.DELETE, "user/{parameters}", userId);
+        return restWrapper.executeRequestAndProcessModel(ErrorModel.class, request);
     }
 
 }

@@ -5,10 +5,6 @@ import io.dummy_api.models.UserModel;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.TimeZone;
-
 import static org.apache.http.HttpStatus.*;
 
 
