@@ -31,9 +31,9 @@ public class UserModel {
 
     private String dateOfBirth;
 
-    private Date registerDate;
+    private String registerDate;
 
-    private Date updatedDate;
+    private String updatedDate;
 
     private Location location;
 

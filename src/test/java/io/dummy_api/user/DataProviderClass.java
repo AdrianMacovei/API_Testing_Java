@@ -6,12 +6,10 @@ import io.dummy_api.models.Location;
 import io.dummy_api.models.UserModel;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.DataProvider;
-
-import javax.print.DocFlavor;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.Calendar;
+import java.util.Random;
+import java.util.TimeZone;
 
 public class DataProviderClass {
 
@@ -46,6 +44,8 @@ public class DataProviderClass {
     private static final String DOMAIN1 = "@gmail.com";
     private static final String DOMAIN2 = java.lang.String.format("@%s.com",
             RandomStringUtils.random(5, true, false).toLowerCase());
+
+    protected static Random rand = new Random();
 
     @DataProvider(name = "invalid_ids")
     public static Object[][] createDataIds() {
@@ -440,7 +440,7 @@ public class DataProviderClass {
                 Title.DR.getTitleType(),
                 RandomStringUtils.random(20, false, true),
                 "https://unsplash.com/photos/rDEOVtE7vOs",
-                LocalDateTime.now().minusHours(5).toString(),
+                formatDate("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", -1, 0),
                 location2
         );
 
@@ -453,7 +453,7 @@ public class DataProviderClass {
                 Title.MR.getTitleType(),
                 RandomStringUtils.random(10, false, true),
                 "https://unsplash.com/photos/rDEOVtE7vOs",
-                LocalDateTime.now().minusHours(5).toString(),
+                formatDate("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", 0, -rand.nextInt(10)),
                 location2
         );
 
@@ -465,7 +465,7 @@ public class DataProviderClass {
                 Title.MRS.getTitleType(),
                 RandomStringUtils.random(10, false, true),
                 "https://unsplash.com/photos/rDEOVtE7vOs",
-                LocalDateTime.now().minusYears(5).toString(),
+                formatDate("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", -rand.nextInt(10), -rand.nextInt(20)),
                 location2
         );
 
@@ -477,7 +477,7 @@ public class DataProviderClass {
                 Title.MISS.getTitleType(),
                 RandomStringUtils.random(10, false, true),
                 "https://unsplash.com/photos/rDEOVtE7vOs",
-                LocalDateTime.now().minusDays(1).toString(),
+                formatDate("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", -rand.nextInt(10), -rand.nextInt(20)),
                 location1
         );
 
@@ -489,7 +489,7 @@ public class DataProviderClass {
                 Title.EMPTY.getTitleType(),
                 RandomStringUtils.random(10, false, true),
                 "https://unsplash.com/photos/rDEOVtE7vOs",
-                LocalDateTime.now().minusDays(1).toString(),
+                formatDate("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", -rand.nextInt(10), -rand.nextInt(20)),
                 location1
         );
 
@@ -526,14 +526,14 @@ public class DataProviderClass {
         invalidDataInDateOfBirthLessThanMin.setGender(Gender.MALE.getGenderType());
         invalidDataInDateOfBirthLessThanMin.setDateOfBirth("1899/12/31");
 
-        UserModel invalidDataInDateOfBirtMoreThanMax = new UserModel();
-        invalidDataInDateOfBirtMoreThanMax.setFirstName(RandomStringUtils.random(21, true, true));
-        invalidDataInDateOfBirtMoreThanMax.setLastName(RandomStringUtils.random(21, true, true));
-        invalidDataInDateOfBirtMoreThanMax.setEmail(RandomStringUtils.random(6, true, true).toLowerCase() + DOMAIN2);
-        invalidDataInDateOfBirtMoreThanMax.setTitle(Title.MISS.getTitleType());
-        invalidDataInDateOfBirtMoreThanMax.setGender(Gender.MALE.getGenderType());
-        String dateNowPlus = formatDate();
-        invalidDataInDateOfBirtMoreThanMax.setDateOfBirth(dateNowPlus);
+        UserModel invalidDataInDateOfBirthMoreThanMax = new UserModel();
+        invalidDataInDateOfBirthMoreThanMax.setFirstName(RandomStringUtils.random(21, true, true));
+        invalidDataInDateOfBirthMoreThanMax.setLastName(RandomStringUtils.random(21, true, true));
+        invalidDataInDateOfBirthMoreThanMax.setEmail(RandomStringUtils.random(6, true, true).toLowerCase() + DOMAIN2);
+        invalidDataInDateOfBirthMoreThanMax.setTitle(Title.MISS.getTitleType());
+        invalidDataInDateOfBirthMoreThanMax.setGender(Gender.MALE.getGenderType());
+        String dateNowPlus = formatDate("E MMM dd yyyy HH:mm:ss", rand.nextInt(20), rand.nextInt(20));
+        invalidDataInDateOfBirthMoreThanMax.setDateOfBirth(dateNowPlus);
 
         UserModel wrongFormatDateOfBirth = new UserModel();
         wrongFormatDateOfBirth.setFirstName(RandomStringUtils.random(21, true, true));
@@ -562,7 +562,7 @@ public class DataProviderClass {
 
         return new Object[][]{
                 {invalidDataInDateOfBirthLessThanMin, ERROR_DATA_MESSAGE_TOO_LOW_DATE_OF_BIRTH},
-                {invalidDataInDateOfBirtMoreThanMax, java.lang.String.format(ERROR_DATA_MESSAGE_AFTER_MAX_DATE_OF_BIRTH, dateNowPlus)},
+                {invalidDataInDateOfBirthMoreThanMax, java.lang.String.format(ERROR_DATA_MESSAGE_AFTER_MAX_DATE_OF_BIRTH, dateNowPlus)},
                 {wrongFormatDateOfBirth, java.lang.String.format(ERROR_DATA_MESSAGE_WRONG_DATE_OF_BIRTH, "15/05/2020")},
                 {randomStringDateOfBirth, java.lang.String.format(ERROR_DATA_MESSAGE_WRONG_DATE_OF_BIRTH, randomBirthDate)},
                 {emptyStringDateOfBirth, java.lang.String.format(ERROR_DATA_MESSAGE_WRONG_DATE_OF_BIRTH, "")},
@@ -570,11 +570,15 @@ public class DataProviderClass {
         };
     }
 
-    protected static String formatDate()
+    protected static String formatDate(String pattern, int hoursToAdd, int daysToAdd)
     {
-        String pattern = "E MMM dd yyyy HH:mm:ss";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        return simpleDateFormat.format(new Date());
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+        calendar.add(Calendar.HOUR_OF_DAY, hoursToAdd);
+        calendar.add(Calendar.DAY_OF_MONTH, daysToAdd);
+        return dateFormat.format(calendar.getTime());
     }
 
     @DataProvider(name = "user_invalid_gender_data")

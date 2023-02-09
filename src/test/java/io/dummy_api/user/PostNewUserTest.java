@@ -5,6 +5,10 @@ import io.dummy_api.models.UserModel;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import static org.apache.http.HttpStatus.*;
 
 
@@ -140,7 +144,8 @@ public class PostNewUserTest extends UserBaseClass {
         softAssert.assertEquals(userRsp.getLastName(), userData.getLastName());
         softAssert.assertEquals(userRsp.getDateOfBirth(), userData.getDateOfBirth());
         softAssert.assertEquals(userRsp.getPicture(), userData.getPicture());
-//        softAssert.assertEquals(userRsp.getRegisterDate(), LocalDateTime.now().format(newForm).toString());
+        softAssert.assertTrue(userRsp.getRegisterDate().contains(
+                DataProviderClass.formatDate("yyyy-MM-dd'T'HH:mm", 0, 0)));
         softAssert.assertEquals(userRsp.getLocation().getCity(), userData.getLocation().getCity());
         softAssert.assertEquals(userRsp.getLocation().getCountry(), userData.getLocation().getCountry());
         softAssert.assertEquals(userRsp.getLocation().getStreet(), userData.getLocation().getStreet());
@@ -181,6 +186,8 @@ public class PostNewUserTest extends UserBaseClass {
         softAssert.assertEquals(errorRsp.getError(), ERROR_MSG_BODY);
         softAssert.assertTrue(errorRsp.getData().getDateOfBirth().contains(
                 birthErrorMsg));
+        System.out.println(errorRsp.getData().getDateOfBirth());
+        System.out.println(birthErrorMsg);
         softAssert.assertAll();
     }
 
