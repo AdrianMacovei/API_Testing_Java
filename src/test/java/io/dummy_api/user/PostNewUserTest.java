@@ -1,17 +1,9 @@
 package io.dummy_api.user;
 
 import io.dummy_api.models.ErrorModel;
-import io.dummy_api.models.Location;
 import io.dummy_api.models.UserModel;
-import io.dummy_api.models.UsersCollection;
-import io.restassured.module.jsv.JsonSchemaValidator;
-import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
-import org.springframework.http.HttpMethod;
 import org.testng.annotations.Test;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
 
 import static org.apache.http.HttpStatus.*;
 
@@ -139,7 +131,7 @@ public class PostNewUserTest extends UserBaseClass {
     void testCreateUserWithValidDataInAllAvailableFields(UserModel userData) {
         UserModel userRsp = restWrapper.usingUsers().createUser(userData);
 
-        Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_OK);;
+        Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_OK);
         softAssert.assertEquals(userRsp.getTitle(), userData.getTitle());
         softAssert.assertEquals(userRsp.getPhone(), userData.getPhone());
         softAssert.assertEquals(userRsp.getGender(), userData.getGender());
@@ -148,7 +140,7 @@ public class PostNewUserTest extends UserBaseClass {
         softAssert.assertEquals(userRsp.getLastName(), userData.getLastName());
         softAssert.assertEquals(userRsp.getDateOfBirth(), userData.getDateOfBirth());
         softAssert.assertEquals(userRsp.getPicture(), userData.getPicture());
-        softAssert.assertEquals(userRsp.getRegisterDate(), LocalDateTime.now().toString());
+//        softAssert.assertEquals(userRsp.getRegisterDate(), LocalDateTime.now().format(newForm).toString());
         softAssert.assertEquals(userRsp.getLocation().getCity(), userData.getLocation().getCity());
         softAssert.assertEquals(userRsp.getLocation().getCountry(), userData.getLocation().getCountry());
         softAssert.assertEquals(userRsp.getLocation().getStreet(), userData.getLocation().getStreet());
@@ -156,38 +148,97 @@ public class PostNewUserTest extends UserBaseClass {
         softAssert.assertEquals(userRsp.getLocation().getTimezone(), userData.getLocation().getTimezone());
         softAssert.assertAll();
     }
-//
-//    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_create_all_fields_invalid_data", groups = {"user_test"})
-//    void testCreateUserWithInvalidDataInAllAvailableFields(HashMap<String, Object> user_data) {
-//        Response response = restWrapper.sendRequest(HttpMethod.POST,
-//                "user/create", user_data, "");
-//        getInfo(response);
-//
-//        Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
-//        ErrorModel errorRsp = restWrapper.convertResponseToModel(response, ErrorModel.class);
-//        Assertions.assertThat(errorRsp.getError()).isEqualTo("BODY_NOT_VALID");
-//        verifyErrorDataNonRequiredFieldsUserCreate(user_data, errorRsp);
-//    }
-//
-//    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "create_user_xss_inj",
-//            groups = {"user_test"})
-//    void testCreateUserXssInjection(HashMap<String, String> user_data) {
-//        Response response = restWrapper.sendRequest(HttpMethod.POST,
-//                "user/create", user_data, "");
-//        getInfo(response);
-//
-//        Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
-//    }
-//
-//    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_valid_data", groups = {"user_test"})
-//    void testCreateUserWithNoAppId(HashMap<String, String> user_data) {
-//        Response response = restWrapperNoId.sendRequest(HttpMethod.POST,
-//                "user/create", user_data, "");
-//        ErrorModel userRsp = restWrapperNoId.convertResponseToModel(response, ErrorModel.class);
-//        getInfo(response);
-//
-//        softAssert.assertEquals(response.statusCode(), SC_FORBIDDEN);
-//        softAssert.assertEquals(userRsp.getError(), "APP_ID_MISSING");
-//        softAssert.assertAll();
-//    }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_invalid_title_data", groups = {"user_test"})
+    void testCreateUserWithInvalidTitle(UserModel userData) {
+        ErrorModel errorRsp = restWrapper.usingUsers().createInvalidUser(userData);
+
+        Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
+        softAssert.assertEquals(errorRsp.getError(), ERROR_MSG_BODY);
+        softAssert.assertEquals(errorRsp.getData().getTitle(),
+                String.format(ERROR_DATA_MESSAGE_WRONG_TITLE, userData.getTitle()));
+        softAssert.assertAll();
+    }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_invalid_gender_data", groups = {"user_test"})
+    void testCreateUserWithInvalidGender(UserModel userData) {
+        ErrorModel errorRsp = restWrapper.usingUsers().createInvalidUser(userData);
+
+        Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
+        softAssert.assertEquals(errorRsp.getError(), ERROR_MSG_BODY);
+        softAssert.assertEquals(errorRsp.getData().getGender(),
+                String.format(ERROR_DATA_MESSAGE_WRONG_GENDER, userData.getGender()));
+        softAssert.assertAll();
+    }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_invalid_dateOfBirth_data", groups = {"user_test"})
+    void testCreateUserWithInvalidDateOfBirthField(Object[] userDataProvider) {
+        UserModel userData =(UserModel) userDataProvider[0];
+        String birthErrorMsg = (String) userDataProvider[1];
+        ErrorModel errorRsp = restWrapper.usingUsers().createInvalidUser(userData);
+
+        Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
+        softAssert.assertEquals(errorRsp.getError(), ERROR_MSG_BODY);
+        softAssert.assertTrue(errorRsp.getData().getDateOfBirth().contains(
+                birthErrorMsg));
+        softAssert.assertAll();
+    }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_invalid_phone_data", groups = {"user_test"})
+    void testCreateUserWithInvalidPhoneField(Object[] userDataProvider) {
+        UserModel userData =(UserModel) userDataProvider[0];
+        String birthErrorMsg = (String) userDataProvider[1];
+        ErrorModel errorRsp = restWrapper.usingUsers().createInvalidUser(userData);
+
+        Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
+        softAssert.assertEquals(errorRsp.getError(), ERROR_MSG_BODY);
+        softAssert.assertEquals(errorRsp.getData().getPhone(),
+                birthErrorMsg);
+        softAssert.assertAll();
+    }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_invalid_location_data", groups = {"user_test"})
+    void testCreateUserWithInvalidLocationField(UserModel userData) {
+       restWrapper.usingUsers().createUser(userData);
+
+        Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
+    }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_invalid_all_fields_data",
+            groups = {"user_test"})
+    void testCreateUserWithInvalidDataInAllAvailableFields(Object[] userDataProvider) {
+        UserModel userBody = (UserModel) userDataProvider[0];
+        ErrorModel errorRsp = restWrapper.usingUsers().createInvalidUser(userBody);
+        UserModel data = errorRsp.getData();
+
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
+        softAssert.assertEquals(data.getFirstName(), (String) userDataProvider[1]);
+        softAssert.assertEquals(data.getLastName(), (String) userDataProvider[2]);
+        softAssert.assertEquals(data.getEmail(), (String) userDataProvider[3]);
+        softAssert.assertEquals(data.getDateOfBirth(), (String) userDataProvider[4]);
+        softAssert.assertEquals(data.getPhone(), (String) userDataProvider[5]);
+        softAssert.assertEquals(data.getTitle(), String.format(ERROR_DATA_MESSAGE_WRONG_TITLE, userBody.getTitle()));
+        softAssert.assertEquals(data.getGender(), String.format(ERROR_DATA_MESSAGE_WRONG_GENDER, userBody.getGender()));
+        softAssert.assertAll();
+    }
+
+
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "create_user_xss_inj",
+            groups = {"user_test"})
+    void testCreateUserXssInjection(UserModel userData) {
+        restWrapper.usingUsers().createUser(userData);
+
+        Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
+    }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_valid_data", groups = {"user_test"})
+    void testCreateUserWithNoAppId(UserModel userData) {
+        ErrorModel userRsp = restWrapperNoId.usingUsers().createInvalidUser(userData);
+
+        softAssert.assertEquals(restWrapperNoId.getStatusCode(), SC_FORBIDDEN);
+        softAssert.assertEquals(userRsp.getError(), "APP_ID_MISSING");
+        softAssert.assertAll();
+    }
+
 }

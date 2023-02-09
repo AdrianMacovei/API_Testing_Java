@@ -151,6 +151,7 @@ public class RestWrapper {
     }
 
     public void getInfo(Response response) {
+        System.out.println("*************************Tear down information************************");
         response.prettyPrint();
         System.out.println(response.statusCode());
     }

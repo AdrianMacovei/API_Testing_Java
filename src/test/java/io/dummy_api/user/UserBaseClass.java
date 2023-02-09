@@ -18,6 +18,8 @@ import java.util.HashMap;
 
 public class UserBaseClass extends ApiBaseClass {
     protected static final String ERROR_MSG_BODY = "BODY_NOT_VALID";
+    protected static final String ERROR_DATA_MESSAGE_WRONG_TITLE = "`%s` is not a valid enum value for path `title`.";
+    protected static final String ERROR_DATA_MESSAGE_WRONG_GENDER = "`%s` is not a valid enum value for path `gender`.";
 
     @AfterMethod(alwaysRun = true, onlyForGroups = {"user_test"})
     protected void tearDown() {
