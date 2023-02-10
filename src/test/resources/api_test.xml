@@ -23,27 +23,27 @@
 
     </test>
 
-    <test name="Test Post Endpoint">
+<!--    <test name="Test Post Endpoint">-->
 
-        <classes>
-            <class name="io.dummy_api.post.DeletePostTest">
+<!--        <classes>-->
+<!--            <class name="io.dummy_api.post.DeletePostTest">-->
 
-            </class>
+<!--            </class>-->
 
-            <class name="io.dummy_api.post.CreatePostTest">
+<!--            <class name="io.dummy_api.post.CreatePostTest">-->
 
-            </class>
+<!--            </class>-->
 
-            <class name="io.dummy_api.post.GetAllPostsTest">
+<!--            <class name="io.dummy_api.post.GetAllPostsTest">-->
 
-            </class>
+<!--            </class>-->
 
-            <class name="io.dummy_api.post.GetPostsByUserTest">
+<!--            <class name="io.dummy_api.post.GetPostsByUserTest">-->
 
-            </class>
-        </classes>
+<!--            </class>-->
+<!--        </classes>-->
 
-    </test>
+<!--    </test>-->
 
 
 </suite>

@@ -1,6 +1,7 @@
 package io.dummy_api.core;
 
 import io.dummy_api.exception.JsonToModelConversionException;
+import io.dummy_api.requests.PostRequests;
 import io.dummy_api.requests.UsersRequests;
 import io.dummy_api.util.Properties;
 import io.restassured.RestAssured;
@@ -147,6 +148,11 @@ public class RestWrapper {
     public UsersRequests usingUsers()
     {
         return new UsersRequests(this);
+    }
+
+    public PostRequests usingPosts()
+    {
+        return new PostRequests(this);
     }
 
     public void getInfo(Response response) {

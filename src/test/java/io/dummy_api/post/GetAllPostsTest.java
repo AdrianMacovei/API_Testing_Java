@@ -3,6 +3,8 @@ package io.dummy_api.post;
 import io.dummy_api.models.CreateBodyPostModel;
 import io.dummy_api.models.ErrorModel;
 import io.dummy_api.models.PostsCollection;
+import io.dummy_api.models.UsersCollection;
+import io.dummy_api.requests.PostRequests;
 import io.dummy_api.user.DataProviderClass;
 import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
@@ -12,79 +14,91 @@ import static org.apache.http.HttpStatus.*;
 
 public class GetAllPostsTest extends PostBaseClass {
 
-//    @Test
-//    void testGetAllPostsValidAppId() {
-//        Response response = restWrapper.sendRequest(HttpMethod.GET, "post", "", "");
-//        PostsCollection postRsp = restWrapper.convertResponseToModel(response, PostsCollection.class);
-//        getInfo(response);
-//
-//        softAssert.assertTrue(response.statusCode() == SC_OK);
-//        softAssert.assertEquals(postRsp.getData().size(), postRsp.getLimit());
-//        softAssert.assertAll();
-//    }
-//
-//    @Test
-//    void testGetAllPostsInvalidAppId() {
-//        Response response = restWrapperNoId.sendRequest(HttpMethod.GET, "post", "", "");
-//        ErrorModel postRsp = restWrapper.convertResponseToModel(response, ErrorModel.class);
-//        getInfo(response);
-//
-//        softAssert.assertTrue(response.statusCode() == SC_FORBIDDEN);
-//        softAssert.assertEquals(postRsp.getError(), "APP_ID_MISSING");
-//        softAssert.assertAll();
-//    }
-//
-//    @Test
-//    void getAllCreatedPosts() {
-//        // create a new user in DB and create a new post using that user id
-//        createNewPost(CreateBodyPostModel.generateRandomPostBody(createRandomUserInDb()));
-//        createNewPost(CreateBodyPostModel.generateRandomPostBody(createRandomUserInDb()));
-//        Response response = restWrapper.sendRequest(HttpMethod.GET, "post?{params}", "", "created=5");
-//        PostsCollection postCollectionRsp = restWrapper.convertResponseToModel(response, PostsCollection.class);
-//        getInfo(response);
-//
-//        softAssert.assertTrue(response.statusCode() == SC_OK);
-//        softAssert.assertEquals(postCollectionRsp.getTotal(), 2);
-//        softAssert.assertAll();
-//    }
-//
-//    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "valid_limit_values")
-//    void getPostsWithValidLimitParam(int limitValue) {
-//        Response response = restWrapper.sendRequest(HttpMethod.GET, "post?limit={params}", "", limitValue);
-//        getInfo(response);
-//        PostsCollection postsCollection = restWrapper.convertResponseToModel(response, PostsCollection.class);
-//
-//        softAssert.assertEquals(response.statusCode(), SC_OK);
-//        softAssert.assertEquals(postsCollection.getData().size(), postsCollection.getLimit());
-//        softAssert.assertAll();
-//    }
-//
-//    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "valid_page_values")
-//    void getPostsWithValidPageParam(int pageValue) {
-//        Response response = restWrapper.sendRequest(HttpMethod.GET, "post?page={params}", "", pageValue);
-//        getInfo(response);
-//        PostsCollection postsCollection = restWrapper.convertResponseToModel(response, PostsCollection.class);
-//
-//        softAssert.assertEquals(response.statusCode(), SC_OK);
-//        softAssert.assertEquals(postsCollection.getPage(), pageValue);
-//        softAssert.assertEquals(postsCollection.getData().size(), 20);
-//        softAssert.assertAll();
-//    }
-//
-//    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_page_values")
-//    void getPostsWithInvalidPageParam(Object pageValue) {
-//        Response response = restWrapper.sendRequest(HttpMethod.GET, "post?page={params}", "", pageValue);
-//        getInfo(response);
-//
-//        Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
-//    }
-//
-//    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_limit_values")
-//    void getPostsWithInvalidLimitParam(Object limitValue) {
-//        Response response = restWrapper.sendRequest(HttpMethod.GET, "post?limit={params}", "", limitValue);
-//        getInfo(response);
-//
-//        Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
-//    }
+    @Test
+    void testGetAllPostsValidAppId() {
+        PostsCollection response = restWrapper.usingPosts().getAllPosts();
+
+        softAssert.assertTrue(restWrapper.getStatusCode() == SC_OK);
+        softAssert.assertEquals(response.getData().size(), response.getLimit());
+        softAssert.assertAll();
+    }
+
+    @Test
+    void testGetAllPostsInvalidAppId() {
+        ErrorModel response = restWrapperNoId.usingPosts().getAllPostsError();
+
+        softAssert.assertTrue(restWrapperNoId.getStatusCode() == SC_FORBIDDEN);
+        softAssert.assertEquals(response.getError(), "APP_ID_MISSING");
+        softAssert.assertAll();
+    }
+
+    @Test
+    void getAllCreatedPosts() {
+        // create a new user in DB and create a new post using that user id
+        createNewPost();
+        createNewPost();
+        PostsCollection response = restWrapper.usingPosts().usingParams("created=1").getAllPosts();
+
+        softAssert.assertTrue(restWrapper.getStatusCode() == SC_OK);
+        softAssert.assertEquals(response.getTotal(), 2);
+        softAssert.assertEquals(response.getData().size(), 2);
+        softAssert.assertAll();
+    }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "valid_limit_values")
+    void getPostsWithValidLimitParam(int limitValue) {
+        PostsCollection response = restWrapper.usingPosts().usingParams("limit="+limitValue).getAllPosts();
+
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
+        softAssert.assertEquals(response.getLimit(), limitValue);
+        softAssert.assertEquals(response.getData().size(), response.getLimit());
+        softAssert.assertAll();
+    }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "valid_page_values")
+    void getPostsWithValidPageParam(int pageValue) {
+        PostsCollection response = restWrapper.usingPosts().usingParams("page="+pageValue).getAllPosts();
+
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
+        softAssert.assertEquals(response.getPage(), pageValue);
+        if (response.getTotal() >= response.getPage() * response.getLimit()) {
+            softAssert.assertEquals(response.getData().size(), response.getLimit());
+        } else {
+            softAssert.assertEquals(response.getData().size(), 0);
+        }
+        softAssert.assertAll();
+    }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_page_values")
+    void getPostsWithInvalidPageParam(Object pageValue) {
+        ErrorModel resposne = restWrapper.usingPosts().usingParams(
+                "page=" + pageValue).getAllPostsError();
+
+        Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
+    }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_limit_values")
+    void getPostsWithInvalidLimitParam(Object limitValue) {
+        ErrorModel resposne = restWrapper.usingPosts().usingParams(
+                "limit=" + limitValue).getAllPostsError();
+
+        Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
+    }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "valid_limit_and_page_values", groups = {"user_test"})
+    void testGetPostsWithValidPageAndLimitParameters(Integer[] dataProvider) {
+        PostsCollection response = restWrapper.usingPosts().usingParams("limit="+dataProvider[0],
+                "page="+dataProvider[1]).getAllPosts();
+
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
+        softAssert.assertEquals(response.getLimit(), (int) dataProvider[0]);
+        softAssert.assertEquals(response.getPage(), (int) dataProvider[1]);
+        if (response.getTotal() >= response.getPage() * response.getLimit()) {
+            softAssert.assertEquals(response.getData().size(), (int) dataProvider[0]);
+        } else {
+            softAssert.assertEquals(response.getData().size(), 0);
+        }
+        softAssert.assertAll();
+    }
 }
 
