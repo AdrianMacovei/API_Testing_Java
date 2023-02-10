@@ -1,10 +1,9 @@
 package io.dummy_api.user;
 
 import io.dummy_api.models.ErrorModel;
+import io.dummy_api.models.UserModel;
 import io.dummy_api.models.UsersCollection;
-import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
-import org.springframework.http.HttpMethod;
 import org.testng.annotations.Test;
 
 import static org.apache.http.HttpStatus.*;
@@ -66,7 +65,7 @@ public class GetUsersTest extends UserBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_page_values", groups = {"user_test"})
     void testGetUsersWithInvalidPageParam(Object pageValue) {
-        ErrorModel response = restWrapper.usingUsers().usingParams(
+        restWrapper.usingUsers().usingParams(
                 "page=" + pageValue).getUsersWithError();
 
         Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
@@ -78,69 +77,61 @@ public class GetUsersTest extends UserBaseClass {
                 "page="+dataProvider[1]).getUsers();
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
-//        softAssert.assertEquals(user.getLimit(), 6);
-//        softAssert.assertEquals(user.getPage(), 1);
-//        softAssert.assertEquals(user.getData().size(), 6);
-//        softAssert.assertAll();
+        softAssert.assertEquals(response.getLimit(), (int) dataProvider[0]);
+        softAssert.assertEquals(response.getPage(), (int) dataProvider[1]);
+        if (response.getTotal() >= response.getPage() * response.getLimit()) {
+            softAssert.assertEquals(response.getData().size(), (int) dataProvider[0]);
+        } else {
+            softAssert.assertEquals(response.getData().size(), 0);
+        }
+        softAssert.assertAll();
+    }
+
+    @Test(groups = {"user_test"})
+    void testGetUserWithValidId() {
+        UserModel newUser = UserModel.generateRandomUser();
+        String newUserId = createUser(newUser);
+        UserModel response = getUser(newUserId);
+
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
+        softAssert.assertEquals(response.getId(), newUserId);
+        softAssert.assertEquals(response.getFirstName(), newUser.getFirstName());
+        softAssert.assertEquals(response.getLastName(), newUser.getLastName());
+        softAssert.assertAll();
+    }
+
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_ids", groups = {"user_test"})
+    void testGetUserWithInvalidId(String id) {
+        ErrorModel response = restWrapper.usingUsers().getInvalidUser(id);
+
+        if (id.length() == 24 && id.matches("\\d+")) {
+            softAssert.assertEquals(restWrapper.getStatusCode(), SC_NOT_FOUND);
+            softAssert.assertEquals(response.getError(), "RESOURCE_NOT_FOUND");
+        } else {
+            softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
+            softAssert.assertEquals(response.getError(), "PARAMS_NOT_VALID");
+        }
+        softAssert.assertAll();
+
+        /*
+            I tried to test get user with invalid id but the answer that I received in different that what I expected.
+            Base on my tests seems that only id with length 24 and who contains only numbers give an SC_NOT_FOUND with error
+            RESOURCES_NOT_FOUND, tried to find a pattern for creating id, but I didn't find one.
+         */
 
     }
-//
-//    @Test(groups = {"user_test"})
-//    void testGetUserWithValidId() {
-//        UserModel newUser = UserModel.generateRandomUser();
-//        String newUserId = createUser(newUser);
-//        Response response = getUser(newUserId);
-//        UserModel userRsp = restWrapper.convertResponseToModel(response, UserModel.class);
-//        getInfo(response);
-//
-//        softAssert.assertEquals(response.statusCode(), SC_OK);
-//        softAssert.assertEquals(userRsp.getId(), newUserId);
-//        softAssert.assertEquals(userRsp.getFirstName(), newUser.getFirstName());
-//        softAssert.assertEquals(userRsp.getLastName(), newUser.getLastName());
-//        response.then().body(JsonSchemaValidator.matchesJsonSchemaInClasspath
-//                ("schema_full_user_null_nonrequired.json"));
-//        softAssert.assertAll();
-//
-//    }
-//
-//    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_ids", groups = {"user_test"})
-//    void testGetUserWithInvalidId(String id) {
-//        Response response = restWrapper.sendRequest(HttpMethod.GET, "user/{parameters}", "",
-//                id);
-//        ErrorModel userError = restWrapper.convertResponseToModel(response, ErrorModel.class);
-//        getInfo(response);
-//
-//        if (id.length() == 24 && id.matches("\\d+")) {
-//            softAssert.assertEquals(response.statusCode(), SC_NOT_FOUND);
-//            softAssert.assertEquals(userError.getError(), "RESOURCE_NOT_FOUND");
-//        } else {
-//            softAssert.assertEquals(response.statusCode(), SC_BAD_REQUEST);
-//            softAssert.assertEquals(userError.getError(), "PARAMS_NOT_VALID");
-//        }
-//        softAssert.assertAll();
-//
-//        /*
-//            I tried to test get user with invalid id but the answer that I received in different that what I expected.
-//            Base on my tests seems that only id with length 24 and who contains only numbers give an SC_NOT_FOUND with error
-//            RESOURCES_NOT_FOUND, tried to find a pattern for creating id, but I didn't find one.
-//         */
-//
-//    }
-//
-//    @Test(groups = {"user_test"})
-//    void testGetCreatedUsers() {
-//        String id1 = createUser(UserModel.generateRandomUser());
-//        String id2 = createUser(UserModel.generateRandomUser());
-//        Response response = restWrapper.sendRequest(HttpMethod.GET,
-//                "user?created=2","", "");
-//        UsersCollection users = restWrapper.convertResponseToModel(response, UsersCollection.class);
-//        getInfo(response);
-//
-//        softAssert.assertEquals(response.statusCode(), SC_OK);
-//        softAssert.assertEquals(users.getTotal(), 2);
-//        softAssert.assertEquals(users.getData().size(), 2);
-//        softAssert.assertEquals(users.getData().get(0).getId(), id1);
-//        softAssert.assertEquals(users.getData().get(1).getId(), id2);
-//        softAssert.assertAll();
-//    }
+
+    @Test(groups = {"user_test"})
+    void testGetCreatedUsers() {
+        String id1 = createUser(UserModel.generateRandomUser());
+        String id2 = createUser(UserModel.generateRandomUser());
+        UsersCollection response = restWrapper.usingUsers().getCreatedUsers();
+
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
+        softAssert.assertEquals(response.getTotal(), 2);
+        softAssert.assertEquals(response.getData().size(), 2);
+        softAssert.assertEquals(response.getData().get(0).getId(), id1);
+        softAssert.assertEquals(response.getData().get(1).getId(), id2);
+        softAssert.assertAll();
+    }
 }

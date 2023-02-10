@@ -6,7 +6,6 @@ import io.dummy_api.models.Location;
 import io.dummy_api.models.UserModel;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.DataProvider;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
@@ -664,7 +663,7 @@ public class DataProviderClass {
                 RandomStringUtils.random(1, true, true),
                 RandomStringUtils.random(1, true, true),
                 RandomStringUtils.random(1, true, true),
-                "-15:00"
+                "-13:00"
         );
         invalidDataInLocationFieldsLessThanMinAccepted.setLocation(locationInvalidLessThanMinAccepted);
 
@@ -682,13 +681,13 @@ public class DataProviderClass {
                 RandomStringUtils.random(31, true, true),
                 RandomStringUtils.random(31, true, true),
                 RandomStringUtils.random(31, true, true),
-                RandomStringUtils.random(6, true, true)
+                "+15:00"
         );
         invalidDataInLocationFieldsLessThanMinAccepted.setLocation(locationInvalidMoreThanMaxAccepted);
 
         return new Object[][]{
                 {invalidDataInLocationFieldsLessThanMinAccepted},
-                {invalidDataInLocationFieldsLessThanMinAccepted}
+                {invalidDataInLocationFieldsMoreThanMaxAccepted}
         };
     }
 
@@ -726,18 +725,146 @@ public class DataProviderClass {
         };
     }
 
-    //
-//    @DataProvider(name = "update_only_email")
-//    public static Object[][] createDataUpdateEmail() {
-//        HashMap<String, String> user_data = new HashMap<>();
-//        user_data.put("firstName", "Adrian");
-//        user_data.put("lastName", "Macovei");
-//        user_data.put("email", RandomStringUtils.random(6, true, true).toLowerCase() + "@gmail.com");
-//        return new HashMap[][]{
-//                {user_data},
-//        };
-//    }
-//
+    @DataProvider(name = "update_valid_first_and_last_name_data")
+    public static Object[][] updateValidFirstAndLastName()
+    {
+        UserModel updateFirstAndLastNameValidMinValues = new UserModel();
+        updateFirstAndLastNameValidMinValues.setFirstName(RandomStringUtils.random(2, true, false));
+        updateFirstAndLastNameValidMinValues.setLastName(RandomStringUtils.random(2, true, false));
+
+        UserModel updateFirstAndLastNameValidMaxValues = new UserModel();
+        updateFirstAndLastNameValidMaxValues.setFirstName(RandomStringUtils.random(30, true, false));
+        updateFirstAndLastNameValidMaxValues.setLastName(RandomStringUtils.random(30, true, false));
+
+        return new Object[][]{
+                {updateFirstAndLastNameValidMinValues},
+                {updateFirstAndLastNameValidMaxValues},
+        };
+    }
+
+    @DataProvider(name = "update_invalid_first_and_last_name_data")
+    public static Object[][] updateInvalidFirstAndLastName()
+    {
+        UserModel updateFirstAndLastNameValidMinValues = new UserModel();
+        updateFirstAndLastNameValidMinValues.setFirstName(RandomStringUtils.random(1, true, false));
+        updateFirstAndLastNameValidMinValues.setLastName(RandomStringUtils.random(1, true, false));
+
+        UserModel updateFirstAndLastNameValidMaxValues = new UserModel();
+        updateFirstAndLastNameValidMaxValues.setFirstName(RandomStringUtils.random(31, true, false));
+        updateFirstAndLastNameValidMaxValues.setLastName(RandomStringUtils.random(31, true, false));
+
+        UserModel updateFirstAndLastNameValidEmpty = new UserModel();
+        updateFirstAndLastNameValidEmpty.setFirstName("");
+        updateFirstAndLastNameValidEmpty.setLastName("");
+
+        UserModel updateFirstAndLastNameValidNull = new UserModel();
+        updateFirstAndLastNameValidNull.setFirstName(null);
+        updateFirstAndLastNameValidNull.setLastName(null);
+
+        return new Object[][]{
+                {updateFirstAndLastNameValidMinValues},
+                {updateFirstAndLastNameValidMaxValues},
+                {updateFirstAndLastNameValidEmpty},
+                {updateFirstAndLastNameValidNull}
+        };
+    }
+
+    @DataProvider(name = "update_all_fields_valid_data")
+    public static Object[][] updateAllFieldsValidData()
+    {
+        UserModel updateValidDataAllFields = new UserModel();
+        updateValidDataAllFields.setFirstName(RandomStringUtils.random(15, true, false));
+        updateValidDataAllFields.setLastName(RandomStringUtils.random(15, true, false));
+        updateValidDataAllFields.setPhone(RandomStringUtils.random(10, false, true));
+        updateValidDataAllFields.setPicture(RandomStringUtils.random(10, true, true));
+        updateValidDataAllFields.setTitle(Title.MR.getTitleType());
+        updateValidDataAllFields.setGender(Gender.MALE.getGenderType());
+        Location location = new Location(
+                RandomStringUtils.random(15, true, false),
+                RandomStringUtils.random(15, true, false),
+                RandomStringUtils.random(15, true, false),
+                RandomStringUtils.random(15, true, false),
+                "+5:00"
+        );
+        updateValidDataAllFields.setLocation(location);
+
+        return new UserModel[][]{
+                {updateValidDataAllFields},
+        };
+    }
+
+    @DataProvider(name = "update_all_fields_invalid_data")
+    public static Object[][] updateAllFieldsInvalidData()
+    {
+        UserModel updateInvalidDataAllFieldsLessThanMin = new UserModel();
+        updateInvalidDataAllFieldsLessThanMin.setFirstName(RandomStringUtils.random(1, true, false));
+        updateInvalidDataAllFieldsLessThanMin.setLastName(RandomStringUtils.random(1, true, false));
+        updateInvalidDataAllFieldsLessThanMin.setPhone(RandomStringUtils.random(4, false, true));
+        updateInvalidDataAllFieldsLessThanMin.setPicture(RandomStringUtils.random(10, true, true));
+        updateInvalidDataAllFieldsLessThanMin.setTitle("human");
+        updateInvalidDataAllFieldsLessThanMin.setGender("human");
+        updateInvalidDataAllFieldsLessThanMin.setDateOfBirth("1899/12/31");
+        Location locationLessThanMin = new Location(
+                RandomStringUtils.random(4, true, false),
+                RandomStringUtils.random(1, true, false),
+                RandomStringUtils.random(1, true, false),
+                RandomStringUtils.random(1, true, false),
+                "-13:00"
+        );
+        updateInvalidDataAllFieldsLessThanMin.setLocation(locationLessThanMin);
+
+        UserModel updateInvalidDataAllFieldsMoreThanMax = new UserModel();
+        updateInvalidDataAllFieldsMoreThanMax.setFirstName(RandomStringUtils.random(31, true, false));
+        updateInvalidDataAllFieldsMoreThanMax.setLastName(RandomStringUtils.random(31, true, false));
+        updateInvalidDataAllFieldsMoreThanMax.setEmail(RandomStringUtils.random(7, true, false));
+        updateInvalidDataAllFieldsMoreThanMax.setPhone(RandomStringUtils.random(21, false, true));
+        updateInvalidDataAllFieldsMoreThanMax.setPicture(RandomStringUtils.random(10, true, true));
+        updateInvalidDataAllFieldsMoreThanMax.setDateOfBirth(formatDate("E MMM dd yyyy HH:mm:ss",
+                rand.nextInt(20), rand.nextInt(20)));
+        updateInvalidDataAllFieldsMoreThanMax.setTitle("human");
+        updateInvalidDataAllFieldsMoreThanMax.setGender("human");
+        Location locationMoreThanMax = new Location(
+                RandomStringUtils.random(101, true, false),
+                RandomStringUtils.random(31, true, false),
+                RandomStringUtils.random(31, true, false),
+                RandomStringUtils.random(31, true, false),
+                "+15:00"
+        );
+        updateInvalidDataAllFieldsMoreThanMax.setLocation(locationMoreThanMax);
+
+        return new UserModel[][]{
+                {updateInvalidDataAllFieldsLessThanMin},
+                {updateInvalidDataAllFieldsMoreThanMax},
+        };
+    }
+    @DataProvider(name = "update_only_email")
+    public static Object[][] createDataUpdateEmail() {
+        UserModel userUpdateEmail = new UserModel();
+        userUpdateEmail.setEmail(RandomStringUtils.random(6, true, true).toLowerCase() + DOMAIN1);
+
+        UserModel userUpdateWrongFormatEmail = new UserModel();
+        userUpdateEmail.setEmail(RandomStringUtils.random(6, true, true).toLowerCase());
+
+        return new UserModel[][]{
+                {userUpdateEmail},
+                {userUpdateWrongFormatEmail},
+        };
+    }
+
+    @DataProvider(name = "update_id_of_user")
+    public static Object[][] createDataUpdateId() {
+        UserModel userUpdateIdWrongLength = new UserModel();
+        userUpdateIdWrongLength.setId(RandomStringUtils.random(6, true, true));
+
+        UserModel userUpdateWrongId = new UserModel();
+        userUpdateWrongId.setId(RandomStringUtils.random(24, false, true));
+
+        return new UserModel[][]{
+                {userUpdateIdWrongLength},
+                {userUpdateWrongId},
+        };
+    }
+
     @DataProvider(name = "create_user_xss_inj")
     public static Object[][] createDataXssInjOnCreateUser() {
         UserModel userWithXss = new UserModel(
@@ -751,15 +878,15 @@ public class DataProviderClass {
                 {userWithXss},
         };
     }
-//
-//    @DataProvider(name = "update_user_xss_inj")
-//    public static Object[][] createDataXssInjOnUpdateUser() {
-//        HashMap<String, String> user_data = new HashMap<>();
-//        user_data.put("firstName", "<script>alert(\"XSS\")</script>");
-//        user_data.put("lastName", "<script>alert(\"XSS\")</script>");
-//        return new HashMap[][]{
-//                {user_data},
-//        };
-//    }
+
+    @DataProvider(name = "update_user_first_and_last_name_xss_injection")
+    public static Object[][] createDataXssInjOnUpdateUser() {
+        UserModel userWithXss = new UserModel();
+        userWithXss.setFirstName("<script>alert(\"XSS\")</script>");
+        userWithXss.setLastName("<script>alert(\"XSS\")</script>");
+        return new UserModel[][]{
+                {userWithXss},
+        };
+    }
 
 }

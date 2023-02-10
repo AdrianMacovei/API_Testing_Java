@@ -19,6 +19,12 @@ public class UsersRequests extends ModelRequest<UsersRequests>
         return restWrapper.executeRequestAndProcessModel(UserModel.class, request);
     }
 
+    public ErrorModel getInvalidUser(String userId)
+    {
+        RestRequest request = RestRequest.simpleRequest(HttpMethod.GET, "user/{id}", userId);
+        return restWrapper.executeRequestAndProcessModel(ErrorModel.class, request);
+    }
+
     public UsersCollection getUsers()
     {
         RestRequest request = RestRequest.simpleRequest(HttpMethod.GET, "user?{parameters}", restWrapper.getParameters());
@@ -64,5 +70,18 @@ public class UsersRequests extends ModelRequest<UsersRequests>
         RestRequest request = RestRequest.simpleRequest(HttpMethod.DELETE, "user/{parameters}", userId);
         return restWrapper.executeRequestAndProcessModel(ErrorModel.class, request);
     }
+
+    public UserModel updateUser(String userId, UserModel body){
+        RestRequest updateRequest = RestRequest.requestWithBody(HttpMethod.PUT,
+                body, "user/" + userId);
+        return restWrapper.executeRequestAndProcessModel(UserModel.class, updateRequest);
+    }
+
+    public ErrorModel updateUserError(String userId, UserModel body){
+        RestRequest updateRequest = RestRequest.requestWithBody(HttpMethod.PUT,
+                body, "user/" + userId);
+        return restWrapper.executeRequestAndProcessModel(ErrorModel.class, updateRequest);
+    }
+
 
 }

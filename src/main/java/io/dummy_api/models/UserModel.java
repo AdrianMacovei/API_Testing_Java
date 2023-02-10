@@ -70,7 +70,7 @@ public class UserModel {
     {
         String randomData = RandomStringUtils.randomAlphabetic(7);
         UserModel newUser = new UserModel("fn" + randomData, "ln" + randomData,
-                randomData + "@gmail.com");
+                randomData.toLowerCase() + "@gmail.com");
         newUser.setGender("male");
         newUser.setTitle("mr");
 
