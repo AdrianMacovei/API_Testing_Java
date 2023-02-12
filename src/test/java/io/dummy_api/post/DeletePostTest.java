@@ -1,7 +1,6 @@
 package io.dummy_api.post;
 
 import io.dummy_api.models.ErrorPostModel;
-import io.dummy_api.models.ErrorUserModel;
 import io.dummy_api.models.PostModel;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.Test;

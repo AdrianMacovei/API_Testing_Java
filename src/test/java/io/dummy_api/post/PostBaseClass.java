@@ -36,12 +36,7 @@ public class PostBaseClass extends ApiBaseClass {
     {
        return restWrapper.usingPosts().deletePost(postId);
     }
-//
-//    protected PostsCollection getCreatedPosts()
-//    {
-//        Response response = restWrapper.sendRequest(HttpMethod.GET, "post?{params}", "", "created=15");
-//        return restWrapper.convertResponseToModel(response, PostsCollection.class);
-//    }
+
     @AfterMethod
     public void tearDownPost()
     {

@@ -66,7 +66,7 @@ public class GetAllPostsTest extends PostBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_page_values")
     void getPostsWithInvalidPageParam(Object pageValue) {
-        ErrorPostModel resposne = restWrapper.usingPosts().usingParams(
+        ErrorPostModel response = restWrapper.usingPosts().usingParams(
                 "page=" + pageValue).getAllPostsError();
 
         Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
@@ -74,7 +74,7 @@ public class GetAllPostsTest extends PostBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_limit_values")
     void getPostsWithInvalidLimitParam(Object limitValue) {
-        ErrorPostModel resposne = restWrapper.usingPosts().usingParams(
+        ErrorPostModel response = restWrapper.usingPosts().usingParams(
                 "limit=" + limitValue).getAllPostsError();
 
         Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
