@@ -1,6 +1,6 @@
 package io.dummy_api.user;
 
-import io.dummy_api.models.ErrorModel;
+import io.dummy_api.models.ErrorUserModel;
 import io.dummy_api.models.UserModel;
 import io.dummy_api.models.UsersCollection;
 import org.assertj.core.api.Assertions;
@@ -23,7 +23,7 @@ public class GetUsersTest extends UserBaseClass {
 
     @Test(groups = {"user_test"})
     void testGetUsersWithInvalidAppId() {
-        ErrorModel response = restWrapperNoId.usingUsers().getUsersWithError();
+        ErrorUserModel response = restWrapperNoId.usingUsers().getUsersWithError();
 
         softAssert.assertEquals(restWrapperNoId.getStatusCode(), SC_FORBIDDEN);
         softAssert.assertEquals(response.getError(), "APP_ID_MISSING");
@@ -102,7 +102,7 @@ public class GetUsersTest extends UserBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_ids", groups = {"user_test"})
     void testGetUserWithInvalidId(String id) {
-        ErrorModel response = restWrapper.usingUsers().getInvalidUser(id);
+        ErrorUserModel response = restWrapper.usingUsers().getInvalidUser(id);
 
         if (id.length() == 24 && id.matches("\\d+")) {
             softAssert.assertEquals(restWrapper.getStatusCode(), SC_NOT_FOUND);

@@ -2,21 +2,13 @@ package io.dummy_api.requests;
 
 import io.dummy_api.core.RestRequest;
 import io.dummy_api.core.RestWrapper;
-import io.dummy_api.models.CreateBodyPostModel;
-import io.dummy_api.models.ErrorModel;
-import io.dummy_api.models.PostModel;
-import io.dummy_api.models.PostsCollection;
+import io.dummy_api.models.*;
 import org.springframework.http.HttpMethod;
 
-public class PostRequests extends ModelRequest<PostRequests>{
+public class PostsRequests extends ModelRequest<PostsRequests>{
 
-    public PostRequests(RestWrapper restWrapper) {
+    public PostsRequests(RestWrapper restWrapper) {
         super(restWrapper);
-    }
-
-    public PostModel getPost(String postId) {
-        RestRequest request = RestRequest.simpleRequest(HttpMethod.GET, "post/{id}", postId);
-        return restWrapper.executeRequestAndProcessModel(PostModel.class, request);
     }
 
     public PostsCollection getAllPosts()
@@ -32,22 +24,39 @@ public class PostRequests extends ModelRequest<PostRequests>{
         return restWrapper.executeRequestAndProcessModel(PostModel.class, request);
     }
 
-    public ErrorModel getPostByIdError(String id)
+    public ErrorPostModel getPostByIdError(String id)
     {
         RestRequest request = RestRequest.simpleRequest(HttpMethod.GET, "post/" + id);
-        return restWrapper.executeRequestAndProcessModel(ErrorModel.class, request);
+        return restWrapper.executeRequestAndProcessModel(ErrorPostModel.class, request);
     }
 
-    public ErrorModel getAllPostsError()
+    public PostsCollection getUserPosts(String userId)
+    {
+        RestRequest request = RestRequest.simpleRequest(HttpMethod.GET, "user/{params}/post", userId);
+        return restWrapper.executeRequestAndProcessModel(PostsCollection.class, request);
+    }
+    public ErrorPostModel getUserPostsError(String userId)
+    {
+        RestRequest request = RestRequest.simpleRequest(HttpMethod.GET, "user/{params}/post", userId);
+        return restWrapper.executeRequestAndProcessModel(ErrorPostModel.class, request);
+    }
+
+
+    public ErrorPostModel getAllPostsError()
     {
         RestRequest request = RestRequest.simpleRequest(HttpMethod.GET, "post?{params}",
                 restWrapper.getParameters());
-        return restWrapper.executeRequestAndProcessModel(ErrorModel.class, request);
+        return restWrapper.executeRequestAndProcessModel(ErrorPostModel.class, request);
     }
 
     public PostModel createPost(CreateBodyPostModel bodyPostModel){
         RestRequest request = RestRequest.requestWithBody(HttpMethod.POST, bodyPostModel, "post/create");
         return restWrapper.executeRequestAndProcessModel(PostModel.class, request);
+    }
+
+    public ErrorPostModel createPostError(CreateBodyPostModel bodyPostModel){
+        RestRequest request = RestRequest.requestWithBody(HttpMethod.POST, bodyPostModel, "post/create");
+        return restWrapper.executeRequestAndProcessModel(ErrorPostModel.class, request);
     }
 
     public PostModel updatePost(CreateBodyPostModel bodyPostModel, String postId){
@@ -58,6 +67,11 @@ public class PostRequests extends ModelRequest<PostRequests>{
     public PostModel deletePost(String postId){
         RestRequest request = RestRequest.simpleRequest(HttpMethod.DELETE,"post/" + postId);
         return restWrapper.executeRequestAndProcessModel(PostModel.class, request);
+    }
+
+    public ErrorPostModel deletePostError(String postId){
+        RestRequest request = RestRequest.simpleRequest(HttpMethod.DELETE,"post/" + postId);
+        return restWrapper.executeRequestAndProcessModel(ErrorPostModel.class, request);
     }
 }
 

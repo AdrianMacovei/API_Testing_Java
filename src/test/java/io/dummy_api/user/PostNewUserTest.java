@@ -1,6 +1,6 @@
 package io.dummy_api.user;
 
-import io.dummy_api.models.ErrorModel;
+import io.dummy_api.models.ErrorUserModel;
 import io.dummy_api.models.UserModel;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
@@ -26,7 +26,7 @@ public class PostNewUserTest extends UserBaseClass {
     {
         UserModel userDataBody = (UserModel) userDataProvider[0];
         String errorMessage = (String) userDataProvider[1];
-        ErrorModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
+        ErrorUserModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
         softAssert.assertEquals(userErrorRsp.getError(), ERROR_MSG_BODY);
@@ -39,7 +39,7 @@ public class PostNewUserTest extends UserBaseClass {
     {
         UserModel userDataBody = (UserModel) userDataProvider[0];
         String errorMessage = (String) userDataProvider[1];
-        ErrorModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
+        ErrorUserModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
         softAssert.assertEquals(userErrorRsp.getError(), ERROR_MSG_BODY);
@@ -52,7 +52,7 @@ public class PostNewUserTest extends UserBaseClass {
     {
         UserModel userDataBody = (UserModel) userDataProvider[0];
         String errorMessage = (String) userDataProvider[1];
-        ErrorModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
+        ErrorUserModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
         softAssert.assertEquals(userErrorRsp.getError(), ERROR_MSG_BODY);
@@ -67,7 +67,7 @@ public class PostNewUserTest extends UserBaseClass {
         UserModel userDataBody = (UserModel) userDataProvider[0];
         String errorMessageFirstName = (String) userDataProvider[1];
         String errorMessageLastName = (String) userDataProvider[2];
-        ErrorModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
+        ErrorUserModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
         softAssert.assertEquals(userErrorRsp.getError(), ERROR_MSG_BODY);
@@ -83,7 +83,7 @@ public class PostNewUserTest extends UserBaseClass {
         UserModel userDataBody = (UserModel) userDataProvider[0];
         String errorMessageFirstName = (String) userDataProvider[1];
         String errorMessageEmail = (String) userDataProvider[2];
-        ErrorModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
+        ErrorUserModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
         softAssert.assertEquals(userErrorRsp.getError(), ERROR_MSG_BODY);
@@ -99,7 +99,7 @@ public class PostNewUserTest extends UserBaseClass {
         UserModel userDataBody = (UserModel) userDataProvider[0];
         String errorMessageLastName = (String) userDataProvider[1];
         String errorMessageEmail = (String) userDataProvider[2];
-        ErrorModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
+        ErrorUserModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
         softAssert.assertEquals(userErrorRsp.getError(), ERROR_MSG_BODY);
@@ -116,7 +116,7 @@ public class PostNewUserTest extends UserBaseClass {
         String errorMessageFirstName = (String) userDataProvider[1];
         String errorMessageLastName = (String) userDataProvider[2];
         String errorMessageEmail = (String) userDataProvider[3];
-        ErrorModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
+        ErrorUserModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
         softAssert.assertEquals(userErrorRsp.getError(), ERROR_MSG_BODY);
@@ -152,7 +152,7 @@ public class PostNewUserTest extends UserBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_invalid_title_data", groups = {"user_test"})
     void testCreateUserWithInvalidTitle(UserModel userData) {
-        ErrorModel errorRsp = restWrapper.usingUsers().createInvalidUser(userData);
+        ErrorUserModel errorRsp = restWrapper.usingUsers().createInvalidUser(userData);
 
         Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
         softAssert.assertEquals(errorRsp.getError(), ERROR_MSG_BODY);
@@ -163,7 +163,7 @@ public class PostNewUserTest extends UserBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_invalid_gender_data", groups = {"user_test"})
     void testCreateUserWithInvalidGender(UserModel userData) {
-        ErrorModel errorRsp = restWrapper.usingUsers().createInvalidUser(userData);
+        ErrorUserModel errorRsp = restWrapper.usingUsers().createInvalidUser(userData);
 
         Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
         softAssert.assertEquals(errorRsp.getError(), ERROR_MSG_BODY);
@@ -176,7 +176,7 @@ public class PostNewUserTest extends UserBaseClass {
     void testCreateUserWithInvalidDateOfBirthField(Object[] userDataProvider) {
         UserModel userData =(UserModel) userDataProvider[0];
         String birthErrorMsg = (String) userDataProvider[1];
-        ErrorModel errorRsp = restWrapper.usingUsers().createInvalidUser(userData);
+        ErrorUserModel errorRsp = restWrapper.usingUsers().createInvalidUser(userData);
 
         Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
         softAssert.assertEquals(errorRsp.getError(), ERROR_MSG_BODY);
@@ -191,7 +191,7 @@ public class PostNewUserTest extends UserBaseClass {
     void testCreateUserWithInvalidPhoneField(Object[] userDataProvider) {
         UserModel userData =(UserModel) userDataProvider[0];
         String birthErrorMsg = (String) userDataProvider[1];
-        ErrorModel errorRsp = restWrapper.usingUsers().createInvalidUser(userData);
+        ErrorUserModel errorRsp = restWrapper.usingUsers().createInvalidUser(userData);
 
         Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
         softAssert.assertEquals(errorRsp.getError(), ERROR_MSG_BODY);
@@ -211,7 +211,7 @@ public class PostNewUserTest extends UserBaseClass {
             groups = {"user_test"})
     void testCreateUserWithInvalidDataInAllAvailableFields(Object[] userDataProvider) {
         UserModel userBody = (UserModel) userDataProvider[0];
-        ErrorModel errorRsp = restWrapper.usingUsers().createInvalidUser(userBody);
+        ErrorUserModel errorRsp = restWrapper.usingUsers().createInvalidUser(userBody);
         UserModel data = errorRsp.getData();
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
@@ -237,7 +237,7 @@ public class PostNewUserTest extends UserBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_valid_data", groups = {"user_test"})
     void testCreateUserWithNoAppId(UserModel userData) {
-        ErrorModel userRsp = restWrapperNoId.usingUsers().createInvalidUser(userData);
+        ErrorUserModel userRsp = restWrapperNoId.usingUsers().createInvalidUser(userData);
 
         softAssert.assertEquals(restWrapperNoId.getStatusCode(), SC_FORBIDDEN);
         softAssert.assertEquals(userRsp.getError(), "APP_ID_MISSING");

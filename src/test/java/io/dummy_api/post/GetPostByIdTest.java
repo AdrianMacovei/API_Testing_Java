@@ -1,9 +1,8 @@
 package io.dummy_api.post;
-import io.dummy_api.models.ErrorModel;
+import io.dummy_api.models.ErrorPostModel;
+import io.dummy_api.models.ErrorUserModel;
 import io.dummy_api.models.PostModel;
 import io.dummy_api.user.DataProviderClass;
-import io.restassured.response.Response;
-import org.springframework.http.HttpMethod;
 import org.testng.annotations.Test;
 
 import static org.apache.http.HttpStatus.*;
@@ -22,7 +21,7 @@ public class GetPostByIdTest extends PostBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_ids")
     void testGetPostWithInvalidId(String postId) {
-        ErrorModel response = restWrapper.usingPosts().getPostByIdError(postId);
+        ErrorPostModel response = restWrapper.usingPosts().getPostByIdError(postId);
 
         if (postId.length() == 24 && postId.matches("\\d+")) {
             softAssert.assertEquals(restWrapper.getStatusCode(), SC_NOT_FOUND);

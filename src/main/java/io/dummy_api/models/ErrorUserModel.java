@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ErrorModel {
+public class ErrorUserModel {
 
     @JsonProperty(required = true)
     private String error;

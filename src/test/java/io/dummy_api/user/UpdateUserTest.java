@@ -1,6 +1,6 @@
 package io.dummy_api.user;
 
-import io.dummy_api.models.ErrorModel;
+import io.dummy_api.models.ErrorUserModel;
 import io.dummy_api.models.UserModel;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
@@ -109,7 +109,7 @@ public class UpdateUserTest extends UserBaseClass {
             groups = {"user_test"})
     void testUpdateNoAppId(UserModel data) {
         String id = createUser(UserModel.generateRandomUser());
-        ErrorModel response = restWrapperNoId.usingUsers().updateUserError(id, data);
+        ErrorUserModel response = restWrapperNoId.usingUsers().updateUserError(id, data);
 
         softAssert.assertEquals(restWrapperNoId.getStatusCode(), SC_FORBIDDEN);
         softAssert.assertEquals(response.getError(), "APP_ID_MISSING");

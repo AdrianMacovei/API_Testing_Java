@@ -1,14 +1,9 @@
 package io.dummy_api.post;
 
-import io.dummy_api.models.CreateBodyPostModel;
-import io.dummy_api.models.ErrorModel;
+import io.dummy_api.models.ErrorPostModel;
 import io.dummy_api.models.PostsCollection;
-import io.dummy_api.models.UsersCollection;
-import io.dummy_api.requests.PostRequests;
 import io.dummy_api.user.DataProviderClass;
-import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
-import org.springframework.http.HttpMethod;
 import org.testng.annotations.Test;
 import static org.apache.http.HttpStatus.*;
 
@@ -25,7 +20,7 @@ public class GetAllPostsTest extends PostBaseClass {
 
     @Test
     void testGetAllPostsInvalidAppId() {
-        ErrorModel response = restWrapperNoId.usingPosts().getAllPostsError();
+        ErrorPostModel response = restWrapperNoId.usingPosts().getAllPostsError();
 
         softAssert.assertTrue(restWrapperNoId.getStatusCode() == SC_FORBIDDEN);
         softAssert.assertEquals(response.getError(), "APP_ID_MISSING");
@@ -71,7 +66,7 @@ public class GetAllPostsTest extends PostBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_page_values")
     void getPostsWithInvalidPageParam(Object pageValue) {
-        ErrorModel resposne = restWrapper.usingPosts().usingParams(
+        ErrorPostModel resposne = restWrapper.usingPosts().usingParams(
                 "page=" + pageValue).getAllPostsError();
 
         Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
@@ -79,7 +74,7 @@ public class GetAllPostsTest extends PostBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_limit_values")
     void getPostsWithInvalidLimitParam(Object limitValue) {
-        ErrorModel resposne = restWrapper.usingPosts().usingParams(
+        ErrorPostModel resposne = restWrapper.usingPosts().usingParams(
                 "limit=" + limitValue).getAllPostsError();
 
         Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);

@@ -2,8 +2,6 @@ package io.dummy_api.post;
 
 import io.dummy_api.ApiBaseClass;
 import io.dummy_api.models.*;
-import io.restassured.response.Response;
-import org.springframework.http.HttpMethod;
 import org.testng.annotations.AfterMethod;
 
 import java.util.Random;
