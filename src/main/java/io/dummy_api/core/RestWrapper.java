@@ -162,10 +162,8 @@ public class RestWrapper {
     }
 
     public void getInfo(Response response) {
-        System.out.println("*************************TEST START************************");
         response.prettyPrint();
         System.out.println(response.statusCode());
-        System.out.println("*************************TEST FINISH************************");
     }
 
 }

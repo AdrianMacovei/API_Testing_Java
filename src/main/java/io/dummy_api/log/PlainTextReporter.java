@@ -10,17 +10,20 @@ import org.testng.ITestResult;
 public class PlainTextReporter implements ITestListener {
     @Override
     public void onTestStart(ITestResult result) {
-        log.info("|*|*|*|*|*|*| STARTING TEST {}:{} |*|*|*|*|*|*|", result.getMethod().getRealClass().getSimpleName(), result.getMethod().getConstructorOrMethod().getName());
+        log.info("|*|*|*|*|*|*| STARTING TEST {}:{} |*|*|*|*|*|*|", result.getMethod().getRealClass().getSimpleName(),
+                result.getMethod().getConstructorOrMethod().getName());
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        log.info("|*|*|*|*|*|*| Ending test {}:{} {} |*|*|*|*|*|*|*|*", result.getMethod().getRealClass().getSimpleName(), result.getMethod().getConstructorOrMethod().getName(), "SUCCESS");
+        log.info("|*|*|*|*|*|*| Ending test {}:{} {} |*|*|*|*|*|*|*|*", result.getMethod().getRealClass().getSimpleName(),
+                result.getMethod().getConstructorOrMethod().getName(), "SUCCESS");
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        log.info("|*|*|*|*|*|*| Ending test {}:{} {} |*|*|*|*|*|*|*|*", result.getMethod().getRealClass().getSimpleName(), result.getMethod().getConstructorOrMethod().getName(), "!!! FAILURE !!!");
+        log.info("|*|*|*|*|*|*| Ending test {}:{} {} |*|*|*|*|*|*|*|*", result.getMethod().getRealClass().getSimpleName(),
+                result.getMethod().getConstructorOrMethod().getName(), "!!! FAILURE !!!");
     }
 
     @Override

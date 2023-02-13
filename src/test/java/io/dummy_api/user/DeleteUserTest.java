@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 
 import static org.apache.http.HttpStatus.*;
 
-
 public class DeleteUserTest extends UserBaseClass {
     @Test(groups = {"user_test"})
     void testDeleteUser() {
