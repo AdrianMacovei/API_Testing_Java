@@ -24,10 +24,10 @@ public class GetPostByIdTest extends PostBaseClass {
 
         if (postId.length() == 24 && postId.matches("\\d+")) {
             softAssert.assertEquals(restWrapper.getStatusCode(), SC_NOT_FOUND);
-            softAssert.assertEquals(response.getError(), "RESOURCE_NOT_FOUND");
+            softAssert.assertEquals(response.getError(), ERROR_MSG_RSC_NOT_FOUND);
         } else {
             softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
-            softAssert.assertEquals(response.getError(), "PARAMS_NOT_VALID");
+            softAssert.assertEquals(response.getError(), ERROR_MSG_PARAMS_NOT_VALID);
         }
         softAssert.assertAll();
     }

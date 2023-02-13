@@ -14,7 +14,8 @@ import static org.apache.http.HttpStatus.*;
 
 public class CreatePostTest extends PostBaseClass {
 
-    private final static String ERROR_LIKE_INVALID_FORMAT = "Cast to Number failed for value \"%s\" (type string) at path \"likes\"";
+    private final static String ERROR_LIKE_INVALID_FORMAT =
+            "Cast to Number failed for value \"%s\" (type string) at path \"likes\"";
 
     @DataProvider(name = "valid_data_create_post")
     public Object[][] createValidDataCreatePost() {
@@ -154,7 +155,7 @@ public class CreatePostTest extends PostBaseClass {
     {
         ErrorPostModel response = restWrapper.usingPosts().createPostError(newPostBody);
         Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
-        Assertions.assertThat(response.getError()).isEqualTo("BODY_NOT_VALID");
+        Assertions.assertThat(response.getError()).isEqualTo(ERROR_MSG_BODY);
     }
 
     @DataProvider(name = "create-post_empty_fields")
@@ -213,7 +214,7 @@ public class CreatePostTest extends PostBaseClass {
     {
         ErrorPostModel response = restWrapper.usingPosts().createPostError(newPostBody);
         Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
-        Assertions.assertThat(response.getError()).isEqualTo("BODY_NOT_VALID");
+        Assertions.assertThat(response.getError()).isEqualTo(ERROR_MSG_BODY);
     }
 
     @DataProvider(name = "string_in_like_field")
@@ -239,7 +240,7 @@ public class CreatePostTest extends PostBaseClass {
     {
         ErrorPostModel response = restWrapper.usingPosts().createPostError(newPostBody);
         Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
-        Assertions.assertThat(response.getError()).isEqualTo("BODY_NOT_VALID");
+        Assertions.assertThat(response.getError()).isEqualTo(ERROR_MSG_BODY);
         Assertions.assertThat(response.getData().getLikes()).isEqualTo(String.format
                 (ERROR_LIKE_INVALID_FORMAT, newPostBody.getLikes()));
     }

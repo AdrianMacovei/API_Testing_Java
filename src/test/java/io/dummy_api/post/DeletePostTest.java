@@ -27,7 +27,7 @@ public class DeletePostTest extends PostBaseClass {
         ErrorPostModel responseError = restWrapper.usingPosts().deletePostError(newPost.getId());
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_NOT_FOUND);
-        softAssert.assertEquals(responseError.getError(), "RESOURCE_NOT_FOUND");
+        softAssert.assertEquals(responseError.getError(), ERROR_MSG_RSC_NOT_FOUND);
         softAssert.assertAll();
     }
 
@@ -38,7 +38,7 @@ public class DeletePostTest extends PostBaseClass {
         ErrorPostModel responseError = restWrapper.usingPosts().deletePostError(newPostId);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
-        softAssert.assertEquals(responseError.getError(), "PARAMS_NOT_VALID");
+        softAssert.assertEquals(responseError.getError(), ERROR_MSG_PARAMS_NOT_VALID);
         softAssert.assertAll();
     }
 
@@ -48,7 +48,7 @@ public class DeletePostTest extends PostBaseClass {
         ErrorPostModel responseError = restWrapperNoId.usingPosts().deletePostError(newPost.getId());
 
         softAssert.assertEquals(restWrapperNoId.getStatusCode(), SC_FORBIDDEN);
-        softAssert.assertEquals(responseError.getError(), "APP_ID_MISSING");
+        softAssert.assertEquals(responseError.getError(), ERROR_MSG_MISSING_APP_ID);
         softAssert.assertAll();
     }
 }

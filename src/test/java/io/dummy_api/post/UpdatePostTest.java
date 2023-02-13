@@ -101,7 +101,7 @@ public class UpdatePostTest extends PostBaseClass {
         ErrorPostModel responseUpdatePost = restWrapperNoId.usingPosts().updatePostError(bodyPost, newPost.getId());
 
         softAssert.assertEquals(restWrapperNoId.getStatusCode(), SC_FORBIDDEN);
-        softAssert.assertEquals(responseUpdatePost.getError(), "APP_ID_MISSING");
+        softAssert.assertEquals(responseUpdatePost.getError(), ERROR_MSG_MISSING_APP_ID);
         softAssert.assertAll();
     }
 

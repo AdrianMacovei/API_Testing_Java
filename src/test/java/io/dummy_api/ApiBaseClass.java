@@ -15,6 +15,10 @@ import org.testng.asserts.SoftAssert;
 @ContextConfiguration(classes = TestContext.class)
 @Listeners(PlainTextReporter.class)
 public abstract class ApiBaseClass extends AbstractTestNGSpringContextTests {
+    protected static final String ERROR_MSG_BODY = "BODY_NOT_VALID";
+    protected static final String ERROR_MSG_MISSING_APP_ID = "APP_ID_MISSING";
+    protected static final String ERROR_MSG_PARAMS_NOT_VALID = "PARAMS_NOT_VALID";
+    protected static final String ERROR_MSG_RSC_NOT_FOUND = "RESOURCE_NOT_FOUND";
 
     @Autowired
     private Properties properties;
@@ -36,9 +40,4 @@ public abstract class ApiBaseClass extends AbstractTestNGSpringContextTests {
     public void setUpMethod() {
         softAssert = new SoftAssert();
     }
-
-    protected static final String ERROR_MSG_BODY = "BODY_NOT_VALID";
-    protected static final String ERROR_MSG_MISSING_APP_ID = "APP_ID_MISSING";
-    protected static final String ERROR_MSG_PARAMS_NOT_VALID = "PARAMS_NOT_VALID";
-    protected static final String ERROR_MSG_RSC_NOT_FOUND = "RESOURCE_NOT_FOUND";
 }
