@@ -26,7 +26,7 @@ public class DeleteUserTest extends UserBaseClass {
         ErrorUserModel response = restWrapper.usingUsers().deleteUserWithError(id);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_NOT_FOUND);
-        softAssert.assertEquals(response.getError(), "RESOURCE_NOT_FOUND");
+        softAssert.assertEquals(response.getError(), ERROR_MSG_RSC_NOT_FOUND);
         softAssert.assertAll();
     }
 
@@ -36,7 +36,7 @@ public class DeleteUserTest extends UserBaseClass {
         ErrorUserModel response = restWrapperNoId.usingUsers().deleteUserWithError(id);
 
         softAssert.assertEquals(restWrapperNoId.getStatusCode(), SC_FORBIDDEN);
-        softAssert.assertEquals(response.getError(), "APP_ID_MISSING");
+        softAssert.assertEquals(response.getError(), ERROR_MSG_MISSING_APP_ID);
         softAssert.assertAll();
     }
 
@@ -46,7 +46,7 @@ public class DeleteUserTest extends UserBaseClass {
                 RandomStringUtils.random(24, true, true));
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
-        softAssert.assertEquals(response.getError(), "PARAMS_NOT_VALID");
+        softAssert.assertEquals(response.getError(), ERROR_MSG_PARAMS_NOT_VALID);
         softAssert.assertAll();
     }
 

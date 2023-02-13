@@ -96,7 +96,7 @@ public class DataProviderClass {
     public static Object[][] createValidDataLimitAndPageParam() {
         return new Integer[][]{
                 {5, 0}, {50, 999}, {rand.nextInt(5) + 5, rand.nextInt(10)},
-                {rand.nextInt(89)+10, rand.nextInt(899) + 100}
+                {rand.nextInt(49)+10, rand.nextInt(899) + 100}
         };
     }
 

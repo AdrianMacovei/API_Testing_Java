@@ -112,7 +112,7 @@ public class UpdateUserTest extends UserBaseClass {
         ErrorUserModel response = restWrapperNoId.usingUsers().updateUserError(id, data);
 
         softAssert.assertEquals(restWrapperNoId.getStatusCode(), SC_FORBIDDEN);
-        softAssert.assertEquals(response.getError(), "APP_ID_MISSING");
+        softAssert.assertEquals(response.getError(), ERROR_MSG_MISSING_APP_ID);
         softAssert.assertAll();
     }
 

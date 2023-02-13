@@ -6,9 +6,10 @@ import io.dummy_api.models.UsersCollection;
 import org.testng.annotations.AfterMethod;
 
 public class UserBaseClass extends ApiBaseClass {
-    protected static final String ERROR_MSG_BODY = "BODY_NOT_VALID";
+
     protected static final String ERROR_DATA_MESSAGE_WRONG_TITLE = "`%s` is not a valid enum value for path `title`.";
     protected static final String ERROR_DATA_MESSAGE_WRONG_GENDER = "`%s` is not a valid enum value for path `gender`.";
+    protected final String CREATED_USERS_PARAMS = "created=1";
 
     @AfterMethod(alwaysRun = true, onlyForGroups = {"user_test"})
     protected void tearDown() {
@@ -38,6 +39,6 @@ public class UserBaseClass extends ApiBaseClass {
     }
 
     public UsersCollection getCreatedUsers() {
-        return restWrapper.usingUsers().getCreatedUsers();
+        return restWrapper.usingUsers().usingParams(CREATED_USERS_PARAMS).getUsers();
     }
 }

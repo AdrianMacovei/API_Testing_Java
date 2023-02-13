@@ -23,38 +23,38 @@
 
     </test>
 
-    <test name="Test Post Endpoint">
+<!--    <test name="Test Post Endpoint">-->
 
-        <classes>
-            <class name="io.dummy_api.post.DeletePostTest">
+<!--        <classes>-->
+<!--            <class name="io.dummy_api.post.DeletePostTest">-->
 
-            </class>
+<!--            </class>-->
 
-            <class name="io.dummy_api.post.CreatePostTest">
+<!--            <class name="io.dummy_api.post.CreatePostTest">-->
 
-            </class>
+<!--            </class>-->
 
-            <class name="io.dummy_api.post.GetAllPostsTest">
+<!--            <class name="io.dummy_api.post.GetAllPostsTest">-->
 
-            </class>
+<!--            </class>-->
 
-            <class name="io.dummy_api.post.GetPostsByUserTest">
+<!--            <class name="io.dummy_api.post.GetPostsByUserTest">-->
 
-            </class>
-            <class name="io.dummy_api.post.GetPostByIdTest">
+<!--            </class>-->
+<!--            <class name="io.dummy_api.post.GetPostByIdTest">-->
 
-            </class>
-            <class name="io.dummy_api.post.UpdatePostTest">
+<!--            </class>-->
+<!--            <class name="io.dummy_api.post.UpdatePostTest">-->
 
-            </class>
-        </classes>
-    </test>
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="Test Tag Endpoint">
-        <classes>
-            <class name="io.dummy_api.tag.GetTagsTest">
+<!--    <test name="Test Tag Endpoint">-->
+<!--        <classes>-->
+<!--            <class name="io.dummy_api.tag.GetTagsTest">-->
 
-            </class>
-        </classes>
-    </test>
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
 </suite>

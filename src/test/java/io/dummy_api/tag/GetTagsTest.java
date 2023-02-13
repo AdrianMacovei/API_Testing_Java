@@ -33,7 +33,7 @@ public class GetTagsTest extends PostBaseClass {
         ErrorUserModel response = restWrapperNoId.usingTags().getTagsError();
 
         softAssert.assertEquals(restWrapperNoId.getStatusCode(), SC_FORBIDDEN);
-        softAssert.assertEquals(response.getError(), "APP_ID_MISSING");
+        softAssert.assertEquals(response.getError(), ERROR_MSG_MISSING_APP_ID);
         softAssert.assertAll();
     }
 

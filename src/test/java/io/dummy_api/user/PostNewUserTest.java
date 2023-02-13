@@ -22,10 +22,8 @@ public class PostNewUserTest extends UserBaseClass {
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_firstName_data", groups = {"user_test"})
-    void testCreateUserWithInvalidFirstName(Object[] userDataProvider)
+    void testCreateUserWithInvalidFirstName(UserModel userDataBody, String errorMessage)
     {
-        UserModel userDataBody = (UserModel) userDataProvider[0];
-        String errorMessage = (String) userDataProvider[1];
         ErrorUserModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
@@ -35,10 +33,8 @@ public class PostNewUserTest extends UserBaseClass {
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_lastName_data", groups = {"user_test"})
-    void testCreateUserWithInvalidLastName(Object[] userDataProvider)
+    void testCreateUserWithInvalidLastName(UserModel userDataBody, String errorMessage)
     {
-        UserModel userDataBody = (UserModel) userDataProvider[0];
-        String errorMessage = (String) userDataProvider[1];
         ErrorUserModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
@@ -48,10 +44,8 @@ public class PostNewUserTest extends UserBaseClass {
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_email_data", groups = {"user_test"})
-    void testCreateUserWithInvalidEmail(Object[] userDataProvider)
+    void testCreateUserWithInvalidEmail(UserModel userDataBody, String errorMessage)
     {
-        UserModel userDataBody = (UserModel) userDataProvider[0];
-        String errorMessage = (String) userDataProvider[1];
         ErrorUserModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
@@ -62,11 +56,9 @@ public class PostNewUserTest extends UserBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_first_and_last_name_data",
             groups = {"user_test"})
-    void testCreateUserWithInvalidFirstNameAndLastName(Object[] userDataProvider)
+    void testCreateUserWithInvalidFirstNameAndLastName(UserModel userDataBody, String errorMessageFirstName,
+                                                       String errorMessageLastName)
     {
-        UserModel userDataBody = (UserModel) userDataProvider[0];
-        String errorMessageFirstName = (String) userDataProvider[1];
-        String errorMessageLastName = (String) userDataProvider[2];
         ErrorUserModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
@@ -78,11 +70,9 @@ public class PostNewUserTest extends UserBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_first_name_and_email_data",
             groups = {"user_test"})
-    void testCreateUserWithInvalidFirstNameAndEmail(Object[] userDataProvider)
+    void testCreateUserWithInvalidFirstNameAndEmail(UserModel userDataBody, String errorMessageFirstName,
+                                                    String errorMessageEmail)
     {
-        UserModel userDataBody = (UserModel) userDataProvider[0];
-        String errorMessageFirstName = (String) userDataProvider[1];
-        String errorMessageEmail = (String) userDataProvider[2];
         ErrorUserModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
@@ -94,11 +84,9 @@ public class PostNewUserTest extends UserBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_last_name_and_email_data",
             groups = {"user_test"})
-    void testCreateUserWithInvalidLastNameAndEmail(Object[] userDataProvider)
+    void testCreateUserWithInvalidLastNameAndEmail(UserModel userDataBody, String errorMessageLastName,
+                                                   String errorMessageEmail)
     {
-        UserModel userDataBody = (UserModel) userDataProvider[0];
-        String errorMessageLastName = (String) userDataProvider[1];
-        String errorMessageEmail = (String) userDataProvider[2];
         ErrorUserModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
@@ -110,12 +98,9 @@ public class PostNewUserTest extends UserBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_first_last_and_email_data",
             groups = {"user_test"})
-    void testCreateUserWithInvalidFirstNameLastNameAndEmail(Object[] userDataProvider)
+    void testCreateUserWithInvalidFirstNameLastNameAndEmail(UserModel userDataBody, String errorMessageFirstName,
+                                                            String errorMessageLastName, String errorMessageEmail)
     {
-        UserModel userDataBody = (UserModel) userDataProvider[0];
-        String errorMessageFirstName = (String) userDataProvider[1];
-        String errorMessageLastName = (String) userDataProvider[2];
-        String errorMessageEmail = (String) userDataProvider[3];
         ErrorUserModel userErrorRsp = restWrapper.usingUsers().createInvalidUser(userDataBody);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
@@ -173,9 +158,8 @@ public class PostNewUserTest extends UserBaseClass {
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_invalid_dateOfBirth_data", groups = {"user_test"})
-    void testCreateUserWithInvalidDateOfBirthField(Object[] userDataProvider) {
-        UserModel userData =(UserModel) userDataProvider[0];
-        String birthErrorMsg = (String) userDataProvider[1];
+    void testCreateUserWithInvalidDateOfBirthField(UserModel userData, String birthErrorMsg)
+    {
         ErrorUserModel errorRsp = restWrapper.usingUsers().createInvalidUser(userData);
 
         Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
@@ -188,9 +172,8 @@ public class PostNewUserTest extends UserBaseClass {
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_invalid_phone_data", groups = {"user_test"})
-    void testCreateUserWithInvalidPhoneField(Object[] userDataProvider) {
-        UserModel userData =(UserModel) userDataProvider[0];
-        String birthErrorMsg = (String) userDataProvider[1];
+    void testCreateUserWithInvalidPhoneField(UserModel userData, String birthErrorMsg)
+    {
         ErrorUserModel errorRsp = restWrapper.usingUsers().createInvalidUser(userData);
 
         Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
@@ -209,17 +192,19 @@ public class PostNewUserTest extends UserBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_invalid_all_fields_data",
             groups = {"user_test"})
-    void testCreateUserWithInvalidDataInAllAvailableFields(Object[] userDataProvider) {
-        UserModel userBody = (UserModel) userDataProvider[0];
+    void testCreateUserWithInvalidDataInAllAvailableFields(UserModel userBody, String errorMsgFirstName,
+                                                           String errorMsgLastName, String errorMsgEmail,
+                                                           String errorMsgBirth, String errorMsgPhone)
+    {
         ErrorUserModel errorRsp = restWrapper.usingUsers().createInvalidUser(userBody);
         UserModel data = errorRsp.getData();
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
-        softAssert.assertEquals(data.getFirstName(), (String) userDataProvider[1]);
-        softAssert.assertEquals(data.getLastName(), (String) userDataProvider[2]);
-        softAssert.assertEquals(data.getEmail(), (String) userDataProvider[3]);
-        softAssert.assertEquals(data.getDateOfBirth(), (String) userDataProvider[4]);
-        softAssert.assertEquals(data.getPhone(), (String) userDataProvider[5]);
+        softAssert.assertEquals(data.getFirstName(), errorMsgFirstName);
+        softAssert.assertEquals(data.getLastName(), errorMsgLastName);
+        softAssert.assertEquals(data.getEmail(), errorMsgEmail);
+        softAssert.assertEquals(data.getDateOfBirth(), errorMsgBirth);
+        softAssert.assertEquals(data.getPhone(), errorMsgPhone);
         softAssert.assertEquals(data.getTitle(), String.format(ERROR_DATA_MESSAGE_WRONG_TITLE, userBody.getTitle()));
         softAssert.assertEquals(data.getGender(), String.format(ERROR_DATA_MESSAGE_WRONG_GENDER, userBody.getGender()));
         softAssert.assertAll();
@@ -240,7 +225,7 @@ public class PostNewUserTest extends UserBaseClass {
         ErrorUserModel userRsp = restWrapperNoId.usingUsers().createInvalidUser(userData);
 
         softAssert.assertEquals(restWrapperNoId.getStatusCode(), SC_FORBIDDEN);
-        softAssert.assertEquals(userRsp.getError(), "APP_ID_MISSING");
+        softAssert.assertEquals(userRsp.getError(), ERROR_MSG_MISSING_APP_ID);
         softAssert.assertAll();
     }
 

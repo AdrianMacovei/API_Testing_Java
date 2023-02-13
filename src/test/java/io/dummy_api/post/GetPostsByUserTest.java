@@ -28,7 +28,7 @@ public class GetPostsByUserTest extends PostBaseClass{
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_ids")
     void testGetUserPostsInvalidUserId(String userId)
     {
-        ErrorPostModel response = restWrapper.usingPosts().getPostByIdError(userId);
+        ErrorPostModel response = restWrapper.usingPosts().getUserPostsError(userId);
 
         if (userId.length() == 24 && userId.matches("\\d+")) {
             softAssert.assertEquals(restWrapper.getStatusCode(), SC_NOT_FOUND);

@@ -10,14 +10,17 @@ import static org.apache.http.HttpStatus.*;
 
 public class GetUsersTest extends UserBaseClass {
 
+    protected final int LIMIT_DEFAULT_VALUE = 20;
+    protected final int PAGE_DEFAULT_VALUE = 0;
+
     @Test(groups = {"user_test"})
     void testGetUsersListWithValidAppId() {
         UsersCollection response = restWrapper.usingUsers().getUsers();
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
-        softAssert.assertEquals(response.getData().size(), 20);
-        softAssert.assertEquals(response.getLimit(), 20);
-        softAssert.assertEquals(response.getPage(), 0);
+        softAssert.assertEquals(response.getData().size(), LIMIT_DEFAULT_VALUE);
+        softAssert.assertEquals(response.getLimit(), LIMIT_DEFAULT_VALUE);
+        softAssert.assertEquals(response.getPage(), PAGE_DEFAULT_VALUE);
         softAssert.assertAll();
     }
 
@@ -26,7 +29,7 @@ public class GetUsersTest extends UserBaseClass {
         ErrorUserModel response = restWrapperNoId.usingUsers().getUsersWithError();
 
         softAssert.assertEquals(restWrapperNoId.getStatusCode(), SC_FORBIDDEN);
-        softAssert.assertEquals(response.getError(), "APP_ID_MISSING");
+        softAssert.assertEquals(response.getError(), ERROR_MSG_MISSING_APP_ID);
         softAssert.assertAll();
     }
 
@@ -56,7 +59,7 @@ public class GetUsersTest extends UserBaseClass {
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
         softAssert.assertEquals(response.getPage(), pageValue);
         if (response.getTotal() >= response.getPage() * response.getLimit()) {
-            softAssert.assertEquals(response.getData().size(), 20);
+            softAssert.assertEquals(response.getData().size(), LIMIT_DEFAULT_VALUE);
         } else {
             softAssert.assertEquals(response.getData().size(), 0);
         }
@@ -72,15 +75,15 @@ public class GetUsersTest extends UserBaseClass {
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "valid_limit_and_page_values", groups = {"user_test"})
-    void testGetUsersWithValidPageAndLimitParameters(Integer[] dataProvider) {
-        UsersCollection response = restWrapper.usingUsers().usingParams("limit="+dataProvider[0],
-                "page="+dataProvider[1]).getUsers();
+    void testGetUsersWithValidPageAndLimitParameters(int limitValue, int pageValue) {
+        UsersCollection response = restWrapper.usingUsers().usingParams("limit="+limitValue,
+                "page="+pageValue).getUsers();
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
-        softAssert.assertEquals(response.getLimit(), (int) dataProvider[0]);
-        softAssert.assertEquals(response.getPage(), (int) dataProvider[1]);
+        softAssert.assertEquals(response.getLimit(), limitValue);
+        softAssert.assertEquals(response.getPage(), pageValue);
         if (response.getTotal() >= response.getPage() * response.getLimit()) {
-            softAssert.assertEquals(response.getData().size(), (int) dataProvider[0]);
+            softAssert.assertEquals(response.getData().size(), limitValue);
         } else {
             softAssert.assertEquals(response.getData().size(), 0);
         }
@@ -125,7 +128,7 @@ public class GetUsersTest extends UserBaseClass {
     void testGetCreatedUsers() {
         String id1 = createUser(UserModel.generateRandomUser());
         String id2 = createUser(UserModel.generateRandomUser());
-        UsersCollection response = restWrapper.usingUsers().getCreatedUsers();
+        UsersCollection response = getCreatedUsers();
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
         softAssert.assertEquals(response.getTotal(), 2);

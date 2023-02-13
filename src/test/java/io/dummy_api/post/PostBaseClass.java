@@ -51,7 +51,7 @@ public class PostBaseClass extends ApiBaseClass {
             }
         }
         // delete created users from DB
-        UsersCollection usersCollectionRsp = restWrapper.usingUsers().getCreatedUsers();
+        UsersCollection usersCollectionRsp = restWrapper.usingUsers().usingParams("created=1").getUsers();
         if (usersCollectionRsp.getData().size() > 0)
         {
             for (int i = 0; i < usersCollectionRsp.getData().size(); i++) {
