@@ -56,12 +56,6 @@ public class UsersRequests extends ModelRequest<UsersRequests>
         return restWrapper.executeRequestAndProcessModel(ErrorUserModel.class, postRequest);
     }
 
-//    public UsersCollection getCreatedUsers()
-//    {
-//        RestRequest request = RestRequest.simpleRequest(HttpMethod.GET, PATH_USER_WITH_PARAMS, "created=1");
-//        return restWrapper.executeRequestAndProcessModel(UsersCollection.class, request);
-//    }
-
     public UserModel deleteUser(String userId)
     {
         RestRequest request = RestRequest.simpleRequest(HttpMethod.DELETE, PATH_USER_WITH_ENDPOINT, userId);

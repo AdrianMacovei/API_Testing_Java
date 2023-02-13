@@ -14,11 +14,11 @@ public class UserBaseClass extends ApiBaseClass {
     @AfterMethod(alwaysRun = true, onlyForGroups = {"user_test"})
     protected void tearDown() {
         System.out.println("*************************Tear Down Start************************");
-        UsersCollection usersCollectionRsp = getCreatedUsers();
+        UsersCollection usersCollectionRsp = restWrapper.usingUsers().usingParams(CREATED_USERS_PARAMS).getUsers();
         if (usersCollectionRsp.getData().size() > 0)
         {
             for (int i = 0; i < usersCollectionRsp.getData().size(); i++) {
-                deleteUser(usersCollectionRsp.getData().get(i).getId());
+                restWrapper.usingUsers().deleteUser(usersCollectionRsp.getData().get(i).getId());
             }
         }
         System.out.println("*************************Tear Down Finish************************");
@@ -28,17 +28,5 @@ public class UserBaseClass extends ApiBaseClass {
         UserModel user = restWrapper.usingUsers().createUser(userData);
         return user.getId();
 
-    }
-
-    public UserModel getUser(String userId) {
-        return restWrapper.usingUsers().getUser(userId);
-    }
-
-    public void deleteUser(String userId) {
-        restWrapper.usingUsers().deleteUser(userId);
-    }
-
-    public UsersCollection getCreatedUsers() {
-        return restWrapper.usingUsers().usingParams(CREATED_USERS_PARAMS).getUsers();
     }
 }

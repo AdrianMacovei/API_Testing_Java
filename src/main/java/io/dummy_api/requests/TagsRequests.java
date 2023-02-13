@@ -8,6 +8,8 @@ import org.springframework.http.HttpMethod;
 
 public class TagsRequests extends ModelRequest<TagsRequests>{
 
+    private final String TAG_ENDPOINT = "tag";
+
     public TagsRequests(RestWrapper restWrapper)
     {
         super(restWrapper);
@@ -15,13 +17,13 @@ public class TagsRequests extends ModelRequest<TagsRequests>{
 
     public TagsModel getTags()
     {
-        RestRequest restRequest = RestRequest.simpleRequest(HttpMethod.GET, "tag");
+        RestRequest restRequest = RestRequest.simpleRequest(HttpMethod.GET, TAG_ENDPOINT);
         return restWrapper.executeRequestAndProcessModel(TagsModel.class, restRequest);
     }
 
     public ErrorUserModel getTagsError()
     {
-        RestRequest restRequest = RestRequest.simpleRequest(HttpMethod.GET, "tag");
+        RestRequest restRequest = RestRequest.simpleRequest(HttpMethod.GET, TAG_ENDPOINT);
         return restWrapper.executeRequestAndProcessModel(ErrorUserModel.class, restRequest);
     }
 

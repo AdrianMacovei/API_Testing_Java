@@ -22,7 +22,7 @@ public class DeleteUserTest extends UserBaseClass {
     @Test(groups = {"user_test"})
     void testDeleteAnAlreadyDeletedUser() {
         String id = createUser(UserModel.generateRandomUser());
-        deleteUser(id);
+        restWrapper.usingUsers().deleteUser(id);
         ErrorUserModel response = restWrapper.usingUsers().deleteUserWithError(id);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_NOT_FOUND);

@@ -94,7 +94,7 @@ public class GetUsersTest extends UserBaseClass {
     void testGetUserWithValidId() {
         UserModel newUser = UserModel.generateRandomUser();
         String newUserId = createUser(newUser);
-        UserModel response = getUser(newUserId);
+        UserModel response = restWrapper.usingUsers().getUser(newUserId);
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
         softAssert.assertEquals(response.getId(), newUserId);
@@ -128,7 +128,7 @@ public class GetUsersTest extends UserBaseClass {
     void testGetCreatedUsers() {
         String id1 = createUser(UserModel.generateRandomUser());
         String id2 = createUser(UserModel.generateRandomUser());
-        UsersCollection response = getCreatedUsers();
+        UsersCollection response = restWrapper.usingUsers().usingParams(CREATED_USERS_PARAMS).getUsers();
 
         softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
         softAssert.assertEquals(response.getTotal(), 2);

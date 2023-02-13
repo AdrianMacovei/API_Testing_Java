@@ -39,7 +39,7 @@ public class GetTagsTest extends PostBaseClass {
 
     @Test
     void testGetRandomTag() {
-        String myTag = RandomStringUtils.random(30, true, true);
+        String myTag = RandomStringUtils.randomAlphanumeric(30);
 
         TagsModel response = restWrapper.usingTags().getTags();
         boolean isMyTagIn = false;
