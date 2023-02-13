@@ -21,15 +21,12 @@ public class PostModel {
 
     private ArrayList<String> tags;
 
-
     private String text;
 
     private String link;
 
-//    private Date publishDate;
     private String publishDate;
 
-//    private Date updatedDate;
     private String updatedDate;
 
     private UserModel owner;
