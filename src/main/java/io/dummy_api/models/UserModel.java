@@ -15,24 +15,25 @@ public class UserModel {
     private String id;
 
     private String title;
-    @JsonProperty(required = true)
+//    @JsonProperty(required = true)
     private String firstName;
-    @JsonProperty(required = true)
+//    @JsonProperty(required = true)
     private String lastName;
-    @JsonProperty(required = true)
+//    @JsonProperty(required = true)
     private String email;
 
     private String gender;
 
     private String phone;
 
-    private URL picture;
+    //changed URL to String format
+    private String picture;
 
     private String dateOfBirth;
 
-    private Date registerDate;
+    private String registerDate;
 
-    private Date updatedDate;
+    private String updatedDate;
 
     private Location location;
 
@@ -46,13 +47,30 @@ public class UserModel {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+
+    }
+    public UserModel(String firstName, String lastName, String email, String gender, String title)
+    {
+        this(firstName, lastName, email);
+        this.gender = gender;
+        this.title = title;
+    }
+
+    public UserModel(String firstName, String lastName, String email, String gender, String title,
+                     String phone, String picture, String dateOfBirth, Location location)
+    {
+        this(firstName, lastName, email, gender, title);
+        this.phone = phone;
+        this.picture = picture;
+        this.dateOfBirth = dateOfBirth;
+        this.location = location;
     }
 
     public static UserModel generateRandomUser()
     {
         String randomData = RandomStringUtils.randomAlphabetic(7);
         UserModel newUser = new UserModel("fn" + randomData, "ln" + randomData,
-                randomData + "@gmail.com");
+                randomData.toLowerCase() + "@gmail.com");
         newUser.setGender("male");
         newUser.setTitle("mr");
 

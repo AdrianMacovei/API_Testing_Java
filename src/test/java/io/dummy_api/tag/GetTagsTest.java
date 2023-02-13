@@ -1,11 +1,10 @@
 package io.dummy_api.tag;
 
-import io.dummy_api.models.CreateBodyPostModel;
-import io.dummy_api.models.ErrorModel;
+import io.dummy_api.models.ErrorUserModel;
 import io.dummy_api.models.PostModel;
+import io.dummy_api.models.TagsModel;
 import io.dummy_api.post.PostBaseClass;
-import io.restassured.response.Response;
-import org.springframework.http.HttpMethod;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.Test;
 
 import static org.apache.http.HttpStatus.SC_FORBIDDEN;
@@ -15,36 +14,42 @@ public class GetTagsTest extends PostBaseClass {
 
     @Test
     void testGetTags() {
-        Response responseNewPost = createNewPost(CreateBodyPostModel.generateRandomPostBody(createRandomUserInDb()));
-        PostModel postModel = restWrapper.convertResponseToModel(responseNewPost, PostModel.class);
-        String myTag = postModel.getTags().get(0);
+        PostModel responseNewPost = createNewPost();
+        String myTag = responseNewPost.getTags().get(0);
 
-        Response response = restWrapper.sendRequest(HttpMethod.GET, "tag", "", "");
-        getInfo(response);
+        TagsModel response = restWrapper.usingTags().getTags();
         boolean isMyTagIn = false;
-        for (int i = 0; i < response.jsonPath().getList("data").size(); i++)
-        {
-            if (myTag.equals(response.jsonPath().getList("data").get(i)))
+        if (response.getData().contains(myTag))
             {
                 isMyTagIn = true;
-                break;
             }
-        }
-        softAssert.assertEquals(response.statusCode(), SC_OK);
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
         softAssert.assertTrue(isMyTagIn);
         softAssert.assertAll();
     }
 
     @Test
     void testGetTagsNoAppId() {
-        Response response = restWrapperNoId.sendRequest(HttpMethod.GET, "tag", "", "");
-        ErrorModel errorRsp = restWrapper.convertResponseToModel(response, ErrorModel.class);
-        getInfo(response);
+        ErrorUserModel response = restWrapperNoId.usingTags().getTagsError();
 
-        softAssert.assertEquals(response.statusCode(), SC_FORBIDDEN);
-        softAssert.assertEquals(errorRsp.getError(), "APP_ID_MISSING");
+        softAssert.assertEquals(restWrapperNoId.getStatusCode(), SC_FORBIDDEN);
+        softAssert.assertEquals(response.getError(), ERROR_MSG_MISSING_APP_ID);
         softAssert.assertAll();
     }
 
+    @Test
+    void testGetRandomTag() {
+        String myTag = RandomStringUtils.randomAlphanumeric(30);
+
+        TagsModel response = restWrapper.usingTags().getTags();
+        boolean isMyTagIn = false;
+        if (response.getData().contains(myTag))
+        {
+            isMyTagIn = true;
+        }
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
+        softAssert.assertFalse(isMyTagIn);
+        softAssert.assertAll();
+    }
 
 }

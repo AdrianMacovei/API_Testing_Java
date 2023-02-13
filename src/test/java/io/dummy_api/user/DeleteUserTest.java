@@ -1,61 +1,51 @@
 package io.dummy_api.user;
 
-import io.dummy_api.models.ErrorModel;
+import io.dummy_api.models.ErrorUserModel;
 import io.dummy_api.models.UserModel;
-import io.restassured.response.Response;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.http.HttpMethod;
 import org.testng.annotations.Test;
 
 import static org.apache.http.HttpStatus.*;
-
 
 public class DeleteUserTest extends UserBaseClass {
     @Test(groups = {"user_test"})
     void testDeleteUser() {
         String id = createUser(UserModel.generateRandomUser());
-        Response response = restWrapper.sendRequest(HttpMethod.DELETE, "user/{id}", "", id);
-        getInfo(response);
+        UserModel response = restWrapper.usingUsers().deleteUser(id);
 
-        softAssert.assertEquals(response.statusCode(), SC_OK);
-        softAssert.assertEquals(response.jsonPath().getString("id"), id);
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
+        softAssert.assertEquals(response.getId(), id);
         softAssert.assertAll();
     }
 
     @Test(groups = {"user_test"})
     void testDeleteAnAlreadyDeletedUser() {
         String id = createUser(UserModel.generateRandomUser());
-        deleteUser(id);
-        Response response = restWrapper.sendRequest(HttpMethod.DELETE, "user/{id}", "", id);
-        ErrorModel errorRsp = restWrapper.convertResponseToModel(response, ErrorModel.class);
-        getInfo(response);
+        restWrapper.usingUsers().deleteUser(id);
+        ErrorUserModel response = restWrapper.usingUsers().deleteUserWithError(id);
 
-        softAssert.assertEquals(response.statusCode(), SC_NOT_FOUND);
-        softAssert.assertEquals(errorRsp.getError(), "RESOURCE_NOT_FOUND");
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_NOT_FOUND);
+        softAssert.assertEquals(response.getError(), ERROR_MSG_RSC_NOT_FOUND);
         softAssert.assertAll();
     }
 
     @Test(groups = {"user_test"})
     void testDeleteUserWithoutAppId() {
         String id = createUser(UserModel.generateRandomUser());
-        Response response = restWrapperNoId.sendRequest(HttpMethod.DELETE, "user/{id}", "", id);
-        ErrorModel errorRsp = restWrapper.convertResponseToModel(response, ErrorModel.class);
-        getInfo(response);
+        ErrorUserModel response = restWrapperNoId.usingUsers().deleteUserWithError(id);
 
-        softAssert.assertEquals(response.statusCode(), SC_FORBIDDEN);
-        softAssert.assertEquals(errorRsp.getError(), "APP_ID_MISSING");
+        softAssert.assertEquals(restWrapperNoId.getStatusCode(), SC_FORBIDDEN);
+        softAssert.assertEquals(response.getError(), ERROR_MSG_MISSING_APP_ID);
         softAssert.assertAll();
     }
 
     @Test(groups = {"user_test"})
     void testDeleteInvalidUserId() {
-        String id = RandomStringUtils.random(24, true, true);
-        Response response = restWrapper.sendRequest(HttpMethod.DELETE, "user/{id}", "", id);
-        ErrorModel errorRsp = restWrapper.convertResponseToModel(response, ErrorModel.class);
-        getInfo(response);
+        ErrorUserModel response = restWrapper.usingUsers().deleteUserWithError(
+                RandomStringUtils.random(24, true, true));
 
-        softAssert.assertEquals(response.statusCode(), SC_BAD_REQUEST);
-        softAssert.assertEquals(errorRsp.getError(), "PARAMS_NOT_VALID");
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
+        softAssert.assertEquals(response.getError(), ERROR_MSG_PARAMS_NOT_VALID);
         softAssert.assertAll();
     }
 

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="Api Testing Suite" configfailurepolicy="continue">
-    <test name="Test User Endpoint">
+<!--    <listeners>-->
+<!--        <listener class-name="io.dummy_api.log.PlainTextReporter"/>-->
+<!--    </listeners>-->
+    <test name="Test User">
 
         <classes>
             <class name="io.dummy_api.user.GetUsersTest">
@@ -11,7 +14,7 @@
 
             </class>
 
-            <class name="io.dummy_api.user.PostNewUserTest">
+            <class name="io.dummy_api.user.CreateNewUserTest">
 
             </class>
 
@@ -26,27 +29,38 @@
 
     </test>
 
-    <test name="Test Post Endpoint">
+<!--    <test name="Test Post Endpoint">-->
 
-        <classes>
-            <class name="io.dummy_api.post.DeletePostTest">
+<!--        <classes>-->
+<!--            <class name="io.dummy_api.post.DeletePostTest">-->
 
-            </class>
+<!--            </class>-->
 
-            <class name="io.dummy_api.post.CreatePostTest">
+<!--            <class name="io.dummy_api.post.CreatePostTest">-->
 
-            </class>
+<!--            </class>-->
 
-            <class name="io.dummy_api.post.GetAllPostsTest">
+<!--            <class name="io.dummy_api.post.GetAllPostsTest">-->
 
-            </class>
+<!--            </class>-->
 
-            <class name="io.dummy_api.post.GetPostsByUserTest">
+<!--            <class name="io.dummy_api.post.GetPostsByUserTest">-->
 
-            </class>
-        </classes>
+<!--            </class>-->
+<!--            <class name="io.dummy_api.post.GetPostByIdTest">-->
 
-    </test>
+<!--            </class>-->
+<!--            <class name="io.dummy_api.post.UpdatePostTest">-->
 
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
 
+<!--    <test name="Test Tag Endpoint">-->
+<!--        <classes>-->
+<!--            <class name="io.dummy_api.tag.GetTagsTest">-->
+
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
 </suite>

@@ -1,29 +1,25 @@
 package io.dummy_api;
 
 import io.dummy_api.core.RestWrapper;
-import io.dummy_api.enums.Gender;
-import io.dummy_api.enums.Title;
-import io.dummy_api.models.ErrorModel;
-import io.dummy_api.user.UserBaseClass;
+import io.dummy_api.log.PlainTextReporter;
 import io.dummy_api.util.TestContext;
-import io.restassured.response.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import io.dummy_api.util.Properties;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.asserts.SoftAssert;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.HashMap;
-
 @ContextConfiguration(classes = TestContext.class)
+@Listeners(PlainTextReporter.class)
 public abstract class ApiBaseClass extends AbstractTestNGSpringContextTests {
+    protected static final String ERROR_MSG_BODY = "BODY_NOT_VALID";
+    protected static final String ERROR_MSG_MISSING_APP_ID = "APP_ID_MISSING";
+    protected static final String ERROR_MSG_PARAMS_NOT_VALID = "PARAMS_NOT_VALID";
+    protected static final String ERROR_MSG_RSC_NOT_FOUND = "RESOURCE_NOT_FOUND";
 
     @Autowired
     private Properties properties;
@@ -45,10 +41,4 @@ public abstract class ApiBaseClass extends AbstractTestNGSpringContextTests {
     public void setUpMethod() {
         softAssert = new SoftAssert();
     }
-
-    public void getInfo(Response response) {
-        response.prettyPrint();
-        System.out.println(response.statusCode());
-    }
-
 }

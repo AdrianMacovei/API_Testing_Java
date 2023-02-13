@@ -1,43 +1,108 @@
 package io.dummy_api.post;
 
 import io.dummy_api.models.CreateBodyPostModel;
+import io.dummy_api.models.ErrorPostModel;
 import io.dummy_api.models.PostModel;
-import io.dummy_api.user.DataProviderClass;
-import io.restassured.response.Response;
-import org.springframework.http.HttpMethod;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 
-import static org.apache.http.HttpStatus.SC_OK;
+import static org.apache.http.HttpStatus.*;
 
 public class UpdatePostTest extends PostBaseClass {
 
-    @Test(dataProviderClass = DataProviderForPost.class, dataProvider = "valid_update_data")
-    void testUpdatePost(PostModel modelData) {
-        Response responseNewPost = createNewPost(CreateBodyPostModel.generateRandomPostBody(createRandomUserInDb()));
-        PostModel postModelInitial = restWrapper.convertResponseToModel(responseNewPost, PostModel.class);
-        PostModel postModel = restWrapper.convertResponseToModel(responseNewPost, PostModel.class);
-        getInfo(responseNewPost);
-        postModel.setText("Hello World!");
-        postModel.setLink("someLink");
-        ArrayList<String> updateTags = new ArrayList<String>();
-        updateTags.add("new"); updateTags.add("tags");
-        postModel.setTags(updateTags);
-        postModel.setLikes(20);
-        postModel.setImage("some image");
-        Response response = restWrapper.sendRequest(HttpMethod.PUT,
-            "post/{params}", postModel
-            , postModel.getId());
-        PostModel postModelRsp = restWrapper.convertResponseToModel(response, PostModel.class);
-        getInfo(response);
+    @DataProvider(name = "valid_data_update_post")
+    public Object[][] createValidDataUpdatePost() {
+        CreateBodyPostModel validDataForUpdatePost = new CreateBodyPostModel(
+                RandomStringUtils.randomAlphanumeric(15),
+                "https://loremflickr.com/320/240",
+                "0",
+                () -> {
+                    ArrayList<String> tags = new ArrayList<>();
+                    tags.add(RandomStringUtils.randomAlphanumeric(5));
+                    return tags;
+                },
+                RandomStringUtils.randomAlphanumeric(15),
+                createRandomUserInDb().getId()
+        );
 
-//        softAssert.assertEquals(response.statusCode(), SC_OK);
-//        softAssert.assertNotEquals(postModelRsp.getText(), postModelInitial.getText());
-//        softAssert.assertNotEquals(postModelRsp.getLink(), postModelInitial.getLink());
-//        softAssert.assertEquals(postModelRsp.getImage(), postModel.getImage());
-//        softAssert.assertEquals(postModelRsp.getLikes(), postModel.getLikes());
-//        softAssert.assertEquals(postModelRsp.getTags(), postModel.getTags());
-//        softAssert.assertAll();
+        return new CreateBodyPostModel[][]{
+                {validDataForUpdatePost},
+        };
     }
+
+    @Test(dataProvider = "valid_data_update_post")
+    void testUpdatePostValidDataInAllFields(CreateBodyPostModel bodyPost)
+    {
+        PostModel newPost = createNewPost();
+        PostModel responseUpdatePost = restWrapper.usingPosts().updatePost(bodyPost, newPost.getId());
+
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
+        softAssert.assertEquals(responseUpdatePost.getId(), newPost.getId());
+        softAssert.assertEquals(responseUpdatePost.getImage(), bodyPost.getImage());
+        softAssert.assertEquals(responseUpdatePost.getLink(), bodyPost.getLink());
+        softAssert.assertEquals(responseUpdatePost.getLikes(), bodyPost.getLikes());
+        softAssert.assertEquals(responseUpdatePost.getTags(), bodyPost.getTags());
+        softAssert.assertEquals(responseUpdatePost.getText(), bodyPost.getText());
+        softAssert.assertFalse(responseUpdatePost.getUpdatedDate().equals(responseUpdatePost.getPublishDate()));
+        softAssert.assertAll();
+    }
+
+    @DataProvider(name = "invalid_text_data_update_post")
+    public Object[][] createInvalidDataForUpdatePost() {
+        CreateBodyPostModel invalidTextLessThanMinAccepted = new CreateBodyPostModel(
+                RandomStringUtils.randomAlphanumeric(5),
+                "https://loremflickr.com/320/240",
+                "0",
+                () -> {
+                    ArrayList<String> tags = new ArrayList<>();
+                    tags.add(RandomStringUtils.randomAlphanumeric(5));
+                    return tags;
+                },
+                RandomStringUtils.randomAlphanumeric(15),
+                createRandomUserInDb().getId()
+        );
+
+        CreateBodyPostModel invalidTextMoreThanMaxAccepted = new CreateBodyPostModel(
+                RandomStringUtils.randomAlphanumeric(1001),
+                "https://loremflickr.com/320/240",
+                "0",
+                () -> {
+                    ArrayList<String> tags = new ArrayList<>();
+                    tags.add(RandomStringUtils.randomAlphanumeric(5));
+                    return tags;
+                },
+                RandomStringUtils.randomAlphanumeric(15),
+                createRandomUserInDb().getId()
+        );
+
+        return new CreateBodyPostModel[][]{
+                {invalidTextLessThanMinAccepted},
+                {invalidTextMoreThanMaxAccepted},
+        };
+    }
+
+    @Test(dataProvider = "invalid_text_data_update_post")
+    void testUpdateInvalidTextUpdatePost(CreateBodyPostModel bodyPost)
+    {
+        PostModel newPost = createNewPost();
+        PostModel responseUpdatePost = restWrapper.usingPosts().updatePost(bodyPost, newPost.getId());
+
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
+        softAssert.assertAll();
+    }
+
+    @Test(dataProvider = "valid_data_update_post")
+    void testUpdatePostValidDataInAllFieldsNoAppId(CreateBodyPostModel bodyPost)
+    {
+        PostModel newPost = createNewPost();
+        ErrorPostModel responseUpdatePost = restWrapperNoId.usingPosts().updatePostError(bodyPost, newPost.getId());
+
+        softAssert.assertEquals(restWrapperNoId.getStatusCode(), SC_FORBIDDEN);
+        softAssert.assertEquals(responseUpdatePost.getError(), ERROR_MSG_MISSING_APP_ID);
+        softAssert.assertAll();
+    }
+
 }

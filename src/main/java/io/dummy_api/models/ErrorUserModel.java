@@ -2,9 +2,11 @@ package io.dummy_api.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-public class ErrorModel {
+@Setter
+public class ErrorUserModel {
 
     @JsonProperty(required = true)
     private String error;

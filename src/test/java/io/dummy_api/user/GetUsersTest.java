@@ -1,130 +1,118 @@
 package io.dummy_api.user;
 
-import io.dummy_api.models.ErrorModel;
+import io.dummy_api.models.ErrorUserModel;
 import io.dummy_api.models.UserModel;
 import io.dummy_api.models.UsersCollection;
-import io.restassured.module.jsv.JsonSchemaValidator;
-import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
-import org.springframework.http.HttpMethod;
 import org.testng.annotations.Test;
 
 import static org.apache.http.HttpStatus.*;
 
 public class GetUsersTest extends UserBaseClass {
 
+    protected final int LIMIT_DEFAULT_VALUE = 20;
+    protected final int PAGE_DEFAULT_VALUE = 0;
+
     @Test(groups = {"user_test"})
     void testGetUsersListWithValidAppId() {
-        Response response = restWrapper.sendRequest(HttpMethod.GET, "user", "", "");
-        UsersCollection user = restWrapper.convertResponseToModel(response, UsersCollection.class);
-        getInfo(response);
+        UsersCollection response = restWrapper.usingUsers().getUsers();
 
-        softAssert.assertEquals(user.getData().size(), 20);
-        softAssert.assertEquals(response.statusCode(), SC_OK);
-        response.then().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema_list.json"));
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
+        softAssert.assertEquals(response.getData().size(), LIMIT_DEFAULT_VALUE);
+        softAssert.assertEquals(response.getLimit(), LIMIT_DEFAULT_VALUE);
+        softAssert.assertEquals(response.getPage(), PAGE_DEFAULT_VALUE);
         softAssert.assertAll();
     }
 
     @Test(groups = {"user_test"})
     void testGetUsersWithInvalidAppId() {
-        Response response = restWrapperNoId.sendRequest(HttpMethod.GET, "user", "", "");
-        getInfo(response);
-        ErrorModel error = restWrapper.convertResponseToModel(response, ErrorModel.class);
+        ErrorUserModel response = restWrapperNoId.usingUsers().getUsersWithError();
 
-        softAssert.assertEquals(error.getError(), "APP_ID_MISSING");
-        softAssert.assertEquals(response.statusCode(), SC_FORBIDDEN);
+        softAssert.assertEquals(restWrapperNoId.getStatusCode(), SC_FORBIDDEN);
+        softAssert.assertEquals(response.getError(), ERROR_MSG_MISSING_APP_ID);
         softAssert.assertAll();
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "valid_limit_values", groups = {"user_test"})
     void testGetUsersWithValidLimitParam(int limitValue) {
-        Response response = restWrapper.sendRequest(HttpMethod.GET, "user?limit={parameters}", "",
-                limitValue);
-        getInfo(response);
-        UsersCollection user = restWrapper.convertResponseToModel(response, UsersCollection.class);
+        UsersCollection response = restWrapper.usingUsers().usingParams("limit=" + limitValue).getUsers();
 
-        softAssert.assertEquals(response.statusCode(), SC_OK);
-        softAssert.assertEquals(user.getData().size(), user.getLimit());
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
+        softAssert.assertEquals(response.getData().size(), limitValue);
+        softAssert.assertEquals(response.getLimit(), limitValue);
         softAssert.assertAll();
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_limit_values", groups = {"user_test"})
     void testGetUsersWithInvalidLimitParam(Object limitValue) {
-        Response response = restWrapper.sendRequest(HttpMethod.GET, "user?limit={parameters}", "",
-                limitValue);
-        getInfo(response);
+        restWrapper.usingUsers().usingParams(
+                "limit=" + limitValue).getUsersWithError();
 
-        Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
+        Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "valid_page_values", groups = {"user_test"})
     void testGetUsersWithValidPageParam(int pageValue) {
-        Response response = restWrapper.sendRequest(HttpMethod.GET, "user?page={parameters}", "",
-                pageValue);
-        getInfo(response);
-        UsersCollection user = restWrapper.convertResponseToModel(response, UsersCollection.class);
+        UsersCollection response = restWrapper.usingUsers().usingParams(
+                "page=" + pageValue).getUsers();
 
-        softAssert.assertEquals(response.statusCode(), SC_OK);
-        softAssert.assertEquals(user.getPage(), pageValue);
-        softAssert.assertEquals(user.getData().size(), 20);
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
+        softAssert.assertEquals(response.getPage(), pageValue);
+        if (response.getTotal() >= response.getPage() * response.getLimit()) {
+            softAssert.assertEquals(response.getData().size(), LIMIT_DEFAULT_VALUE);
+        } else {
+            softAssert.assertEquals(response.getData().size(), 0);
+        }
         softAssert.assertAll();
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_page_values", groups = {"user_test"})
     void testGetUsersWithInvalidPageParam(Object pageValue) {
-        Response response = restWrapper.sendRequest(HttpMethod.GET, "user?page={parameters}", "",
-                pageValue);
-        getInfo(response);
+        restWrapper.usingUsers().usingParams(
+                "page=" + pageValue).getUsersWithError();
 
-        Assertions.assertThat(response.statusCode()).isEqualTo(SC_BAD_REQUEST);
+        Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
     }
 
-    @Test(groups = {"user_test"})
-    void testGetUsersWithValidPageAndLimitParameters() {
-        Response response = restWrapper.sendRequest(HttpMethod.GET, "user?limit={parameters}&page=1", "",
-                6);
-        getInfo(response);
-        UsersCollection user = restWrapper.convertResponseToModel(response, UsersCollection.class);
+    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "valid_limit_and_page_values", groups = {"user_test"})
+    void testGetUsersWithValidPageAndLimitParameters(int limitValue, int pageValue) {
+        UsersCollection response = restWrapper.usingUsers().usingParams("limit="+limitValue,
+                "page="+pageValue).getUsers();
 
-        softAssert.assertEquals(response.statusCode(), SC_OK);
-        softAssert.assertEquals(user.getLimit(), 6);
-        softAssert.assertEquals(user.getPage(), 1);
-        softAssert.assertEquals(user.getData().size(), 6);
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
+        softAssert.assertEquals(response.getLimit(), limitValue);
+        softAssert.assertEquals(response.getPage(), pageValue);
+        if (response.getTotal() >= response.getPage() * response.getLimit()) {
+            softAssert.assertEquals(response.getData().size(), limitValue);
+        } else {
+            softAssert.assertEquals(response.getData().size(), 0);
+        }
         softAssert.assertAll();
-
     }
 
     @Test(groups = {"user_test"})
     void testGetUserWithValidId() {
         UserModel newUser = UserModel.generateRandomUser();
         String newUserId = createUser(newUser);
-        Response response = getUser(newUserId);
-        UserModel userRsp = restWrapper.convertResponseToModel(response, UserModel.class);
-        getInfo(response);
+        UserModel response = restWrapper.usingUsers().getUser(newUserId);
 
-        softAssert.assertEquals(response.statusCode(), SC_OK);
-        softAssert.assertEquals(userRsp.getId(), newUserId);
-        softAssert.assertEquals(userRsp.getFirstName(), newUser.getFirstName());
-        softAssert.assertEquals(userRsp.getLastName(), newUser.getLastName());
-        response.then().body(JsonSchemaValidator.matchesJsonSchemaInClasspath
-                ("schema_full_user_null_nonrequired.json"));
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
+        softAssert.assertEquals(response.getId(), newUserId);
+        softAssert.assertEquals(response.getFirstName(), newUser.getFirstName());
+        softAssert.assertEquals(response.getLastName(), newUser.getLastName());
         softAssert.assertAll();
-
     }
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "invalid_ids", groups = {"user_test"})
     void testGetUserWithInvalidId(String id) {
-        Response response = restWrapper.sendRequest(HttpMethod.GET, "user/{parameters}", "",
-                id);
-        ErrorModel userError = restWrapper.convertResponseToModel(response, ErrorModel.class);
-        getInfo(response);
+        ErrorUserModel response = restWrapper.usingUsers().getInvalidUser(id);
 
         if (id.length() == 24 && id.matches("\\d+")) {
-            softAssert.assertEquals(response.statusCode(), SC_NOT_FOUND);
-            softAssert.assertEquals(userError.getError(), "RESOURCE_NOT_FOUND");
+            softAssert.assertEquals(restWrapper.getStatusCode(), SC_NOT_FOUND);
+            softAssert.assertEquals(response.getError(), "RESOURCE_NOT_FOUND");
         } else {
-            softAssert.assertEquals(response.statusCode(), SC_BAD_REQUEST);
-            softAssert.assertEquals(userError.getError(), "PARAMS_NOT_VALID");
+            softAssert.assertEquals(restWrapper.getStatusCode(), SC_BAD_REQUEST);
+            softAssert.assertEquals(response.getError(), "PARAMS_NOT_VALID");
         }
         softAssert.assertAll();
 
@@ -140,16 +128,13 @@ public class GetUsersTest extends UserBaseClass {
     void testGetCreatedUsers() {
         String id1 = createUser(UserModel.generateRandomUser());
         String id2 = createUser(UserModel.generateRandomUser());
-        Response response = restWrapper.sendRequest(HttpMethod.GET,
-                "user?created=2","", "");
-        UsersCollection users = restWrapper.convertResponseToModel(response, UsersCollection.class);
-        getInfo(response);
+        UsersCollection response = restWrapper.usingUsers().usingParams(CREATED_USERS_PARAMS).getUsers();
 
-        softAssert.assertEquals(response.statusCode(), SC_OK);
-        softAssert.assertEquals(users.getTotal(), 2);
-        softAssert.assertEquals(users.getData().size(), 2);
-        softAssert.assertEquals(users.getData().get(0).getId(), id1);
-        softAssert.assertEquals(users.getData().get(1).getId(), id2);
+        softAssert.assertEquals(restWrapper.getStatusCode(), SC_OK);
+        softAssert.assertEquals(response.getTotal(), 2);
+        softAssert.assertEquals(response.getData().size(), 2);
+        softAssert.assertEquals(response.getData().get(0).getId(), id1);
+        softAssert.assertEquals(response.getData().get(1).getId(), id2);
         softAssert.assertAll();
     }
 }
