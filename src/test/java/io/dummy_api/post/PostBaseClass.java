@@ -40,6 +40,7 @@ public class PostBaseClass extends ApiBaseClass {
     @AfterMethod
     public void tearDownPost()
     {
+        System.out.println("*************************Tear Down Start************************");
         // delete created posts from DB
         PostsCollection newPostCollection = restWrapper.usingPosts().usingParams("created=1").getAllPosts();
         int dataSize =  newPostCollection.getData().size();
@@ -49,5 +50,14 @@ public class PostBaseClass extends ApiBaseClass {
                 deletePost(post.getId());
             }
         }
+        // delete created users from DB
+        UsersCollection usersCollectionRsp = restWrapper.usingUsers().getCreatedUsers();
+        if (usersCollectionRsp.getData().size() > 0)
+        {
+            for (int i = 0; i < usersCollectionRsp.getData().size(); i++) {
+                restWrapper.usingUsers().deleteUser(usersCollectionRsp.getData().get(i).getId());
+            }
+        }
+        System.out.println("*************************Tear Down Finish************************");
     }
 }

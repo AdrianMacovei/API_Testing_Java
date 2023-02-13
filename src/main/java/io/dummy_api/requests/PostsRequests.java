@@ -64,6 +64,11 @@ public class PostsRequests extends ModelRequest<PostsRequests>{
         return restWrapper.executeRequestAndProcessModel(PostModel.class, request);
     }
 
+    public ErrorPostModel updatePostError(CreateBodyPostModel bodyPostModel, String postId){
+        RestRequest request = RestRequest.requestWithBody(HttpMethod.PUT, bodyPostModel, "post/" + postId);
+        return restWrapper.executeRequestAndProcessModel(ErrorPostModel.class, request);
+    }
+
     public PostModel deletePost(String postId){
         RestRequest request = RestRequest.simpleRequest(HttpMethod.DELETE,"post/" + postId);
         return restWrapper.executeRequestAndProcessModel(PostModel.class, request);
