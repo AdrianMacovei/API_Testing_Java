@@ -43,7 +43,7 @@ public class DataProviderClass {
 
     private static final String DOMAIN1 = "@gmail.com";
     private static final String DOMAIN2 = java.lang.String.format("@%s.com",
-            RandomStringUtils.random(5, true, false).toLowerCase());
+            RandomStringUtils.randomAlphabetic(5).toLowerCase());
 
     protected static Random rand = new Random();
 
@@ -54,7 +54,7 @@ public class DataProviderClass {
                 {RandomStringUtils.randomAlphanumeric(24).toLowerCase()},
                 {RandomStringUtils.randomNumeric(24)},
                 {RandomStringUtils.randomAlphabetic(24).toLowerCase()},
-                {RandomStringUtils.random(25, true, true).toLowerCase()},
+                {RandomStringUtils.randomAlphanumeric(25).toLowerCase()},
                 {"63d233c888cdfd33faa635a4"},
                 {"63d23" + RandomStringUtils.randomAlphanumeric(14).toLowerCase() + "635a4"},
                 {""},
@@ -115,7 +115,7 @@ public class DataProviderClass {
                 String.format(ERROR_DATA_MESSAGE_TOO_SHORT_FIRST_NAME,
                         userModelOneStringFirstName.getFirstName());
 
-        UserModel userModelMaxStringFirstName = new UserModel(RandomStringUtils.random(31, true, false),
+        UserModel userModelMaxStringFirstName = new UserModel(RandomStringUtils.randomAlphabetic(31),
                 RandomStringUtils.randomAlphabetic(7),
                 RandomStringUtils.randomAlphanumeric(7) + DOMAIN2,
                 Gender.MALE.getGenderType(),
@@ -475,24 +475,24 @@ public class DataProviderClass {
         );
 
         UserModel validDataTitleMissGenderMale = new UserModel(
-                RandomStringUtils.random(15, true, false),
-                RandomStringUtils.random(15, true, false),
-                RandomStringUtils.random(8, true, false).toLowerCase() + DOMAIN2,
+                RandomStringUtils.randomAlphabetic(15),
+                RandomStringUtils.randomAlphabetic(15),
+                RandomStringUtils.randomAlphabetic(8).toLowerCase() + DOMAIN2,
                 Gender.MALE.getGenderType(),
                 Title.MISS.getTitleType(),
-                RandomStringUtils.random(10, false, true),
+                RandomStringUtils.randomNumeric(10),
                 "https://unsplash.com/photos/rDEOVtE7vOs",
                 formatDate("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", rand.nextInt(10)-10, rand.nextInt(20)-20),
                 location1
         );
 
         UserModel validDataTitleEmptyGenderFemale = new UserModel(
-                RandomStringUtils.random(15, true, false),
-                RandomStringUtils.random(15, true, false),
-                RandomStringUtils.random(8, true, false).toLowerCase() + DOMAIN2,
+                RandomStringUtils.randomAlphabetic(15),
+                RandomStringUtils.randomAlphabetic(15),
+                RandomStringUtils.randomAlphabetic(8).toLowerCase() + DOMAIN2,
                 Gender.FEMALE.getGenderType(),
                 Title.EMPTY.getTitleType(),
-                RandomStringUtils.random(10, false, true),
+                RandomStringUtils.randomNumeric(10),
                 "https://unsplash.com/photos/rDEOVtE7vOs",
                 formatDate("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", rand.nextInt(10)-10, rand.nextInt(20)-20),
                 location1
@@ -511,10 +511,10 @@ public class DataProviderClass {
     @DataProvider(name = "user_invalid_title_data")
     public static Object[][] createInvalidTitleData() {
         UserModel invalidTitle = new UserModel();
-        invalidTitle.setFirstName(RandomStringUtils.random(3, false, true));
-        invalidTitle.setLastName(RandomStringUtils.random(3, false, true));
-        invalidTitle.setEmail(RandomStringUtils.random(6, true, true).toLowerCase() + DOMAIN2);
-        invalidTitle.setTitle(RandomStringUtils.random(3, true, false));
+        invalidTitle.setFirstName(RandomStringUtils.randomNumeric(3));
+        invalidTitle.setLastName(RandomStringUtils.randomNumeric(3));
+        invalidTitle.setEmail(RandomStringUtils.randomAlphanumeric(6).toLowerCase() + DOMAIN2);
+        invalidTitle.setTitle(RandomStringUtils.randomAlphabetic(3));
         invalidTitle.setGender(Gender.MALE.getGenderType());
         return new UserModel[][]{
                 {invalidTitle}
@@ -524,52 +524,52 @@ public class DataProviderClass {
     @DataProvider(name = "user_invalid_dateOfBirth_data")
     public static Object[][] createInvalidDateOfBirth() {
         UserModel invalidDataInDateOfBirthLessThanMin = new UserModel();
-        invalidDataInDateOfBirthLessThanMin.setFirstName(RandomStringUtils.random(21, true, true));
-        invalidDataInDateOfBirthLessThanMin.setLastName(RandomStringUtils.random(21, true, true));
-        invalidDataInDateOfBirthLessThanMin.setEmail(RandomStringUtils.random(6, true, true).toLowerCase() + DOMAIN2);
+        invalidDataInDateOfBirthLessThanMin.setFirstName(RandomStringUtils.randomAlphanumeric(21));
+        invalidDataInDateOfBirthLessThanMin.setLastName(RandomStringUtils.randomAlphanumeric(21));
+        invalidDataInDateOfBirthLessThanMin.setEmail(RandomStringUtils.randomAlphanumeric(6).toLowerCase() + DOMAIN2);
         invalidDataInDateOfBirthLessThanMin.setTitle(Title.MISS.getTitleType());
         invalidDataInDateOfBirthLessThanMin.setGender(Gender.MALE.getGenderType());
         invalidDataInDateOfBirthLessThanMin.setDateOfBirth("1899/12/31");
 
         UserModel invalidDataInDateOfBirthMoreThanMax = new UserModel();
-        invalidDataInDateOfBirthMoreThanMax.setFirstName(RandomStringUtils.random(21, true, true));
-        invalidDataInDateOfBirthMoreThanMax.setLastName(RandomStringUtils.random(21, true, true));
-        invalidDataInDateOfBirthMoreThanMax.setEmail(RandomStringUtils.random(6, true, true).toLowerCase() + DOMAIN2);
+        invalidDataInDateOfBirthMoreThanMax.setFirstName(RandomStringUtils.randomAlphanumeric(21));
+        invalidDataInDateOfBirthMoreThanMax.setLastName(RandomStringUtils.randomAlphanumeric(21));
+        invalidDataInDateOfBirthMoreThanMax.setEmail(RandomStringUtils.randomAlphanumeric(6).toLowerCase() + DOMAIN2);
         invalidDataInDateOfBirthMoreThanMax.setTitle(Title.MISS.getTitleType());
         invalidDataInDateOfBirthMoreThanMax.setGender(Gender.MALE.getGenderType());
         String dateNowPlus = formatDate("E MMM dd yyyy HH:mm:ss", rand.nextInt(20), rand.nextInt(20));
         invalidDataInDateOfBirthMoreThanMax.setDateOfBirth(dateNowPlus);
 
         UserModel wrongFormatDateOfBirth = new UserModel();
-        wrongFormatDateOfBirth.setFirstName(RandomStringUtils.random(21, true, true));
-        wrongFormatDateOfBirth.setLastName(RandomStringUtils.random(21, true, true));
-        wrongFormatDateOfBirth.setEmail(RandomStringUtils.random(6, true, true).toLowerCase() + DOMAIN2);
+        wrongFormatDateOfBirth.setFirstName(RandomStringUtils.randomAlphanumeric(21));
+        wrongFormatDateOfBirth.setLastName(RandomStringUtils.randomAlphanumeric(21));
+        wrongFormatDateOfBirth.setEmail(RandomStringUtils.randomAlphanumeric(6).toLowerCase() + DOMAIN2);
         wrongFormatDateOfBirth.setTitle(Title.MISS.getTitleType());
         wrongFormatDateOfBirth.setGender(Gender.MALE.getGenderType());
         wrongFormatDateOfBirth.setDateOfBirth("15/05/2020");
 
         UserModel randomStringNumericAndAlphabeticalDateOfBirth = new UserModel();
-        randomStringNumericAndAlphabeticalDateOfBirth.setFirstName(RandomStringUtils.random(21, true, true));
-        randomStringNumericAndAlphabeticalDateOfBirth.setLastName(RandomStringUtils.random(21, true, true));
-        randomStringNumericAndAlphabeticalDateOfBirth.setEmail(RandomStringUtils.random(6, true, true).toLowerCase() + DOMAIN2);
+        randomStringNumericAndAlphabeticalDateOfBirth.setFirstName(RandomStringUtils.randomAlphanumeric(21));
+        randomStringNumericAndAlphabeticalDateOfBirth.setLastName(RandomStringUtils.randomAlphanumeric(21));
+        randomStringNumericAndAlphabeticalDateOfBirth.setEmail(RandomStringUtils.randomAlphanumeric(6).toLowerCase() + DOMAIN2);
         randomStringNumericAndAlphabeticalDateOfBirth.setTitle(Title.MISS.getTitleType());
         randomStringNumericAndAlphabeticalDateOfBirth.setGender(Gender.MALE.getGenderType());
-        String randomBirthDateNumAndAlphabetic = RandomStringUtils.random(6, true, true);
+        String randomBirthDateNumAndAlphabetic = RandomStringUtils.randomAlphanumeric(6);
         randomStringNumericAndAlphabeticalDateOfBirth.setDateOfBirth(randomBirthDateNumAndAlphabetic);
 
         UserModel randomStringOnlyNumericalDateOfBirth = new UserModel();
-        randomStringOnlyNumericalDateOfBirth.setFirstName(RandomStringUtils.random(21, true, true));
-        randomStringOnlyNumericalDateOfBirth.setLastName(RandomStringUtils.random(21, true, true));
-        randomStringOnlyNumericalDateOfBirth.setEmail(RandomStringUtils.random(6, true, true).toLowerCase() + DOMAIN2);
+        randomStringOnlyNumericalDateOfBirth.setFirstName(RandomStringUtils.randomAlphanumeric(21));
+        randomStringOnlyNumericalDateOfBirth.setLastName(RandomStringUtils.randomAlphanumeric(21));
+        randomStringOnlyNumericalDateOfBirth.setEmail(RandomStringUtils.randomAlphanumeric(6).toLowerCase() + DOMAIN2);
         randomStringOnlyNumericalDateOfBirth.setTitle(Title.MISS.getTitleType());
         randomStringOnlyNumericalDateOfBirth.setGender(Gender.MALE.getGenderType());
-        String randomBirthDateOnlyNumeric = RandomStringUtils.random(8, false, true);
+        String randomBirthDateOnlyNumeric = RandomStringUtils.randomNumeric(8);
         randomStringOnlyNumericalDateOfBirth.setDateOfBirth(randomBirthDateOnlyNumeric);
 
         UserModel emptyStringDateOfBirth = new UserModel();
-        emptyStringDateOfBirth.setFirstName(RandomStringUtils.random(21, true, true));
-        emptyStringDateOfBirth.setLastName(RandomStringUtils.random(21, true, true));
-        emptyStringDateOfBirth.setEmail(RandomStringUtils.random(6, true, true).toLowerCase() + DOMAIN2);
+        emptyStringDateOfBirth.setFirstName(RandomStringUtils.randomAlphanumeric(21));
+        emptyStringDateOfBirth.setLastName(RandomStringUtils.randomAlphanumeric(21));
+        emptyStringDateOfBirth.setEmail(RandomStringUtils.randomAlphanumeric(6).toLowerCase() + DOMAIN2);
         emptyStringDateOfBirth.setTitle(Title.MISS.getTitleType());
         emptyStringDateOfBirth.setGender(Gender.MALE.getGenderType());
         emptyStringDateOfBirth.setDateOfBirth("");
@@ -597,11 +597,11 @@ public class DataProviderClass {
     @DataProvider(name = "user_invalid_gender_data")
     public static Object[][] createInvalidGenderData() {
         UserModel invalidGender = new UserModel();
-        invalidGender.setFirstName(RandomStringUtils.random(3, false, true));
-        invalidGender.setLastName(RandomStringUtils.random(3, false, true));
-        invalidGender.setEmail(RandomStringUtils.random(6, true, true).toLowerCase() + DOMAIN2);
+        invalidGender.setFirstName(RandomStringUtils.randomNumeric(3));
+        invalidGender.setLastName(RandomStringUtils.randomNumeric(3));
+        invalidGender.setEmail(RandomStringUtils.randomAlphanumeric(6).toLowerCase() + DOMAIN2);
         invalidGender.setTitle(Title.MISS.getTitleType());
-        invalidGender.setGender(RandomStringUtils.random(4, true, false));
+        invalidGender.setGender(RandomStringUtils.randomAlphabetic(4));
 
         return new UserModel[][]{
                 {invalidGender}
@@ -611,30 +611,30 @@ public class DataProviderClass {
     @DataProvider(name = "user_invalid_phone_data")
     public static Object[][] createInvalidPhoneData() {
         UserModel invalidDataInPhoneLessThanMin = new UserModel();
-        invalidDataInPhoneLessThanMin.setFirstName(RandomStringUtils.random(21, true, true));
-        invalidDataInPhoneLessThanMin.setLastName(RandomStringUtils.random(21, true, true));
-        invalidDataInPhoneLessThanMin.setEmail(RandomStringUtils.random(6, true, true).toLowerCase() + DOMAIN2);
+        invalidDataInPhoneLessThanMin.setFirstName(RandomStringUtils.randomAlphanumeric(21));
+        invalidDataInPhoneLessThanMin.setLastName(RandomStringUtils.randomAlphanumeric(21));
+        invalidDataInPhoneLessThanMin.setEmail(RandomStringUtils.randomAlphanumeric(6).toLowerCase() + DOMAIN2);
         invalidDataInPhoneLessThanMin.setTitle(Title.MISS.getTitleType());
         invalidDataInPhoneLessThanMin.setGender(Gender.MALE.getGenderType());
-        String randomPhone1 = RandomStringUtils.random(4, false, true);
+        String randomPhone1 = RandomStringUtils.randomNumeric(4);
         invalidDataInPhoneLessThanMin.setPhone(randomPhone1);
 
         UserModel invalidDataInPhoneMoreThanMax = new UserModel();
-        invalidDataInPhoneMoreThanMax.setFirstName(RandomStringUtils.random(21, true, true));
-        invalidDataInPhoneMoreThanMax.setLastName(RandomStringUtils.random(21, true, true));
-        invalidDataInPhoneMoreThanMax.setEmail(RandomStringUtils.random(6, true, true).toLowerCase() + DOMAIN2);
+        invalidDataInPhoneMoreThanMax.setFirstName(RandomStringUtils.randomAlphanumeric(21));
+        invalidDataInPhoneMoreThanMax.setLastName(RandomStringUtils.randomAlphanumeric(21));
+        invalidDataInPhoneMoreThanMax.setEmail(RandomStringUtils.randomAlphanumeric(6).toLowerCase() + DOMAIN2);
         invalidDataInPhoneMoreThanMax.setTitle(Title.MISS.getTitleType());
         invalidDataInPhoneMoreThanMax.setGender(Gender.MALE.getGenderType());
-        String randomPhone2 = RandomStringUtils.random(21, false, true);
+        String randomPhone2 = RandomStringUtils.randomNumeric(21);
         invalidDataInPhoneMoreThanMax.setPhone(randomPhone2);
 
         UserModel invalidDataInPhoneOnlyAlphabetical = new UserModel();
-        invalidDataInPhoneOnlyAlphabetical.setFirstName(RandomStringUtils.random(21, true, true));
-        invalidDataInPhoneOnlyAlphabetical.setLastName(RandomStringUtils.random(21, true, true));
-        invalidDataInPhoneOnlyAlphabetical.setEmail(RandomStringUtils.random(6, true, true).toLowerCase() + DOMAIN2);
+        invalidDataInPhoneOnlyAlphabetical.setFirstName(RandomStringUtils.randomAlphanumeric(21));
+        invalidDataInPhoneOnlyAlphabetical.setLastName(RandomStringUtils.randomAlphanumeric(21));
+        invalidDataInPhoneOnlyAlphabetical.setEmail(RandomStringUtils.randomAlphanumeric(6).toLowerCase() + DOMAIN2);
         invalidDataInPhoneOnlyAlphabetical.setTitle(Title.MISS.getTitleType());
         invalidDataInPhoneOnlyAlphabetical.setGender(Gender.MALE.getGenderType());
-        String randomPhone3 = RandomStringUtils.random(10, true, false);
+        String randomPhone3 = RandomStringUtils.randomAlphabetic(10);
         invalidDataInPhoneOnlyAlphabetical.setPhone(randomPhone3);
 
         return new Object[][]{
@@ -648,36 +648,36 @@ public class DataProviderClass {
     public static Object[][] createInvalidLocationData() {
         UserModel invalidDataInLocationFieldsLessThanMinAccepted = new UserModel();
         invalidDataInLocationFieldsLessThanMinAccepted.setFirstName(
-                RandomStringUtils.random(21, true, true));
+                RandomStringUtils.randomAlphanumeric(21));
         invalidDataInLocationFieldsLessThanMinAccepted.setLastName(
-                RandomStringUtils.random(21, true, true));
+                RandomStringUtils.randomAlphanumeric(21));
         invalidDataInLocationFieldsLessThanMinAccepted.setEmail(
-                RandomStringUtils.random(6, true, true).toLowerCase() + DOMAIN2);
+                RandomStringUtils.randomAlphanumeric(6).toLowerCase() + DOMAIN2);
         invalidDataInLocationFieldsLessThanMinAccepted.setTitle(Title.MISS.getTitleType());
         invalidDataInLocationFieldsLessThanMinAccepted.setGender(Gender.MALE.getGenderType());
         Location locationInvalidLessThanMinAccepted = new Location(
-                RandomStringUtils.random(4, true, true),
-                RandomStringUtils.random(1, true, true),
-                RandomStringUtils.random(1, true, true),
-                RandomStringUtils.random(1, true, true),
+                RandomStringUtils.randomAlphanumeric(4),
+                RandomStringUtils.randomAlphanumeric(1),
+                RandomStringUtils.randomAlphanumeric(1),
+                RandomStringUtils.randomAlphanumeric(1),
                 "-13:00"
         );
         invalidDataInLocationFieldsLessThanMinAccepted.setLocation(locationInvalidLessThanMinAccepted);
 
         UserModel invalidDataInLocationFieldsMoreThanMaxAccepted = new UserModel();
         invalidDataInLocationFieldsMoreThanMaxAccepted.setFirstName(
-                RandomStringUtils.random(10, true, true));
+                RandomStringUtils.randomAlphanumeric(10));
         invalidDataInLocationFieldsMoreThanMaxAccepted.setLastName(
-                RandomStringUtils.random(10, true, true));
+                RandomStringUtils.randomAlphanumeric(10));
         invalidDataInLocationFieldsMoreThanMaxAccepted.setEmail(
-                RandomStringUtils.random(10, true, true).toLowerCase() + DOMAIN2);
+                RandomStringUtils.randomAlphanumeric(10).toLowerCase() + DOMAIN2);
         invalidDataInLocationFieldsMoreThanMaxAccepted.setTitle(Title.MISS.getTitleType());
         invalidDataInLocationFieldsMoreThanMaxAccepted.setGender(Gender.MALE.getGenderType());
         Location locationInvalidMoreThanMaxAccepted = new Location(
-                RandomStringUtils.random(101, true, true),
-                RandomStringUtils.random(31, true, true),
-                RandomStringUtils.random(31, true, true),
-                RandomStringUtils.random(31, true, true),
+                RandomStringUtils.randomAlphanumeric(101),
+                RandomStringUtils.randomAlphanumeric(31),
+                RandomStringUtils.randomAlphanumeric(31),
+                RandomStringUtils.randomAlphanumeric(31),
                 "+15:00"
         );
         invalidDataInLocationFieldsLessThanMinAccepted.setLocation(locationInvalidMoreThanMaxAccepted);
@@ -692,23 +692,23 @@ public class DataProviderClass {
     public static Object[][] createInvalidDataInAllFields() {
         UserModel invalidAllFields = new UserModel();
         invalidAllFields.setFirstName(
-                RandomStringUtils.random(1, true, true));
+                RandomStringUtils.randomAlphanumeric(1));
         invalidAllFields.setLastName(
-                RandomStringUtils.random(1, true, true));
+                RandomStringUtils.randomAlphanumeric(1));
         invalidAllFields.setEmail(
-                RandomStringUtils.random(10, true, true).toLowerCase());
+                RandomStringUtils.randomAlphanumeric(10).toLowerCase());
         invalidAllFields.setTitle("Something");
         invalidAllFields.setGender("Something");
         Location locationInvalidAllFields = new Location(
-                RandomStringUtils.random(101, true, true),
-                RandomStringUtils.random(31, true, true),
-                RandomStringUtils.random(31, true, true),
-                RandomStringUtils.random(31, true, true),
-                RandomStringUtils.random(6, true, true)
+                RandomStringUtils.randomAlphanumeric(101),
+                RandomStringUtils.randomAlphanumeric(31),
+                RandomStringUtils.randomAlphanumeric(31),
+                RandomStringUtils.randomAlphanumeric(31),
+                RandomStringUtils.randomAlphanumeric(6)
         );
         invalidAllFields.setLocation(locationInvalidAllFields);
-        invalidAllFields.setPhone(RandomStringUtils.random(21, false, true));
-        String randomBirth = RandomStringUtils.random(8, true, true);
+        invalidAllFields.setPhone(RandomStringUtils.randomNumeric(21));
+        String randomBirth = RandomStringUtils.randomAlphanumeric(8);
         invalidAllFields.setDateOfBirth(randomBirth);
 
         return new Object[][]{
@@ -726,12 +726,12 @@ public class DataProviderClass {
     public static Object[][] updateValidFirstAndLastName()
     {
         UserModel updateFirstAndLastNameValidMinValues = new UserModel();
-        updateFirstAndLastNameValidMinValues.setFirstName(RandomStringUtils.random(2, true, false));
-        updateFirstAndLastNameValidMinValues.setLastName(RandomStringUtils.random(2, true, false));
+        updateFirstAndLastNameValidMinValues.setFirstName(RandomStringUtils.randomAlphabetic(2));
+        updateFirstAndLastNameValidMinValues.setLastName(RandomStringUtils.randomAlphabetic(2));
 
         UserModel updateFirstAndLastNameValidMaxValues = new UserModel();
-        updateFirstAndLastNameValidMaxValues.setFirstName(RandomStringUtils.random(30, true, false));
-        updateFirstAndLastNameValidMaxValues.setLastName(RandomStringUtils.random(30, true, false));
+        updateFirstAndLastNameValidMaxValues.setFirstName(RandomStringUtils.randomAlphabetic(30));
+        updateFirstAndLastNameValidMaxValues.setLastName(RandomStringUtils.randomAlphabetic(30));
 
         return new Object[][]{
                 {updateFirstAndLastNameValidMinValues},
@@ -743,12 +743,12 @@ public class DataProviderClass {
     public static Object[][] updateInvalidFirstAndLastName()
     {
         UserModel updateFirstAndLastNameValidMinValues = new UserModel();
-        updateFirstAndLastNameValidMinValues.setFirstName(RandomStringUtils.random(1, true, false));
-        updateFirstAndLastNameValidMinValues.setLastName(RandomStringUtils.random(1, true, false));
+        updateFirstAndLastNameValidMinValues.setFirstName(RandomStringUtils.randomAlphabetic(1));
+        updateFirstAndLastNameValidMinValues.setLastName(RandomStringUtils.randomAlphabetic(1));
 
         UserModel updateFirstAndLastNameValidMaxValues = new UserModel();
-        updateFirstAndLastNameValidMaxValues.setFirstName(RandomStringUtils.random(31, true, false));
-        updateFirstAndLastNameValidMaxValues.setLastName(RandomStringUtils.random(31, true, false));
+        updateFirstAndLastNameValidMaxValues.setFirstName(RandomStringUtils.randomAlphabetic(31));
+        updateFirstAndLastNameValidMaxValues.setLastName(RandomStringUtils.randomAlphabetic(31));
 
         UserModel updateFirstAndLastNameValidEmpty = new UserModel();
         updateFirstAndLastNameValidEmpty.setFirstName("");
@@ -770,17 +770,17 @@ public class DataProviderClass {
     public static Object[][] updateAllFieldsValidData()
     {
         UserModel updateValidDataAllFields = new UserModel();
-        updateValidDataAllFields.setFirstName(RandomStringUtils.random(15, true, false));
-        updateValidDataAllFields.setLastName(RandomStringUtils.random(15, true, false));
-        updateValidDataAllFields.setPhone(RandomStringUtils.random(10, false, true));
-        updateValidDataAllFields.setPicture(RandomStringUtils.random(10, true, true));
+        updateValidDataAllFields.setFirstName(RandomStringUtils.randomAlphabetic(15));
+        updateValidDataAllFields.setLastName(RandomStringUtils.randomAlphabetic(15));
+        updateValidDataAllFields.setPhone(RandomStringUtils.randomNumeric(10));
+        updateValidDataAllFields.setPicture(RandomStringUtils.randomAlphanumeric(10));
         updateValidDataAllFields.setTitle(Title.MR.getTitleType());
         updateValidDataAllFields.setGender(Gender.MALE.getGenderType());
         Location location = new Location(
-                RandomStringUtils.random(15, true, false),
-                RandomStringUtils.random(15, true, false),
-                RandomStringUtils.random(15, true, false),
-                RandomStringUtils.random(15, true, false),
+                RandomStringUtils.randomAlphabetic(15),
+                RandomStringUtils.randomAlphabetic(15),
+                RandomStringUtils.randomAlphabetic(15),
+                RandomStringUtils.randomAlphabetic(15),
                 "+5:00"
         );
         updateValidDataAllFields.setLocation(location);
@@ -794,37 +794,37 @@ public class DataProviderClass {
     public static Object[][] updateAllFieldsInvalidData()
     {
         UserModel updateInvalidDataAllFieldsLessThanMin = new UserModel();
-        updateInvalidDataAllFieldsLessThanMin.setFirstName(RandomStringUtils.random(1, true, false));
-        updateInvalidDataAllFieldsLessThanMin.setLastName(RandomStringUtils.random(1, true, false));
-        updateInvalidDataAllFieldsLessThanMin.setPhone(RandomStringUtils.random(4, false, true));
-        updateInvalidDataAllFieldsLessThanMin.setPicture(RandomStringUtils.random(10, true, true));
+        updateInvalidDataAllFieldsLessThanMin.setFirstName(RandomStringUtils.randomAlphabetic(1));
+        updateInvalidDataAllFieldsLessThanMin.setLastName(RandomStringUtils.randomAlphabetic(1));
+        updateInvalidDataAllFieldsLessThanMin.setPhone(RandomStringUtils.randomNumeric(4));
+        updateInvalidDataAllFieldsLessThanMin.setPicture(RandomStringUtils.randomAlphanumeric(10));
         updateInvalidDataAllFieldsLessThanMin.setTitle("human");
         updateInvalidDataAllFieldsLessThanMin.setGender("human");
         updateInvalidDataAllFieldsLessThanMin.setDateOfBirth("1899/12/31");
         Location locationLessThanMin = new Location(
-                RandomStringUtils.random(4, true, false),
-                RandomStringUtils.random(1, true, false),
-                RandomStringUtils.random(1, true, false),
-                RandomStringUtils.random(1, true, false),
+                RandomStringUtils.randomAlphabetic(4),
+                RandomStringUtils.randomAlphabetic(1),
+                RandomStringUtils.randomAlphabetic(1),
+                RandomStringUtils.randomAlphabetic(1),
                 "-13:00"
         );
         updateInvalidDataAllFieldsLessThanMin.setLocation(locationLessThanMin);
 
         UserModel updateInvalidDataAllFieldsMoreThanMax = new UserModel();
-        updateInvalidDataAllFieldsMoreThanMax.setFirstName(RandomStringUtils.random(31, true, false));
-        updateInvalidDataAllFieldsMoreThanMax.setLastName(RandomStringUtils.random(31, true, false));
-        updateInvalidDataAllFieldsMoreThanMax.setEmail(RandomStringUtils.random(7, true, false));
-        updateInvalidDataAllFieldsMoreThanMax.setPhone(RandomStringUtils.random(21, false, true));
-        updateInvalidDataAllFieldsMoreThanMax.setPicture(RandomStringUtils.random(10, true, true));
+        updateInvalidDataAllFieldsMoreThanMax.setFirstName(RandomStringUtils.randomAlphabetic(31));
+        updateInvalidDataAllFieldsMoreThanMax.setLastName(RandomStringUtils.randomAlphabetic(31));
+        updateInvalidDataAllFieldsMoreThanMax.setEmail(RandomStringUtils.randomAlphabetic(7));
+        updateInvalidDataAllFieldsMoreThanMax.setPhone(RandomStringUtils.randomNumeric(21));
+        updateInvalidDataAllFieldsMoreThanMax.setPicture(RandomStringUtils.randomAlphanumeric(10));
         updateInvalidDataAllFieldsMoreThanMax.setDateOfBirth(formatDate("E MMM dd yyyy HH:mm:ss",
                 rand.nextInt(20), rand.nextInt(20)));
         updateInvalidDataAllFieldsMoreThanMax.setTitle("human");
         updateInvalidDataAllFieldsMoreThanMax.setGender("human");
         Location locationMoreThanMax = new Location(
-                RandomStringUtils.random(101, true, false),
-                RandomStringUtils.random(31, true, false),
-                RandomStringUtils.random(31, true, false),
-                RandomStringUtils.random(31, true, false),
+                RandomStringUtils.randomAlphabetic(101),
+                RandomStringUtils.randomAlphabetic(31),
+                RandomStringUtils.randomAlphabetic(31),
+                RandomStringUtils.randomAlphabetic(31),
                 "+15:00"
         );
         updateInvalidDataAllFieldsMoreThanMax.setLocation(locationMoreThanMax);
@@ -837,10 +837,10 @@ public class DataProviderClass {
     @DataProvider(name = "update_only_email")
     public static Object[][] createDataUpdateEmail() {
         UserModel userUpdateEmail = new UserModel();
-        userUpdateEmail.setEmail(RandomStringUtils.random(6, true, true).toLowerCase() + DOMAIN1);
+        userUpdateEmail.setEmail(RandomStringUtils.randomAlphanumeric(6).toLowerCase() + DOMAIN1);
 
         UserModel userUpdateWrongFormatEmail = new UserModel();
-        userUpdateEmail.setEmail(RandomStringUtils.random(6, true, true).toLowerCase());
+        userUpdateEmail.setEmail(RandomStringUtils.randomAlphanumeric(6).toLowerCase());
 
         return new UserModel[][]{
                 {userUpdateEmail},
@@ -851,10 +851,10 @@ public class DataProviderClass {
     @DataProvider(name = "update_id_of_user")
     public static Object[][] createDataUpdateId() {
         UserModel userUpdateIdWrongLength = new UserModel();
-        userUpdateIdWrongLength.setId(RandomStringUtils.random(6, true, true));
+        userUpdateIdWrongLength.setId(RandomStringUtils.randomAlphanumeric(6));
 
         UserModel userUpdateWrongId = new UserModel();
-        userUpdateWrongId.setId(RandomStringUtils.random(24, false, true));
+        userUpdateWrongId.setId(RandomStringUtils.randomNumeric(24));
 
         return new UserModel[][]{
                 {userUpdateIdWrongLength},
@@ -867,7 +867,7 @@ public class DataProviderClass {
         UserModel userWithXss = new UserModel(
                 "<script>alert(\"XSS\")</script>",
                 "<script>alert(\"XSS\")</script>",
-                RandomStringUtils.random(7, true, true).toLowerCase() + DOMAIN2,
+                RandomStringUtils.randomAlphanumeric(7).toLowerCase() + DOMAIN2,
                 Gender.MALE.getGenderType(),
                 Title.DR.getTitleType()
         );

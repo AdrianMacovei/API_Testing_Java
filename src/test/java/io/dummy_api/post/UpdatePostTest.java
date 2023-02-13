@@ -16,15 +16,15 @@ public class UpdatePostTest extends PostBaseClass {
     @DataProvider(name = "valid_data_update_post")
     public Object[][] createValidDataUpdatePost() {
         CreateBodyPostModel validDataForUpdatePost = new CreateBodyPostModel(
-                RandomStringUtils.random(15, true, true),
+                RandomStringUtils.randomAlphanumeric(15),
                 "https://loremflickr.com/320/240",
                 "0",
                 () -> {
                     ArrayList<String> tags = new ArrayList<>();
-                    tags.add(RandomStringUtils.random(5, true, true));
+                    tags.add(RandomStringUtils.randomAlphanumeric(5));
                     return tags;
                 },
-                RandomStringUtils.random(15, true, true),
+                RandomStringUtils.randomAlphanumeric(15),
                 createRandomUserInDb().getId()
         );
 
@@ -53,28 +53,28 @@ public class UpdatePostTest extends PostBaseClass {
     @DataProvider(name = "invalid_text_data_update_post")
     public Object[][] createInvalidDataForUpdatePost() {
         CreateBodyPostModel invalidTextLessThanMinAccepted = new CreateBodyPostModel(
-                RandomStringUtils.random(5, true, true),
+                RandomStringUtils.randomAlphanumeric(5),
                 "https://loremflickr.com/320/240",
                 "0",
                 () -> {
                     ArrayList<String> tags = new ArrayList<>();
-                    tags.add(RandomStringUtils.random(5, true, true));
+                    tags.add(RandomStringUtils.randomAlphanumeric(5));
                     return tags;
                 },
-                RandomStringUtils.random(15, true, true),
+                RandomStringUtils.randomAlphanumeric(15),
                 createRandomUserInDb().getId()
         );
 
         CreateBodyPostModel invalidTextMoreThanMaxAccepted = new CreateBodyPostModel(
-                RandomStringUtils.random(1001, true, true),
+                RandomStringUtils.randomAlphanumeric(1001),
                 "https://loremflickr.com/320/240",
                 "0",
                 () -> {
                     ArrayList<String> tags = new ArrayList<>();
-                    tags.add(RandomStringUtils.random(5, true, true));
+                    tags.add(RandomStringUtils.randomAlphanumeric(5));
                     return tags;
                 },
-                RandomStringUtils.random(15, true, true),
+                RandomStringUtils.randomAlphanumeric(15),
                 createRandomUserInDb().getId()
         );
 

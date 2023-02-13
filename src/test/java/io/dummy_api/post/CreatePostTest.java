@@ -20,7 +20,7 @@ public class CreatePostTest extends PostBaseClass {
     @DataProvider(name = "valid_data_create_post")
     public Object[][] createValidDataCreatePost() {
         CreateBodyPostModel validDataForCreatePostMinAccepted = new CreateBodyPostModel(
-                RandomStringUtils.random(6, true, true),
+                RandomStringUtils.randomAlphanumeric(6),
                 "https://loremflickr.com/320/240",
                 "0",
                 () -> {
@@ -28,35 +28,35 @@ public class CreatePostTest extends PostBaseClass {
                         tags.add("");
                         return tags;
                 },
-                RandomStringUtils.random(6, true, true),
+                RandomStringUtils.randomAlphanumeric(6),
                 createRandomUserInDb().getId()
         );
 
         CreateBodyPostModel validDataForCreatePostMaxAccepted = new CreateBodyPostModel(
-                RandomStringUtils.random(1000, true, true),
-                RandomStringUtils.random(100, true, true),
+                RandomStringUtils.randomAlphanumeric(1000),
+                RandomStringUtils.randomAlphanumeric(100),
                 "1000",
                 () -> {
                     ArrayList<String> tags = new ArrayList<>();
-                    tags.add(RandomStringUtils.random(101, true, true));
-                    tags.add(RandomStringUtils.random(1, true, true));
+                    tags.add(RandomStringUtils.randomAlphanumeric(101));
+                    tags.add(RandomStringUtils.randomAlphanumeric(1));
                     return tags;
                 },
-                RandomStringUtils.random(200, true, true),
+                RandomStringUtils.randomAlphanumeric(200),
                 createRandomUserInDb().getId()
         );
 
         CreateBodyPostModel validDataForCreatePost = new CreateBodyPostModel(
-                RandomStringUtils.random(500, true, true),
+                RandomStringUtils.randomAlphanumeric(500),
                 "https://loremflickr.com/320/240",
                 "100",
                 () -> {
                     ArrayList<String> tags = new ArrayList<>();
-                    tags.add(RandomStringUtils.random(101, true, true));
-                    tags.add(RandomStringUtils.random(1, true, true));
+                    tags.add(RandomStringUtils.randomAlphanumeric(101));
+                    tags.add(RandomStringUtils.randomAlphanumeric(1));
                     return tags;
                 },
-                RandomStringUtils.random(100, true, true),
+                RandomStringUtils.randomAlphanumeric(100),
                 createRandomUserInDb().getId()
         );
 
@@ -84,25 +84,25 @@ public class CreatePostTest extends PostBaseClass {
     @DataProvider(name = "invalid_data_create_post")
     public Object[][] createInvalidDataCreatePost() {
         CreateBodyPostModel validDataForCreatePostLessThanMinAccepted = new CreateBodyPostModel(
-                RandomStringUtils.random(5, true, true),
+                RandomStringUtils.randomAlphanumeric(5),
                 "https://loremflickr.com/320/240",
                 "-1",
                 ArrayList::new,
-                RandomStringUtils.random(201, true, true),
+                RandomStringUtils.randomAlphanumeric(201),
                 createRandomUserInDb().getId()
         );
 
         CreateBodyPostModel validDataForCreatePostMoreThanMaxAccepted = new CreateBodyPostModel(
-                RandomStringUtils.random(1001, true, true),
-                RandomStringUtils.random(1001, true, true),
+                RandomStringUtils.randomAlphanumeric(1001),
+                RandomStringUtils.randomAlphanumeric(1001),
                 "10000",
                 () -> {
                     ArrayList<String> tags = new ArrayList<>();
-                    tags.add(RandomStringUtils.random(101, true, true));
-                    tags.add(RandomStringUtils.random(1, true, true));
+                    tags.add(RandomStringUtils.randomAlphanumeric(101));
+                    tags.add(RandomStringUtils.randomAlphanumeric(1));
                     return tags;
                 },
-                RandomStringUtils.random(201, true, true),
+                RandomStringUtils.randomAlphanumeric(201),
                 createRandomUserInDb().getId()
         );
 
@@ -121,27 +121,27 @@ public class CreatePostTest extends PostBaseClass {
     @DataProvider(name = "invalid_user_id_create_post")
     public Object[][] createInvalidUserIdCreatePost() {
         CreateBodyPostModel invalidUserIdCreatePost = new CreateBodyPostModel(
-                RandomStringUtils.random(10, true, true),
+                RandomStringUtils.randomAlphanumeric(10),
                 "https://loremflickr.com/320/240",
                 "0",
                 () -> {
                     ArrayList<String> tags = new ArrayList<>();
-                    tags.add(RandomStringUtils.random(15, true, true));
+                    tags.add(RandomStringUtils.randomAlphanumeric(15));
                     return tags;
                 },
-                RandomStringUtils.random(150, true, true),
-                RandomStringUtils.random(24, true, true)
+                RandomStringUtils.randomAlphanumeric(150),
+                RandomStringUtils.randomAlphanumeric(24)
         );
         CreateBodyPostModel nullUserIdCreatePost = new CreateBodyPostModel(
-                RandomStringUtils.random(10, true, true),
+                RandomStringUtils.randomAlphanumeric(10),
                 "https://loremflickr.com/320/240",
                 "0",
                 () -> {
                     ArrayList<String> tags = new ArrayList<>();
-                    tags.add(RandomStringUtils.random(15, true, true));
+                    tags.add(RandomStringUtils.randomAlphanumeric(15));
                     return tags;
                 },
-                RandomStringUtils.random(150, true, true),
+                RandomStringUtils.randomAlphanumeric(150),
                 null
         );
 
@@ -166,35 +166,35 @@ public class CreatePostTest extends PostBaseClass {
                 "0",
                 () -> {
                     ArrayList<String> tags = new ArrayList<>();
-                    tags.add(RandomStringUtils.random(15, true, true));
+                    tags.add(RandomStringUtils.randomAlphanumeric(15));
                     return tags;
                 },
-                RandomStringUtils.random(150, true, true),
+                RandomStringUtils.randomAlphanumeric(150),
                 createRandomUserInDb().getId()
         );
         CreateBodyPostModel emptyImage = new CreateBodyPostModel(
-                RandomStringUtils.random(10, true, true),
+                RandomStringUtils.randomAlphanumeric(10),
                 null,
                 "0",
                 () -> {
                     ArrayList<String> tags = new ArrayList<>();
-                    tags.add(RandomStringUtils.random(15, true, true));
+                    tags.add(RandomStringUtils.randomAlphanumeric(15));
                     return tags;
                 },
-                RandomStringUtils.random(150, true, true),
+                RandomStringUtils.randomAlphanumeric(150),
                 createRandomUserInDb().getId()
         );
 
         CreateBodyPostModel emptyLikes = new CreateBodyPostModel(
-                RandomStringUtils.random(10, true, true),
+                RandomStringUtils.randomAlphanumeric(10),
                 "https://loremflickr.com/320/240",
                 null,
                 () -> {
                     ArrayList<String> tags = new ArrayList<>();
-                    tags.add(RandomStringUtils.random(15, true, true));
+                    tags.add(RandomStringUtils.randomAlphanumeric(15));
                     return tags;
                 },
-                RandomStringUtils.random(150, true, true),
+                RandomStringUtils.randomAlphanumeric(150),
                 createRandomUserInDb().getId()
         );
 
@@ -220,15 +220,15 @@ public class CreatePostTest extends PostBaseClass {
     @DataProvider(name = "string_in_like_field")
     public Object[][] stringLikeFieldData() {
         CreateBodyPostModel randomStringLike = new CreateBodyPostModel(
-                RandomStringUtils.random(20, true, true),
+                RandomStringUtils.randomAlphanumeric(20),
                 "https://loremflickr.com/320/240",
-                RandomStringUtils.random(5, true, true),
+                RandomStringUtils.randomAlphanumeric(5),
                 () -> {
                     ArrayList<String> tags = new ArrayList<>();
-                    tags.add(RandomStringUtils.random(15, true, true));
+                    tags.add(RandomStringUtils.randomAlphanumeric(15));
                     return tags;
                 },
-                RandomStringUtils.random(150, true, true),
+                RandomStringUtils.randomAlphanumeric(150),
                 createRandomUserInDb().getId()
         );
         return new CreateBodyPostModel[][]{
