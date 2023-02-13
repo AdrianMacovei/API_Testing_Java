@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import static org.apache.http.HttpStatus.*;
 
 
-public class PostNewUserTest extends UserBaseClass {
+public class CreateNewUserTest extends UserBaseClass {
 
     @Test(dataProviderClass = DataProviderClass.class, dataProvider = "user_valid_data", groups = {"user_test"})
     void testCreateUserWithValidFistNameLastNameAndEmail(UserModel userData) {

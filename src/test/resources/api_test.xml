@@ -8,7 +8,7 @@
 
             </class>
 
-            <class name="io.dummy_api.user.PostNewUserTest">
+            <class name="io.dummy_api.user.CreateNewUserTest">
 
             </class>
 

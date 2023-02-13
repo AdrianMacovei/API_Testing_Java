@@ -13,17 +13,19 @@ import java.util.TimeZone;
 
 public class DataProviderClass {
 
-    private static final String ERROR_DATA_MESSAGE_EMPTY_FIRST_NAME = "Path `firstName` is required.";
-    private static final String ERROR_DATA_MESSAGE_EMPTY_LAST_NAME = "Path `lastName` is required.";
-    private static final String ERROR_DATA_MESSAGE_EMPTY_EMAIL_NAME = "Path `email` is required.";
-    private static final String ERROR_DATA_MESSAGE_TOO_SHORT_FIRST_NAME =
-            "Path `firstName` (`%s`) is shorter than the minimum allowed length (2).";
-    private static final String ERROR_DATA_MESSAGE_TOO_SHORT_LAST_NAME =
-            "Path `lastName` (`%s`) is shorter than the minimum allowed length (2).";
-    private static final String ERROR_DATA_MESSAGE_TOO_LONG_LAST_NAME =
-            "Path `lastName` (`%s`) is longer than the maximum allowed length (30).";
-    private static final String ERROR_DATA_MESSAGE_TOO_LONG_FIRST_NAME =
-            "Path `firstName` (`%s`) is longer than the maximum allowed length (30).";
+    private static final String ERROR_DATA_MESSAGE_EMPTY_REQUIRED_FIELDS = "Path `%s` is required.";
+
+    private static final String ERROR_LESS_THAN_MIN_FIELD =
+            "Path `%s` (`%s`) is shorter than the minimum allowed length (%s).";
+
+    private static final String ERROR_MORE_THAN_MAX_FIELD =
+            "Path `%s` (`%s`) is longer than the maximum allowed length (%s).";
+
+    private static final String MIN_FIRST_OR_LAST_NAME = "2";
+    private static final String MAX_FIRST_OR_LAST_NAME = "30";
+    private static final String MIN_PHONE = "5";
+    private static final String MAX_PHONE = "20";
+
     private static final String ERROR_DATA_MESSAGE_WRONG_FORMAT_EMAIL = "Path `email` is invalid (%s).";
     private static final String ERROR_DATA_MESSAGE_TOO_LOW_DATE_OF_BIRTH =
             "Path `dateOfBirth` (Sun Dec 31 1899 00:00:00 GMT+0000 (Coordinated Universal Time)) is " +
@@ -35,11 +37,6 @@ public class DataProviderClass {
     private static final String ERROR_DATA_MESSAGE_WRONG_DATE_OF_BIRTH =
             "Cast to date failed for value \"%s\" (type string) at path \"dateOfBirth\"";
 
-    private static final String ERROR_DATA_MESSAGE_TOO_SHORT_PHONE =
-            "Path `phone` (`%s`) is shorter than the minimum allowed length (5).";
-
-    private static final String ERROR_DATA_MESSAGE_TOO_LONG_PHONE =
-            "Path `phone` (`%s`) is longer than the maximum allowed length (20).";
 
     private static final String DOMAIN1 = "@gmail.com";
     private static final String DOMAIN2 = java.lang.String.format("@%s.com",
@@ -112,8 +109,8 @@ public class DataProviderClass {
                 Gender.MALE.getGenderType(),
                 Title.MR.getTitleType());
         String errorMessageOneCharFirstName =
-                String.format(ERROR_DATA_MESSAGE_TOO_SHORT_FIRST_NAME,
-                        userModelOneStringFirstName.getFirstName());
+                String.format(ERROR_LESS_THAN_MIN_FIELD, "firstName",
+                        userModelOneStringFirstName.getFirstName(), MIN_FIRST_OR_LAST_NAME);
 
         UserModel userModelMaxStringFirstName = new UserModel(RandomStringUtils.randomAlphabetic(31),
                 RandomStringUtils.randomAlphabetic(7),
@@ -121,12 +118,12 @@ public class DataProviderClass {
                 Gender.MALE.getGenderType(),
                 Title.MR.getTitleType());
         String errorMessageMaxStringFirstName =
-                String.format(DataProviderClass.ERROR_DATA_MESSAGE_TOO_LONG_FIRST_NAME,
-                        userModelMaxStringFirstName.getFirstName());
+                String.format(ERROR_MORE_THAN_MAX_FIELD, "firstName",
+                        userModelMaxStringFirstName.getFirstName(), MAX_FIRST_OR_LAST_NAME);
 
 
         return new Object[][]{
-                {userModelEmptyFirstName, ERROR_DATA_MESSAGE_EMPTY_FIRST_NAME},
+                {userModelEmptyFirstName, String.format(ERROR_DATA_MESSAGE_EMPTY_REQUIRED_FIELDS, "firstName")},
                 {userModelOneStringFirstName, errorMessageOneCharFirstName},
                 {userModelMaxStringFirstName, errorMessageMaxStringFirstName},
         };
@@ -146,8 +143,8 @@ public class DataProviderClass {
                 Gender.MALE.getGenderType(),
                 Title.MR.getTitleType());
         String errorMessageOneCharLastName =
-                String.format(ERROR_DATA_MESSAGE_TOO_SHORT_LAST_NAME,
-                        userModelOneStringLastName.getLastName());
+                String.format(ERROR_LESS_THAN_MIN_FIELD, "lastName",
+                        userModelOneStringLastName.getLastName(), MIN_FIRST_OR_LAST_NAME);
 
         UserModel userModelMaxStringLastName = new UserModel(RandomStringUtils.randomAlphabetic(2),
                 RandomStringUtils.randomAlphabetic(31),
@@ -155,12 +152,12 @@ public class DataProviderClass {
                 Gender.MALE.getGenderType(),
                 Title.MR.getTitleType());
         String errorMessageMaxStringLastName =
-                String.format(ERROR_DATA_MESSAGE_TOO_LONG_LAST_NAME,
-                        userModelMaxStringLastName.getLastName());
+                String.format(ERROR_MORE_THAN_MAX_FIELD, "lastName",
+                        userModelMaxStringLastName.getLastName(), MAX_FIRST_OR_LAST_NAME);
 
 
         return new Object[][]{
-                {userModelEmptyLastName, ERROR_DATA_MESSAGE_EMPTY_LAST_NAME},
+                {userModelEmptyLastName, String.format(ERROR_DATA_MESSAGE_EMPTY_REQUIRED_FIELDS, "lastName")},
                 {userModelOneStringLastName, errorMessageOneCharLastName},
                 {userModelMaxStringLastName, errorMessageMaxStringLastName},
         };
@@ -183,7 +180,7 @@ public class DataProviderClass {
                 userModelWrongFormatEmail.getEmail());
 
         return new Object[][]{
-                {userModelEmptyEmail, ERROR_DATA_MESSAGE_EMPTY_EMAIL_NAME},
+                {userModelEmptyEmail, String.format(ERROR_DATA_MESSAGE_EMPTY_REQUIRED_FIELDS, "email")},
                 {userModelWrongFormatEmail, errorMessageWrongFormatEmail}
         };
     }
@@ -214,22 +211,22 @@ public class DataProviderClass {
                 {
                         {
                                 userModelEmptyFirstNameLastName,
-                                ERROR_DATA_MESSAGE_EMPTY_FIRST_NAME,
-                                ERROR_DATA_MESSAGE_EMPTY_LAST_NAME
+                                String.format(ERROR_DATA_MESSAGE_EMPTY_REQUIRED_FIELDS, "firstName"),
+                                String.format(ERROR_DATA_MESSAGE_EMPTY_REQUIRED_FIELDS, "lastName")
                         },
                         {
                                 userModelWrongFormatMinFirstNameAndLastName,
-                                String.format(ERROR_DATA_MESSAGE_TOO_SHORT_FIRST_NAME,
-                                        userModelWrongFormatMinFirstNameAndLastName.getFirstName()),
-                                String.format(ERROR_DATA_MESSAGE_TOO_SHORT_LAST_NAME,
-                                        userModelWrongFormatMinFirstNameAndLastName.getLastName())
+                                String.format(ERROR_LESS_THAN_MIN_FIELD, "firstName",
+                                        userModelWrongFormatMinFirstNameAndLastName.getFirstName(), MIN_FIRST_OR_LAST_NAME),
+                                String.format(ERROR_LESS_THAN_MIN_FIELD, "lastName",
+                                        userModelWrongFormatMinFirstNameAndLastName.getLastName(), MIN_FIRST_OR_LAST_NAME)
                         },
                         {
                                 userModelWrongFormatMaxFirstNameAndLastName,
-                                String.format(ERROR_DATA_MESSAGE_TOO_LONG_FIRST_NAME,
-                                        userModelWrongFormatMaxFirstNameAndLastName.getFirstName()),
-                                String.format(ERROR_DATA_MESSAGE_TOO_LONG_LAST_NAME,
-                                        userModelWrongFormatMaxFirstNameAndLastName.getLastName())
+                                String.format(ERROR_MORE_THAN_MAX_FIELD, "firstName",
+                                        userModelWrongFormatMaxFirstNameAndLastName.getFirstName(), MAX_FIRST_OR_LAST_NAME),
+                                String.format(ERROR_MORE_THAN_MAX_FIELD, "lastName",
+                                        userModelWrongFormatMaxFirstNameAndLastName.getLastName(), MAX_FIRST_OR_LAST_NAME)
                         },
                 };
     }
@@ -261,19 +258,20 @@ public class DataProviderClass {
                 {
                         {
                                 userModelEmptyFirstNameAndEmail,
-                                ERROR_DATA_MESSAGE_EMPTY_FIRST_NAME,
-                                ERROR_DATA_MESSAGE_EMPTY_EMAIL_NAME
+                                String.format(ERROR_DATA_MESSAGE_EMPTY_REQUIRED_FIELDS, "firstName"),
+                                String.format(ERROR_DATA_MESSAGE_EMPTY_REQUIRED_FIELDS, "email")
                         },
                         {
                                 userModelWrongFormatMinFirstEmptyEmail,
-                                String.format(ERROR_DATA_MESSAGE_TOO_SHORT_FIRST_NAME,
-                                        userModelWrongFormatMinFirstEmptyEmail.getFirstName()),
-                                ERROR_DATA_MESSAGE_EMPTY_EMAIL_NAME
+                                String.format(ERROR_LESS_THAN_MIN_FIELD, "firstName",
+                                        userModelWrongFormatMinFirstEmptyEmail.getFirstName(), MIN_FIRST_OR_LAST_NAME),
+                                String.format(ERROR_DATA_MESSAGE_EMPTY_REQUIRED_FIELDS, "email")
                         },
                         {
                                 userModelWrongFormatMaxFirstWrongFormatEmail,
-                                String.format(ERROR_DATA_MESSAGE_TOO_LONG_FIRST_NAME,
-                                        userModelWrongFormatMaxFirstWrongFormatEmail.getFirstName()),
+                                String.format(ERROR_MORE_THAN_MAX_FIELD, "firstName",
+                                        userModelWrongFormatMaxFirstWrongFormatEmail.getFirstName(),
+                                        MAX_FIRST_OR_LAST_NAME),
                                 String.format(ERROR_DATA_MESSAGE_WRONG_FORMAT_EMAIL,
                                         userModelWrongFormatMaxFirstWrongFormatEmail.getEmail()),
                         }
@@ -307,19 +305,19 @@ public class DataProviderClass {
                 {
                         {
                                 userModelEmptyLastNameAndEmail,
-                                ERROR_DATA_MESSAGE_EMPTY_LAST_NAME,
-                                ERROR_DATA_MESSAGE_EMPTY_EMAIL_NAME
+                                String.format(ERROR_DATA_MESSAGE_EMPTY_REQUIRED_FIELDS, "lastName"),
+                                String.format(ERROR_DATA_MESSAGE_EMPTY_REQUIRED_FIELDS, "email")
                         },
                         {
                                 userModelWrongFormatMinLastEmptyEmail,
-                                String.format(ERROR_DATA_MESSAGE_TOO_SHORT_LAST_NAME,
-                                        userModelWrongFormatMinLastEmptyEmail.getLastName()),
-                                ERROR_DATA_MESSAGE_EMPTY_EMAIL_NAME
+                                String.format(ERROR_LESS_THAN_MIN_FIELD, "lastName",
+                                        userModelWrongFormatMinLastEmptyEmail.getLastName(), MIN_FIRST_OR_LAST_NAME),
+                                String.format(ERROR_DATA_MESSAGE_EMPTY_REQUIRED_FIELDS, "email")
                         },
                         {
                                 userModelWrongFormatMaxLastWrongFormatEmail,
-                                String.format(ERROR_DATA_MESSAGE_TOO_LONG_LAST_NAME,
-                                        userModelWrongFormatMaxLastWrongFormatEmail.getLastName()),
+                                String.format(ERROR_MORE_THAN_MAX_FIELD, "lastName",
+                                        userModelWrongFormatMaxLastWrongFormatEmail.getLastName(), MAX_FIRST_OR_LAST_NAME),
                                 String.format(ERROR_DATA_MESSAGE_WRONG_FORMAT_EMAIL,
                                         userModelWrongFormatMaxLastWrongFormatEmail.getEmail()),
                         }
@@ -353,24 +351,28 @@ public class DataProviderClass {
                 {
                         {
                                 userModelEmptyFirstNameLastNameAndEmail,
-                                ERROR_DATA_MESSAGE_EMPTY_FIRST_NAME,
-                                ERROR_DATA_MESSAGE_EMPTY_LAST_NAME,
-                                ERROR_DATA_MESSAGE_EMPTY_EMAIL_NAME,
+                                String.format(ERROR_DATA_MESSAGE_EMPTY_REQUIRED_FIELDS, "firstName"),
+                                String.format(ERROR_DATA_MESSAGE_EMPTY_REQUIRED_FIELDS, "lastName"),
+                                String.format(ERROR_DATA_MESSAGE_EMPTY_REQUIRED_FIELDS, "email")
                         },
                         {
                                 userModelWrongFormatMinFirstNameLastNameEmptyEmail,
-                                String.format(ERROR_DATA_MESSAGE_TOO_SHORT_FIRST_NAME,
-                                        userModelWrongFormatMinFirstNameLastNameEmptyEmail.getFirstName()),
-                                String.format(ERROR_DATA_MESSAGE_TOO_SHORT_LAST_NAME,
-                                        userModelWrongFormatMinFirstNameLastNameEmptyEmail.getLastName()),
-                                ERROR_DATA_MESSAGE_EMPTY_EMAIL_NAME
+                                String.format(ERROR_LESS_THAN_MIN_FIELD, "firstName",
+                                        userModelWrongFormatMinFirstNameLastNameEmptyEmail.getFirstName(),
+                                        MIN_FIRST_OR_LAST_NAME),
+                                String.format(ERROR_LESS_THAN_MIN_FIELD, "lastName",
+                                        userModelWrongFormatMinFirstNameLastNameEmptyEmail.getLastName(),
+                                        MIN_FIRST_OR_LAST_NAME),
+                                String.format(ERROR_DATA_MESSAGE_EMPTY_REQUIRED_FIELDS, "email")
                         },
                         {
                                 userModelWrongFormatMaxFirstNameLasNameWrongFormatEmail,
-                                String.format(ERROR_DATA_MESSAGE_TOO_LONG_FIRST_NAME,
-                                        userModelWrongFormatMaxFirstNameLasNameWrongFormatEmail.getFirstName()),
-                                String.format(ERROR_DATA_MESSAGE_TOO_LONG_LAST_NAME,
-                                        userModelWrongFormatMaxFirstNameLasNameWrongFormatEmail.getLastName()),
+                                String.format(ERROR_MORE_THAN_MAX_FIELD, "firstName",
+                                        userModelWrongFormatMaxFirstNameLasNameWrongFormatEmail.getFirstName(),
+                                        MAX_FIRST_OR_LAST_NAME),
+                                String.format(ERROR_MORE_THAN_MAX_FIELD, "lastName",
+                                        userModelWrongFormatMaxFirstNameLasNameWrongFormatEmail.getLastName(),
+                                        MAX_FIRST_OR_LAST_NAME),
                                 String.format(ERROR_DATA_MESSAGE_WRONG_FORMAT_EMAIL,
                                         userModelWrongFormatMaxFirstNameLasNameWrongFormatEmail.getEmail()),
                         }
@@ -445,7 +447,7 @@ public class DataProviderClass {
                 Title.DR.getTitleType(),
                 RandomStringUtils.randomNumeric(20),
                 "https://unsplash.com/photos/rDEOVtE7vOs",
-                formatDate("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", -2, 0),
+                formatDate("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", -5, 0),
                 location2
         );
 
@@ -638,8 +640,10 @@ public class DataProviderClass {
         invalidDataInPhoneOnlyAlphabetical.setPhone(randomPhone3);
 
         return new Object[][]{
-                {invalidDataInPhoneLessThanMin, String.format(ERROR_DATA_MESSAGE_TOO_SHORT_PHONE, randomPhone1)},
-                {invalidDataInPhoneMoreThanMax, String.format(ERROR_DATA_MESSAGE_TOO_LONG_PHONE, randomPhone2)},
+                {invalidDataInPhoneLessThanMin, String.format(ERROR_LESS_THAN_MIN_FIELD, "phone", randomPhone1,
+                        MIN_PHONE)},
+                {invalidDataInPhoneMoreThanMax, String.format(ERROR_MORE_THAN_MAX_FIELD, "phone", randomPhone2,
+                        MAX_PHONE)},
                 {invalidDataInPhoneOnlyAlphabetical, "Invalid phone number"},
         };
     }
@@ -713,11 +717,13 @@ public class DataProviderClass {
 
         return new Object[][]{
                 {invalidAllFields,
-                        String.format(ERROR_DATA_MESSAGE_TOO_SHORT_FIRST_NAME, invalidAllFields.getFirstName()),
-                        String.format(ERROR_DATA_MESSAGE_TOO_SHORT_LAST_NAME, invalidAllFields.getLastName()),
+                        String.format(ERROR_LESS_THAN_MIN_FIELD, "firstName", invalidAllFields.getFirstName(),
+                                MIN_FIRST_OR_LAST_NAME),
+                        String.format(ERROR_LESS_THAN_MIN_FIELD, "lastName", invalidAllFields.getLastName(),
+                                MIN_FIRST_OR_LAST_NAME),
                         String.format(ERROR_DATA_MESSAGE_WRONG_FORMAT_EMAIL, invalidAllFields.getEmail()),
                         String.format(ERROR_DATA_MESSAGE_WRONG_DATE_OF_BIRTH, invalidAllFields.getDateOfBirth()),
-                        String.format(ERROR_DATA_MESSAGE_TOO_LONG_PHONE, invalidAllFields.getPhone())
+                        String.format(ERROR_MORE_THAN_MAX_FIELD, "phone", invalidAllFields.getPhone(), MAX_PHONE)
                 }
         };
     }
