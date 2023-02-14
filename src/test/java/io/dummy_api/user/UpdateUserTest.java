@@ -116,11 +116,13 @@ public class UpdateUserTest extends UserBaseClass {
         softAssert.assertAll();
     }
 
-    @Test(dataProviderClass = DataProviderClass.class, dataProvider = "update_user_first_and_last_name_xss_injection",
-            groups = {"user_test"})
-    void testUpdateWithXssInjection(UserModel data) {
+    @Test(groups = {"user_test"})
+    void testUpdateWithXssInjection() {
+        UserModel userWithXss = new UserModel();
+        userWithXss.setFirstName("<script>alert(\"XSS\")</script>");
+        userWithXss.setLastName("<script>alert(\"XSS\")</script>");
         String id = createUser(UserModel.generateRandomUser());
-        restWrapper.usingUsers().updateUser(id, data);
+        restWrapper.usingUsers().updateUser(id, userWithXss);
 
         Assertions.assertThat(restWrapper.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
     }

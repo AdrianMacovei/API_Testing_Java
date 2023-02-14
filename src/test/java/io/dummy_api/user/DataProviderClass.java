@@ -782,14 +782,7 @@ public class DataProviderClass {
         updateValidDataAllFields.setPicture(RandomStringUtils.randomAlphanumeric(10));
         updateValidDataAllFields.setTitle(Title.MR.getTitleType());
         updateValidDataAllFields.setGender(Gender.MALE.getGenderType());
-        Location location = new Location(
-                RandomStringUtils.randomAlphabetic(15),
-                RandomStringUtils.randomAlphabetic(15),
-                RandomStringUtils.randomAlphabetic(15),
-                RandomStringUtils.randomAlphabetic(15),
-                "+5:00"
-        );
-        updateValidDataAllFields.setLocation(location);
+        updateValidDataAllFields.setLocation(Location.generateRandomLocation());
 
         return new UserModel[][]{
                 {updateValidDataAllFields},
@@ -881,15 +874,4 @@ public class DataProviderClass {
                 {userWithXss},
         };
     }
-
-    @DataProvider(name = "update_user_first_and_last_name_xss_injection")
-    public static Object[][] createDataXssInjOnUpdateUser() {
-        UserModel userWithXss = new UserModel();
-        userWithXss.setFirstName("<script>alert(\"XSS\")</script>");
-        userWithXss.setLastName("<script>alert(\"XSS\")</script>");
-        return new UserModel[][]{
-                {userWithXss},
-        };
-    }
-
 }

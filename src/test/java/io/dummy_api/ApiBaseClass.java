@@ -3,7 +3,6 @@ package io.dummy_api;
 import io.dummy_api.core.RestWrapper;
 import io.dummy_api.log.PlainTextReporter;
 import io.dummy_api.util.TestContext;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import io.dummy_api.util.Properties;

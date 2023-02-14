@@ -1,6 +1,8 @@
 package io.dummy_api.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.dummy_api.enums.Gender;
+import io.dummy_api.enums.Title;
 import io.restassured.response.Response;
 import lombok.Getter;
 import lombok.Setter;
@@ -68,7 +70,7 @@ public class UserModel {
 
     public static UserModel generateRandomUser()
     {
-        String randomData = RandomStringUtils.randomAlphabetic(7);
+        String randomData = RandomStringUtils.randomAlphabetic(10);
         UserModel newUser = new UserModel("fn" + randomData, "ln" + randomData,
                 randomData.toLowerCase() + "@gmail.com");
         newUser.setGender("male");
@@ -77,4 +79,15 @@ public class UserModel {
         return newUser;
     }
 
+    public static UserModel generateRandomAllFieldsUser()
+    {
+        String randomData = RandomStringUtils.randomAlphabetic(10);
+        UserModel newUser = new UserModel("fn" + randomData, "ln" + randomData,
+                randomData.toLowerCase() + "@gmail.com");
+        newUser.setGender(Gender.MALE.getGenderType());
+        newUser.setTitle(Title.MR.getTitleType());
+        newUser.setPhone(RandomStringUtils.randomAlphabetic(5, 20));
+//        newUser.setDateOfBirth(DataProviderClass);
+        return newUser;
+    }
 }
